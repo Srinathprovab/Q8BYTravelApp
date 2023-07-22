@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Bold.ttf">
+            <string>OpenSans-Bold</string>
+        </array>
+        <array key="OpenSans-Medium.ttf">
+            <string>OpenSans-Medium</string>
+        </array>
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="107" id="KGk-i7-Jjw" customClass="RoundTripTVcell" customModule="Q8BYTravelApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="446" height="100"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="446" height="100"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eDM-f0-O4g">
+                        <rect key="frame" x="16" y="10" width="414" height="90"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oHt-Rc-isQ">
+                                <rect key="frame" x="20" y="25" width="48" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="48" id="1XZ-7H-sUu"/>
+                                    <constraint firstAttribute="height" constant="25" id="gob-HL-IYv"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a5g-zO-CbJ">
+                                <rect key="frame" x="78" y="29" width="31" height="17"/>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="12"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="refundudable" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HtU-Lx-19a">
+                                <rect key="frame" x="309" y="16" width="85" height="16.666666666666671"/>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="12"/>
+                                <color key="textColor" name="AppLabelColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="KWD: 150:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DVp-Ir-f4N">
+                                <rect key="frame" x="309" y="35.666666666666664" width="85" height="19.333333333333336"/>
+                                <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="14"/>
+                                <color key="textColor" red="0.92549019607843142" green="0.26666666666666666" blue="0.11764705882352941" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="eMJ-Jm-yc6">
+                                <rect key="frame" x="20" y="69" width="374" height="2"/>
+                                <color key="backgroundColor" name="FromcityHolderViewColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="Khi-fJ-hXV"/>
+                                </constraints>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EeS-YF-7to">
+                                <rect key="frame" x="298" y="22.666666666666664" width="100" height="30"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Flight Details" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DrI-JK-KAJ">
+                                        <rect key="frame" x="7" y="5.3333333333333357" width="86" height="19.333333333333332"/>
+                                        <fontDescription key="fontDescription" name="OpenSans-Medium" family="Open Sans" pointSize="14"/>
+                                        <color key="textColor" name="AppLabelColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f7E-4O-mR1">
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain"/>
+                                        <connections>
+                                            <action selector="didTapOnFlightDetailsBtnAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="4fy-FE-DxC"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" name="layoverColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="f7E-4O-mR1" secondAttribute="bottom" id="K16-p4-3VC"/>
+                                    <constraint firstAttribute="width" constant="100" id="M1M-a7-C8D"/>
+                                    <constraint firstItem="f7E-4O-mR1" firstAttribute="top" secondItem="EeS-YF-7to" secondAttribute="top" id="Svg-iW-Nx2"/>
+                                    <constraint firstAttribute="trailing" secondItem="f7E-4O-mR1" secondAttribute="trailing" id="b0f-fJ-RyZ"/>
+                                    <constraint firstItem="f7E-4O-mR1" firstAttribute="leading" secondItem="EeS-YF-7to" secondAttribute="leading" id="cZB-jz-ihf"/>
+                                    <constraint firstItem="DrI-JK-KAJ" firstAttribute="centerX" secondItem="EeS-YF-7to" secondAttribute="centerX" id="lcF-Ya-lLo"/>
+                                    <constraint firstItem="DrI-JK-KAJ" firstAttribute="centerY" secondItem="EeS-YF-7to" secondAttribute="centerY" id="mRJ-uu-dhQ"/>
+                                    <constraint firstAttribute="height" constant="30" id="ufG-FL-fT8"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" name="FromcityHolderViewColor"/>
+                        <constraints>
+                            <constraint firstItem="eMJ-Jm-yc6" firstAttribute="top" secondItem="oHt-Rc-isQ" secondAttribute="bottom" constant="19" id="0G4-sA-zKv"/>
+                            <constraint firstAttribute="trailing" secondItem="DVp-Ir-f4N" secondAttribute="trailing" constant="20" id="0Vj-Aq-QYw"/>
+                            <constraint firstItem="a5g-zO-CbJ" firstAttribute="leading" secondItem="oHt-Rc-isQ" secondAttribute="trailing" constant="10" id="3kK-Fj-Obm"/>
+                            <constraint firstItem="HtU-Lx-19a" firstAttribute="top" secondItem="eDM-f0-O4g" secondAttribute="top" constant="16" id="5m6-Oc-IQO"/>
+                            <constraint firstItem="HtU-Lx-19a" firstAttribute="trailing" secondItem="DVp-Ir-f4N" secondAttribute="trailing" id="FlU-A5-pJD"/>
+                            <constraint firstAttribute="bottom" secondItem="eMJ-Jm-yc6" secondAttribute="bottom" constant="19" id="G9r-9A-cEu"/>
+                            <constraint firstItem="oHt-Rc-isQ" firstAttribute="top" secondItem="eDM-f0-O4g" secondAttribute="top" constant="25" id="H41-M9-eZV"/>
+                            <constraint firstItem="DVp-Ir-f4N" firstAttribute="top" secondItem="HtU-Lx-19a" secondAttribute="bottom" constant="3" id="HGl-5a-3Xd"/>
+                            <constraint firstItem="oHt-Rc-isQ" firstAttribute="leading" secondItem="eDM-f0-O4g" secondAttribute="leading" constant="20" id="Y0Y-G2-pZN"/>
+                            <constraint firstAttribute="trailing" secondItem="eMJ-Jm-yc6" secondAttribute="trailing" constant="20" id="dGY-4K-xrX"/>
+                            <constraint firstItem="a5g-zO-CbJ" firstAttribute="centerY" secondItem="oHt-Rc-isQ" secondAttribute="centerY" id="ihU-B9-nfI"/>
+                            <constraint firstItem="HtU-Lx-19a" firstAttribute="leading" secondItem="DVp-Ir-f4N" secondAttribute="leading" id="jp4-K1-Znq"/>
+                            <constraint firstItem="eMJ-Jm-yc6" firstAttribute="leading" secondItem="eDM-f0-O4g" secondAttribute="leading" constant="20" id="l7p-jm-pVw"/>
+                            <constraint firstAttribute="trailing" secondItem="EeS-YF-7to" secondAttribute="trailing" constant="16" id="n9p-Cb-fDI"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="90" id="qux-BY-DQQ"/>
+                            <constraint firstItem="EeS-YF-7to" firstAttribute="centerY" secondItem="oHt-Rc-isQ" secondAttribute="centerY" id="vp0-X7-hmD"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="20"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="eDM-f0-O4g" secondAttribute="bottom" id="AN4-X3-ppp"/>
+                    <constraint firstItem="eDM-f0-O4g" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="BCO-XQ-vAm"/>
+                    <constraint firstAttribute="trailing" secondItem="eDM-f0-O4g" secondAttribute="trailing" constant="16" id="P1r-j7-xgx"/>
+                    <constraint firstItem="eDM-f0-O4g" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="xYg-vi-vNi"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="airlinecode" destination="a5g-zO-CbJ" id="ZNL-xI-Pn5"/>
+                <outlet property="airlinelogo" destination="oHt-Rc-isQ" id="BLC-Z0-Bxd"/>
+                <outlet property="flightDetailsTV" destination="eMJ-Jm-yc6" id="aaC-gn-KbO"/>
+                <outlet property="flightDetailsview" destination="EeS-YF-7to" id="etJ-nc-8yv"/>
+                <outlet property="holderView" destination="eDM-f0-O4g" id="koE-8L-fza"/>
+                <outlet property="kwdPricelbl" destination="DVp-Ir-f4N" id="eYJ-U7-9Rv"/>
+                <outlet property="refundlbl" destination="HtU-Lx-19a" id="v8K-lB-DI2"/>
+                <outlet property="tvHeight" destination="Khi-fJ-hXV" id="bTs-uy-veA"/>
+            </connections>
+            <point key="canvasLocation" x="235.11450381679387" y="90.845070422535215"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <namedColor name="AppLabelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="FromcityHolderViewColor">
+            <color red="0.95300000905990601" green="0.96899998188018799" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="layoverColor">
+            <color red="1" green="0.68999999761581421" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

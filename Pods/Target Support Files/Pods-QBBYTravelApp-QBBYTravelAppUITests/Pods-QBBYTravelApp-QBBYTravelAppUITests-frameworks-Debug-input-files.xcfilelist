@@ -1,0 +1,16 @@
+${PODS_ROOT}/Target Support Files/Pods-QBBYTravelApp-QBBYTravelAppUITests/Pods-QBBYTravelApp-QBBYTravelAppUITests-frameworks.sh
+${BUILT_PRODUCTS_DIR}/AARatingBar/AARatingBar.framework
+${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
+${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework
+${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework
+${BUILT_PRODUCTS_DIR}/JTAppleCalendar/JTAppleCalendar.framework
+${BUILT_PRODUCTS_DIR}/MARKRangeSlider/MARKRangeSlider.framework
+${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework
+${BUILT_PRODUCTS_DIR}/MDFInternationalization/MDFInternationalization.framework
+${BUILT_PRODUCTS_DIR}/MaterialComponents/MaterialComponents.framework
+${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework
+${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework
+${BUILT_PRODUCTS_DIR}/SwiftRangeSlider/SwiftRangeSlider.framework
+${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework
+${BUILT_PRODUCTS_DIR}/TTRangeSlider/TTRangeSlider.framework
+${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework

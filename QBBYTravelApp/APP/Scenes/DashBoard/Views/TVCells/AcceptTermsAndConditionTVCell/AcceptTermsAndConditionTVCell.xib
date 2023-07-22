@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="167" id="KGk-i7-Jjw" customClass="AcceptTermsAndConditionTVCell" customModule="Q8BYTravelApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JWC-BH-wXN">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4ph-Az-mcd">
+                                <rect key="frame" x="16" y="10.666666666666664" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="dLg-eb-lpC"/>
+                                    <constraint firstAttribute="width" constant="24" id="nAL-rv-r9d"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hjr-nG-S8k">
+                                <rect key="frame" x="52" y="12" width="311" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bV8-zw-vOZ">
+                                <rect key="frame" x="0.0" y="0.0" width="52" height="45"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain"/>
+                                <connections>
+                                    <action selector="didTapOnCheckTCBtnAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="E9K-pm-WEl"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="bV8-zw-vOZ" firstAttribute="top" secondItem="JWC-BH-wXN" secondAttribute="top" id="PeN-wn-FIi"/>
+                            <constraint firstAttribute="trailing" secondItem="hjr-nG-S8k" secondAttribute="trailing" constant="12" id="UKq-TC-JbC"/>
+                            <constraint firstAttribute="bottom" secondItem="bV8-zw-vOZ" secondAttribute="bottom" id="aeT-WD-Fce"/>
+                            <constraint firstItem="bV8-zw-vOZ" firstAttribute="leading" secondItem="JWC-BH-wXN" secondAttribute="leading" id="gqc-bt-m7I"/>
+                            <constraint firstItem="4ph-Az-mcd" firstAttribute="centerY" secondItem="JWC-BH-wXN" secondAttribute="centerY" id="mIH-DG-XFY"/>
+                            <constraint firstItem="hjr-nG-S8k" firstAttribute="leading" secondItem="4ph-Az-mcd" secondAttribute="trailing" constant="12" id="n1B-TP-nu2"/>
+                            <constraint firstItem="4ph-Az-mcd" firstAttribute="leading" secondItem="JWC-BH-wXN" secondAttribute="leading" constant="16" id="npK-vU-4Ob"/>
+                            <constraint firstItem="hjr-nG-S8k" firstAttribute="leading" secondItem="bV8-zw-vOZ" secondAttribute="trailing" id="q0L-bE-H8T"/>
+                            <constraint firstAttribute="height" constant="45" id="qOi-oX-I2k"/>
+                            <constraint firstItem="hjr-nG-S8k" firstAttribute="centerY" secondItem="4ph-Az-mcd" secondAttribute="centerY" id="qp8-c1-RbI"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" name="AppHolderViewColor"/>
+                <constraints>
+                    <constraint firstItem="JWC-BH-wXN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="JF8-El-qVu"/>
+                    <constraint firstItem="JWC-BH-wXN" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Y5u-5C-Wwy"/>
+                    <constraint firstAttribute="trailing" secondItem="JWC-BH-wXN" secondAttribute="trailing" id="ZNg-fn-Jfm"/>
+                    <constraint firstAttribute="bottom" secondItem="JWC-BH-wXN" secondAttribute="bottom" id="giN-xk-Tbr"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="checkBtn" destination="bV8-zw-vOZ" id="f6L-T5-MeI"/>
+                <outlet property="checkImg" destination="4ph-Az-mcd" id="fHZ-qt-SIc"/>
+                <outlet property="holderView" destination="JWC-BH-wXN" id="SuV-s2-Gus"/>
+                <outlet property="titlelbl" destination="hjr-nG-S8k" id="eoS-pU-iFm"/>
+            </connections>
+            <point key="canvasLocation" x="96.946564885496173" y="63.028169014084511"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <namedColor name="AppHolderViewColor">
+            <color red="0.94900000095367432" green="0.94900000095367432" blue="0.94900000095367432" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

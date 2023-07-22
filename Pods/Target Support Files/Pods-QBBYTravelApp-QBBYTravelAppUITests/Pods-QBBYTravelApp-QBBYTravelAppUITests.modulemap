@@ -1,0 +1,6 @@
+framework module Pods_QBBYTravelApp_QBBYTravelAppUITests {
+  umbrella header "Pods-QBBYTravelApp-QBBYTravelAppUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="JTAppleCell" customModule="JTAppleCalendar"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="calendarCVCell" id="gTV-IL-0wX" customClass="calendarCVCell" customModule="BeeoonsApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="137" height="137"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="137" height="137"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IXI-qM-NZI">
+                        <rect key="frame" x="0.0" y="0.0" width="137" height="137"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vIN-2w-oCV" userLabel="BackGroundView">
+                                <rect key="frame" x="0.0" y="0.0" width="137" height="137"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="day" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SFD-U5-wbo">
+                                <rect key="frame" x="54.5" y="54.5" width="28" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="28" id="94Q-jc-Ahh"/>
+                                    <constraint firstAttribute="height" constant="28" id="T5K-BG-MOp"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="vIN-2w-oCV" firstAttribute="leading" secondItem="IXI-qM-NZI" secondAttribute="leading" id="0pU-yv-nq5"/>
+                            <constraint firstItem="SFD-U5-wbo" firstAttribute="centerX" secondItem="IXI-qM-NZI" secondAttribute="centerX" id="JZt-Rf-w2Q"/>
+                            <constraint firstAttribute="bottom" secondItem="vIN-2w-oCV" secondAttribute="bottom" id="K4f-xW-Bpl"/>
+                            <constraint firstItem="SFD-U5-wbo" firstAttribute="centerY" secondItem="IXI-qM-NZI" secondAttribute="centerY" id="aZY-nW-3vG"/>
+                            <constraint firstItem="vIN-2w-oCV" firstAttribute="top" secondItem="IXI-qM-NZI" secondAttribute="top" id="gyP-0b-5dj"/>
+                            <constraint firstAttribute="trailing" secondItem="vIN-2w-oCV" secondAttribute="trailing" id="s8u-ea-R4X"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="IXI-qM-NZI" secondAttribute="trailing" id="2wi-PB-nCJ"/>
+                <constraint firstItem="IXI-qM-NZI" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="DZK-WM-2my"/>
+                <constraint firstItem="IXI-qM-NZI" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="P7j-45-gy3"/>
+                <constraint firstAttribute="bottom" secondItem="IXI-qM-NZI" secondAttribute="bottom" id="TFC-V6-9x3"/>
+            </constraints>
+            <connections>
+                <outlet property="holderView" destination="IXI-qM-NZI" id="foB-Od-mM0"/>
+                <outlet property="label" destination="SFD-U5-wbo" id="mLv-vr-sPS"/>
+                <outlet property="selectedView" destination="vIN-2w-oCV" id="RwG-0q-ZzG"/>
+            </connections>
+            <point key="canvasLocation" x="139" y="131"/>
+        </collectionViewCell>
+    </objects>
+</document>

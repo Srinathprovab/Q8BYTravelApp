@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="340" id="KGk-i7-Jjw" customClass="SearchFlightTVCell" customModule="BeeoonsApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="417" height="340"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="417" height="340"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="owx-vK-fgk">
+                        <rect key="frame" x="0.0" y="0.0" width="417" height="340"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="JIR-qb-Qib">
+                                <rect key="frame" x="16" y="16" width="385" height="299"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="340" id="34v-qT-EYC"/>
+                            <constraint firstItem="JIR-qb-Qib" firstAttribute="top" secondItem="owx-vK-fgk" secondAttribute="top" constant="16" id="Rne-GR-NFk"/>
+                            <constraint firstAttribute="bottom" secondItem="JIR-qb-Qib" secondAttribute="bottom" constant="25" id="VL1-M1-D3b"/>
+                            <constraint firstAttribute="trailing" secondItem="JIR-qb-Qib" secondAttribute="trailing" constant="16" id="Zqy-NN-vzH"/>
+                            <constraint firstItem="JIR-qb-Qib" firstAttribute="leading" secondItem="owx-vK-fgk" secondAttribute="leading" constant="16" id="pA1-Kl-u1C"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="owx-vK-fgk" secondAttribute="trailing" id="DFj-xB-Kdd"/>
+                    <constraint firstItem="owx-vK-fgk" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="EKD-xu-Sgh"/>
+                    <constraint firstItem="owx-vK-fgk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="sG6-GD-pNQ"/>
+                    <constraint firstAttribute="bottom" secondItem="owx-vK-fgk" secondAttribute="bottom" id="tWZ-46-vNZ"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="holderView" destination="owx-vK-fgk" id="kpT-1c-6it"/>
+                <outlet property="searchFlightTV" destination="JIR-qb-Qib" id="iNg-QB-lDs"/>
+            </connections>
+            <point key="canvasLocation" x="207.97101449275365" y="147.99107142857142"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

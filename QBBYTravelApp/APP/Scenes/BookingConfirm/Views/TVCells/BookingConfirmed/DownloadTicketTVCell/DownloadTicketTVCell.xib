@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="83" id="KGk-i7-Jjw" customClass="DownloadTicketTVCell" customModule="Q8BYTravelApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="462" height="83"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="462" height="83"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EIA-4k-qYR">
+                        <rect key="frame" x="0.0" y="0.0" width="462" height="83"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wSH-VB-kDa">
+                                <rect key="frame" x="76" y="21.666666666666671" width="310" height="40"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Group 17361" translatesAutoresizingMaskIntoConstraints="NO" id="BCj-0E-eZI">
+                                        <rect key="frame" x="70" y="8" width="170" height="24"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="24" id="A5Z-b4-rf1"/>
+                                            <constraint firstAttribute="width" constant="170" id="qnB-rU-eDk"/>
+                                        </constraints>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uus-AH-B0c">
+                                        <rect key="frame" x="0.0" y="0.0" width="310" height="40"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain"/>
+                                        <connections>
+                                            <action selector="didTapOnDownloadBtnAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="oqe-Fp-MpO"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" name="layoverColor"/>
+                                <constraints>
+                                    <constraint firstItem="Uus-AH-B0c" firstAttribute="leading" secondItem="wSH-VB-kDa" secondAttribute="leading" id="3F9-6w-ScM"/>
+                                    <constraint firstItem="Uus-AH-B0c" firstAttribute="top" secondItem="wSH-VB-kDa" secondAttribute="top" id="6g5-Ez-Grg"/>
+                                    <constraint firstAttribute="width" constant="310" id="7ta-g6-txP"/>
+                                    <constraint firstAttribute="height" constant="40" id="Dke-au-og5"/>
+                                    <constraint firstAttribute="bottom" secondItem="Uus-AH-B0c" secondAttribute="bottom" id="IU8-aN-l2g"/>
+                                    <constraint firstAttribute="trailing" secondItem="Uus-AH-B0c" secondAttribute="trailing" id="Id9-uV-Deg"/>
+                                    <constraint firstItem="BCj-0E-eZI" firstAttribute="centerY" secondItem="wSH-VB-kDa" secondAttribute="centerY" id="PXI-eP-KCW"/>
+                                    <constraint firstItem="BCj-0E-eZI" firstAttribute="centerX" secondItem="wSH-VB-kDa" secondAttribute="centerX" id="zfV-Lq-Bmd"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" name="AppBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="wSH-VB-kDa" firstAttribute="centerY" secondItem="EIA-4k-qYR" secondAttribute="centerY" id="AaB-p8-EwF"/>
+                            <constraint firstAttribute="height" constant="83" id="gei-8R-6Js"/>
+                            <constraint firstItem="wSH-VB-kDa" firstAttribute="centerX" secondItem="EIA-4k-qYR" secondAttribute="centerX" id="t2k-Ha-g6p"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" name="AppBackgroundColor"/>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="EIA-4k-qYR" secondAttribute="trailing" id="3oA-Xh-Cez"/>
+                    <constraint firstAttribute="bottom" secondItem="EIA-4k-qYR" secondAttribute="bottom" id="SBg-hi-gs5"/>
+                    <constraint firstItem="EIA-4k-qYR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Y6E-Ox-xkS"/>
+                    <constraint firstItem="EIA-4k-qYR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="esn-fJ-SKt"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <point key="canvasLocation" x="196.94656488549617" y="34.154929577464792"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="Group 17361" width="178" height="24"/>
+        <namedColor name="AppBackgroundColor">
+            <color red="0.016000000759959221" green="0.28999999165534973" blue="0.68599998950958252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="layoverColor">
+            <color red="1" green="0.68999999761581421" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

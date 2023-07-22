@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="303" id="KGk-i7-Jjw" customClass="HotelImagesTVCell" customModule="Q8BYTravelApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="385" height="303"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="385" height="303"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FOn-uP-IeM">
+                        <rect key="frame" x="10" y="0.0" width="365" height="293"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zox-WD-V5p">
+                                <rect key="frame" x="5" y="5" width="355" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="zRE-MX-1Zl"/>
+                                </constraints>
+                            </imageView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="ANn-JN-JzF">
+                                <rect key="frame" x="5" y="210" width="355" height="80"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="KgG-tM-KbH"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="qms-6S-g38">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" name="WhiteColor"/>
+                        <constraints>
+                            <constraint firstItem="zox-WD-V5p" firstAttribute="top" secondItem="FOn-uP-IeM" secondAttribute="top" constant="5" id="9nB-Jm-U4r"/>
+                            <constraint firstItem="zox-WD-V5p" firstAttribute="leading" secondItem="FOn-uP-IeM" secondAttribute="leading" constant="5" id="W8X-Dw-geb"/>
+                            <constraint firstItem="ANn-JN-JzF" firstAttribute="leading" secondItem="FOn-uP-IeM" secondAttribute="leading" constant="5" id="cfr-CI-ypd"/>
+                            <constraint firstAttribute="height" constant="293" id="dl3-yh-5hb"/>
+                            <constraint firstAttribute="bottom" secondItem="ANn-JN-JzF" secondAttribute="bottom" constant="3" id="r27-KR-m44"/>
+                            <constraint firstAttribute="trailing" secondItem="ANn-JN-JzF" secondAttribute="trailing" constant="5" id="sBG-BK-X0w"/>
+                            <constraint firstItem="ANn-JN-JzF" firstAttribute="top" secondItem="zox-WD-V5p" secondAttribute="bottom" constant="5" id="sLC-25-ecK"/>
+                            <constraint firstAttribute="trailing" secondItem="zox-WD-V5p" secondAttribute="trailing" constant="5" id="xTs-Q8-4gG"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" name="WhiteColor"/>
+                <constraints>
+                    <constraint firstItem="FOn-uP-IeM" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="53i-xf-qia"/>
+                    <constraint firstAttribute="trailing" secondItem="FOn-uP-IeM" secondAttribute="trailing" constant="10" id="8lF-Im-Fha"/>
+                    <constraint firstAttribute="bottom" secondItem="FOn-uP-IeM" secondAttribute="bottom" constant="10" id="kQi-92-ydX"/>
+                    <constraint firstItem="FOn-uP-IeM" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="rVa-h1-gVv"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="holderView" destination="FOn-uP-IeM" id="2MG-f0-TKN"/>
+                <outlet property="hotelImagesCV" destination="ANn-JN-JzF" id="trd-nc-i0W"/>
+                <outlet property="hotelImg" destination="zox-WD-V5p" id="u0T-9a-H8x"/>
+            </connections>
+            <point key="canvasLocation" x="184.78260869565219" y="171.09375"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <namedColor name="WhiteColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="272" id="KGk-i7-Jjw" customClass="BookNowTVCell" customModule="BeeoonsApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="507" height="70"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="507" height="70"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xkC-qK-dcE">
+                        <rect key="frame" x="0.0" y="0.0" width="507" height="70"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LVH-2D-svp">
+                                <rect key="frame" x="20" y="24.666666666666671" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Au-Lq-V3f">
+                                <rect key="frame" x="365" y="15" width="130" height="40"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BOOK NOW" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NpZ-Re-zOJ">
+                                        <rect key="frame" x="19" y="9.6666666666666679" width="92" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g59-Ow-ffr">
+                                        <rect key="frame" x="0.0" y="0.0" width="130" height="40"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                        <connections>
+                                            <action selector="didTapOnBookNowBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="rP1-B3-EW5"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" name="AppBtnColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="g59-Ow-ffr" secondAttribute="bottom" id="4Lg-Cr-52Y"/>
+                                    <constraint firstItem="g59-Ow-ffr" firstAttribute="top" secondItem="4Au-Lq-V3f" secondAttribute="top" id="4a2-26-rmC"/>
+                                    <constraint firstAttribute="width" constant="130" id="G90-j9-tru"/>
+                                    <constraint firstItem="NpZ-Re-zOJ" firstAttribute="centerX" secondItem="4Au-Lq-V3f" secondAttribute="centerX" id="RvF-Wr-F9O"/>
+                                    <constraint firstAttribute="height" constant="40" id="VgO-OJ-iSe"/>
+                                    <constraint firstItem="NpZ-Re-zOJ" firstAttribute="centerY" secondItem="4Au-Lq-V3f" secondAttribute="centerY" id="WuC-dp-hVI"/>
+                                    <constraint firstAttribute="trailing" secondItem="g59-Ow-ffr" secondAttribute="trailing" id="acS-s6-Doh"/>
+                                    <constraint firstItem="g59-Ow-ffr" firstAttribute="leading" secondItem="4Au-Lq-V3f" secondAttribute="leading" id="hjv-6A-nKN"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" name="AppBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="LVH-2D-svp" firstAttribute="centerY" secondItem="xkC-qK-dcE" secondAttribute="centerY" id="Cgt-fK-OBI"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="70" id="Ky8-3H-wNg"/>
+                            <constraint firstItem="4Au-Lq-V3f" firstAttribute="centerY" secondItem="LVH-2D-svp" secondAttribute="centerY" id="QaF-pn-NlM"/>
+                            <constraint firstAttribute="trailing" secondItem="4Au-Lq-V3f" secondAttribute="trailing" constant="12" id="daW-Vs-iht"/>
+                            <constraint firstItem="LVH-2D-svp" firstAttribute="leading" secondItem="xkC-qK-dcE" secondAttribute="leading" constant="20" id="e6T-PH-NUQ"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="xkC-qK-dcE" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Aut-F5-KaI"/>
+                    <constraint firstItem="xkC-qK-dcE" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Qj9-8r-Cms"/>
+                    <constraint firstAttribute="bottom" secondItem="xkC-qK-dcE" secondAttribute="bottom" id="WeY-kI-kLZ"/>
+                    <constraint firstAttribute="trailing" secondItem="xkC-qK-dcE" secondAttribute="trailing" id="qnY-0U-8rB"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="bookNowBtn" destination="g59-Ow-ffr" id="34O-6r-di9"/>
+                <outlet property="bookNowHolderView" destination="xkC-qK-dcE" id="nrU-3M-7ej"/>
+                <outlet property="bookNowView" destination="4Au-Lq-V3f" id="9cL-y6-v9C"/>
+                <outlet property="bookNowlbl" destination="NpZ-Re-zOJ" id="L0a-Wk-ujB"/>
+                <outlet property="kwdpricelbl" destination="LVH-2D-svp" id="H7u-km-t1K"/>
+            </connections>
+            <point key="canvasLocation" x="273.1884057971015" y="79.017857142857139"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <namedColor name="AppBackgroundColor">
+            <color red="0.0" green="0.32899999618530273" blue="0.62000000476837158" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="AppBtnColor">
+            <color red="0.77300000190734863" green="0.64300000667572021" blue="0.49399998784065247" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>
