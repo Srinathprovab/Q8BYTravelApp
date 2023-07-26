@@ -184,16 +184,13 @@ class BookingConfirmedVC: BaseTableVC, VocherDetailsViewModelDelegate {
         let vocherpdf = "https://q8by.com/mobile_webservices/index.php/voucher/flight/\(vbookingReference)/\(vbookingsource)/\(vbookingStatus)/show_pdf"
         
         
-        DispatchQueue.main.async {
-            if let url = URL(string: vocherpdf) {
-                self.downloadFile(url: vocherpdf)
-            }
-        }
+        downloadAndSavePDF(showpdfurl: vocherpdf)
         
-        showToast(message: "Download Sucessfull")
-        DispatchQueue.main.async {
+        let seconds = 2.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
             self.gotoAboutUsVC(title: "Vocher Details", url: vocherpdf)
         }
+        
     }
     
     
@@ -226,11 +223,64 @@ class BookingConfirmedVC: BaseTableVC, VocherDetailsViewModelDelegate {
             do {
                 try pdfData?.write(to: actualPath, options: .atomic)
                 
-                self.showToast(message: "pdf successfully saved!")
+                DispatchQueue.main.async {
+                    self.showToast(message: "PDF successfully saved")
+                }
                 //file is downloaded in app data container, I can find file from x code > devices > MyApp > download Container >This container has the file
             } catch {
                 print("Pdf could not be saved")
             }
+        }
+    }
+    
+    
+    
+}
+
+
+
+extension BookingConfirmedVC {
+    
+    
+    
+    // Function to download and save the PDF
+    func downloadAndSavePDF(showpdfurl:String) {
+        let urlString = showpdfurl
+        
+        if let url = URL(string: urlString) {
+            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+                if let error = error {
+                    print("Download Error: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let httpResponse = response as? HTTPURLResponse,
+                      (200...299).contains(httpResponse.statusCode) else {
+                    print("Invalid Response: \(response.debugDescription)")
+                    return
+                }
+                
+                if let pdfData = data {
+                    self.savePdfToDocumentDirectory(pdfData: pdfData, fileName: "\(Date())")
+                }
+            }
+            task.resume()
+        } else {
+            print("Invalid URL: \(urlString)")
+        }
+    }
+    
+    // Function to save PDF data to the app's document directory
+    func savePdfToDocumentDirectory(pdfData: Data, fileName: String) {
+        do {
+            let resourceDocPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last!
+            let pdfName = "Q8BY-\(fileName).pdf"
+            let destinationURL = resourceDocPath.appendingPathComponent(pdfName)
+            try pdfData.write(to: destinationURL)
+            
+            
+        } catch {
+            print("Error saving PDF to Document Directory: \(error)")
         }
     }
     
