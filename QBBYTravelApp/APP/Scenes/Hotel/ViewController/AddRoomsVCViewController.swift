@@ -31,7 +31,7 @@ class AddRoomsVCViewController: UIViewController, UITableViewDelegate, UITableVi
     
     
     func setupUI() {
-      //  self.view.backgroundColor = .black.withAlphaComponent(0.4)
+        //  self.view.backgroundColor = .black.withAlphaComponent(0.4)
         nav.navtitle.isHidden = false
         setuplabels(lbl: nav.navtitle, text: "Select Adults, Rooms", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 20), align: .left)
         nav.backBtn.addTarget(self, action: #selector(closeBtnAction(_:)), for: .touchUpInside)
@@ -349,8 +349,6 @@ class AddRoomsVCViewController: UIViewController, UITableViewDelegate, UITableVi
                 break
                 
                 
-                
-                break
             default:
                 break
             }

@@ -97,11 +97,11 @@ class SaveTravellersDetailsVC: BaseTableVC, GetMealsListViewModelDelegate {
         
         holderView.backgroundColor = .AppHolderViewColor
         
-   //     setuplabels(lbl:  nav.navtitle, text: "Travellers Details", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 20), align: .center)
+        setuplabels(lbl:  nav.navtitle, text: "Travellers Details", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 20), align: .center)
         
         nav.backBtn.addTarget(self, action: #selector(gotoBackScreen), for: .touchUpInside)
         nav.citylbl.isHidden = false
-     //   nav.navtitle.isHidden = false
+        nav.navtitle.isHidden = false
         
         setuplabels(lbl:  nav.citylbl, text: self.ptitle.uppercased(), textcolor: .AppLabelColor, font: .OpenSansMedium(size: 14), align: .center)
         
@@ -138,7 +138,7 @@ class SaveTravellersDetailsVC: BaseTableVC, GetMealsListViewModelDelegate {
     
     func setupTVCells() {
         tablerow.removeAll()
-        tablerow.append(TableRow(key:keyStr,cellType:.SaveTravellerDetailsTVCell))
+        tablerow.append(TableRow(title:ptitle,key:keyStr,cellType:.SaveTravellerDetailsTVCell))
         tablerow.append(TableRow(height:50,cellType:.EmptyTVCell))
         
         commonTVData = tablerow
@@ -238,14 +238,16 @@ class SaveTravellersDetailsVC: BaseTableVC, GetMealsListViewModelDelegate {
     
     
     override func didTapOnTitleBtnAction(cell:SaveTravellerDetailsTVCell) {
-        if cell.titleTF.text == "MR" {
+        if cell.titleTF.text == "Mr" {
             nameTitle = "1"
-        }else if cell.titleTF.text == "MS" {
+        }else if cell.titleTF.text == "Ms" {
             nameTitle = "2"
-        }else if cell.titleTF.text == "MRS" {
+        }else if cell.titleTF.text == "Mrs" {
+            nameTitle = "5"
+        }else if cell.titleTF.text == "Master" {
+            nameTitle = "4"
+        }else if cell.titleTF.text == "Miss" {
             nameTitle = "3"
-        }else {
-            nameTitle = "1"
         }
     }
     

@@ -117,55 +117,55 @@ class ViewController: UIViewController {
     
 }
 
+protocol TimerManagerDelegate: AnyObject {
+    func timerDidFinish()
+    func updateTimer()
+}
 
 
 class TimerManager {
     static let shared = TimerManager() // Singleton instance
+    weak var delegate: TimerManagerDelegate?
     
     var timer: Timer?
     var totalTime = 1
-   
+    private var backgroundTask: UIBackgroundTaskIdentifier = .invalid
     
     private init() {}
     
-    func sessionStop() {
+    func startTimer() {
+        
+        
+        endBackgroundTask() // End any existing background task (if any)
+        backgroundTask = UIApplication.shared.beginBackgroundTask { [weak self] in
+            self?.endBackgroundTask()
+        }
+        
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        
+    }
+    
+    @objc func updateTimer() {
+        if totalTime != 0 {
+            totalTime -= 1
+            delegate?.updateTimer()
+        } else {
+            sessionStop()
+            delegate?.timerDidFinish()
+            endBackgroundTask()
+        }
+    }
+    
+    @objc func sessionStop() {
         if let timer = timer {
             timer.invalidate()
             self.timer = nil
         }
     }
     
-    func startTimer() {
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
-    }
-    
-    @objc func updateTimer() {
-        // Update the subtitle label in the last view controller
-        if let lastViewController = UIApplication.shared.windows.first?.rootViewController?.presentedViewController as? PayNowVC {
-           // lastViewController.subtitlelbl.text = timeFormatted(totalTime)
-        }
-        
-        if totalTime != 0 {
-            totalTime -= 1
-            NotificationCenter.default.post(name: NSNotification.Name("updatetimer"), object: nil)
-        } else {
-            if let timer = self.timer {
-                timer.invalidate()
-                self.timer = nil
-                sessionStop()
-                gotoPopupScreen()
-            }
-        }
-    }
-    
-    func timeFormatted(_ totalSeconds: Int) -> String {
-        let seconds: Int = totalSeconds % 60
-        let minutes: Int = (totalSeconds / 60) % 60
-        return String(format: "%02d:%02d", minutes, seconds)
-    }
-    
-    
-    func gotoPopupScreen(){
-        NotificationCenter.default.post(name: NSNotification.Name("sessionStop"), object: nil)
+    private func endBackgroundTask() {
+        guard backgroundTask != .invalid else { return }
+        UIApplication.shared.endBackgroundTask(backgroundTask)
+        backgroundTask = .invalid
     }
 }

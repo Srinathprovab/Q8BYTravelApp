@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SelectedFlightInfoVC: BaseTableVC {
+class SelectedFlightInfoVC: BaseTableVC, TimerManagerDelegate {
     
     
     @IBOutlet weak var holderView: UIView!
@@ -27,7 +27,6 @@ class SelectedFlightInfoVC: BaseTableVC {
         return vc
     }
     var isVcFrom = String()
-    var itineraryArray = ["Itinerary","Fare Breakdown","Fare Rules","Baggage Info"]
     var city = String()
     var date = String()
     var traveller = String()
@@ -82,13 +81,17 @@ class SelectedFlightInfoVC: BaseTableVC {
             }
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(stopTimer), name: NSNotification.Name("sessionStop"), object: nil)
+        TimerManager.shared.delegate = self
     }
     
-    @objc func stopTimer() {
+    func timerDidFinish() {
         guard let vc = PopupVC.newInstance.self else {return}
         vc.modalPresentationStyle = .overCurrentContext
         self.present(vc, animated: false)
+    }
+    
+    func updateTimer() {
+        
     }
     
     func callAPI() {

@@ -13,6 +13,7 @@
         <attribute name="nationalitycode" optional="YES" attributeType="String"/>
         <attribute name="nationalityName" optional="YES" attributeType="String"/>
         <attribute name="passengerType" optional="YES" attributeType="String"/>
+        <attribute name="passIssuingCountryName" optional="YES" attributeType="String"/>
         <attribute name="passportexpirydate" optional="YES" attributeType="String"/>
         <attribute name="passportissuingcountry" optional="YES" attributeType="String"/>
         <attribute name="passportno" optional="YES" attributeType="String"/>

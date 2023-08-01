@@ -143,13 +143,24 @@ class SaveTravellerDetailsTVCell: TableViewCell {
                 
                 
                 if nameTitle == "1" {
-                    self.titleTF.text = "MR"
+                    self.titleTF.text = "Mr"
                 }else if nameTitle == "2" {
-                    self.titleTF.text = "MS"
+                    self.titleTF.text = "Ms"
+                }else if nameTitle == "3" {
+                    self.titleTF.text = "Miss"
+                }else if nameTitle == "4" {
+                    self.titleTF.text = "Master"
                 }else {
-                    self.titleTF.text = "MRS"
+                    self.titleTF.text = "Mrs"
                 }
             }
+        }
+        
+        
+        if cellInfo?.title == "Adult" {
+            titledropDown.dataSource = ["Mr","Ms","Mrs"]
+        }else {
+            titledropDown.dataSource = ["Master","Miss"]
         }
         
         
@@ -266,7 +277,6 @@ class SaveTravellerDetailsTVCell: TableViewCell {
         titledropDown.direction = .any
         titledropDown.backgroundColor = .WhiteColor
         titledropDown.anchorView = self.titleView
-        titledropDown.dataSource = ["MR","MS","MRS"]
         titledropDown.bottomOffset = CGPoint(x: 0, y: titleView.frame.size.height + 20)
         titledropDown.selectionAction = { [weak self] (index: Int, item: String) in
             self?.titleTF.text = item

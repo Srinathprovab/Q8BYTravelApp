@@ -7,7 +7,8 @@
 
 import UIKit
 
-class SearchFlightResultVC: BaseTableVC {
+class SearchFlightResultVC: BaseTableVC, TimerManagerDelegate {
+   
     
     @IBOutlet weak var holderView: UIView!
     @IBOutlet weak var nav: NavBar!
@@ -58,20 +59,17 @@ class SearchFlightResultVC: BaseTableVC {
         
         
         
-        NotificationCenter.default.addObserver(self, selector: #selector(updatetimer), name: NSNotification.Name("updatetimer"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(stopTimer), name: NSNotification.Name("sessionStop"), object: nil)
+        TimerManager.shared.delegate = self
     }
     
-    
-    @objc func stopTimer() {
+    func timerDidFinish() {
         guard let vc = PopupVC.newInstance.self else {return}
         vc.modalPresentationStyle = .overCurrentContext
         self.present(vc, animated: false)
     }
     
-    @objc func updatetimer(notificatio:UNNotification) {
-        
-        var totalTime = TimerManager.shared.totalTime
+    func updateTimer() {
+        let totalTime = TimerManager.shared.totalTime
         let minutes =  totalTime / 60
         let seconds = totalTime % 60
         let formattedTime = String(format: "%02d:%02d", minutes, seconds)

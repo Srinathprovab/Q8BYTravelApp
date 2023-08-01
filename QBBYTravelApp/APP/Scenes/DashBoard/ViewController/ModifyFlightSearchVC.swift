@@ -297,7 +297,7 @@ class ModifyFlightSearchVC: BaseTableVC {
             }else{
                 gotoSearchFlightResultVC(payload33: payload)
             }
-        }else {
+        }else if journyType == "circle"{
             
             payload["trip_type"] = defaults.string(forKey: UserDefaultsKeys.journeyType)
             payload["adult"] = defaults.string(forKey: UserDefaultsKeys.radultCount)
@@ -314,6 +314,7 @@ class ModifyFlightSearchVC: BaseTableVC {
             payload["out_jrn"] = "All Times"
             payload["ret_jrn"] = "All Times"
             payload["carrier"] = ""
+            //  payload["direct_flight"] = "on"
             payload["psscarrier"] = "ALL"
             payload["search_flight"] = "Search"
             payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
@@ -337,6 +338,8 @@ class ModifyFlightSearchVC: BaseTableVC {
             }else{
                 gotoSearchFlightResultVC(payload33: payload)
             }
+        }else {
+            
         }
         
     }
@@ -363,6 +366,7 @@ class ModifyFlightSearchVC: BaseTableVC {
         
         payload.removeAll()
         payload2.removeAll()
+        payload1.removeAll()
         fromdataArray.removeAll()
         
         for (index,_) in fromCityNameArray.enumerated() {
@@ -453,6 +457,7 @@ class ModifyFlightSearchVC: BaseTableVC {
         vc.modalPresentationStyle = .fullScreen
         vc.isvcfrom = "bookflightvc"
         vc.payload = payload33
+        callapibool = true
         self.present(vc, animated: true)
     }
     

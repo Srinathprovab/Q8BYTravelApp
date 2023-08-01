@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewFlightDetailsVC: BaseTableVC {
+class ViewFlightDetailsVC: BaseTableVC, TimerManagerDelegate {
     
     
     @IBOutlet weak var holderView: UIView!
@@ -38,6 +38,17 @@ class ViewFlightDetailsVC: BaseTableVC {
             setupItineraryTVCells()
         }
         
+        TimerManager.shared.delegate = self
+    }
+    
+    func timerDidFinish() {
+        guard let vc = PopupVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .overCurrentContext
+        self.present(vc, animated: false)
+    }
+    
+    func updateTimer() {
+        
     }
     
     override func viewDidLoad() {
@@ -58,7 +69,7 @@ class ViewFlightDetailsVC: BaseTableVC {
         setupItineraryTVCells()
     }
     
-  
+    
     @IBAction func didTapOnCloseBtn(_ sender: Any) {
         dismiss(animated: true)
     }

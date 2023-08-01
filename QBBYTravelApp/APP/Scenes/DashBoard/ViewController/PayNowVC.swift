@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class PayNowVC: BaseTableVC, PreBookingViewModelDelegate,GetCountryListViewModelDelegate, HotelMBViewModelDelegate {
+class PayNowVC: BaseTableVC, PreBookingViewModelDelegate,GetCountryListViewModelDelegate, HotelMBViewModelDelegate, TimerManagerDelegate {
     
     
     @IBOutlet weak var holderView: UIView!
@@ -121,13 +121,17 @@ class PayNowVC: BaseTableVC, PreBookingViewModelDelegate,GetCountryListViewModel
             }
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(stopTimer), name: NSNotification.Name("sessionStop"), object: nil)
+        TimerManager.shared.delegate = self
     }
     
-    @objc func stopTimer() {
+    func timerDidFinish() {
         guard let vc = PopupVC.newInstance.self else {return}
         vc.modalPresentationStyle = .overCurrentContext
         self.present(vc, animated: false)
+    }
+    
+    func updateTimer() {
+        
     }
     
     func callGetCountryListAPI() {
@@ -392,7 +396,6 @@ class PayNowVC: BaseTableVC, PreBookingViewModelDelegate,GetCountryListViewModel
     
     override func didTapOndeleteTravellerBtnAction(cell: AddAdultsOrGuestTVCell) {
         //goToSaveTravellersDetailsVC(ptitle: "Infantas")
-        
     }
     
     override func didTapOnSelectAdultTraveller(Cell: AddAdultsOrGuestTVCell) {
@@ -430,7 +433,7 @@ class PayNowVC: BaseTableVC, PreBookingViewModelDelegate,GetCountryListViewModel
     
     func goToSaveTravellersDetailsVC(ptitle:String,keyStr:String,id1:String) {
         guard let vc = SaveTravellersDetailsVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .fullScreen
+        vc.modalPresentationStyle = .overCurrentContext
         vc.ptitle = ptitle
         vc.keyStr = keyStr
         vc.id = id1

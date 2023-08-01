@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewHotelDetails: BaseTableVC {
+class ViewHotelDetails: BaseTableVC, TimerManagerDelegate {
     
     
     @IBOutlet weak var nav: NavBar!
@@ -40,6 +40,17 @@ class ViewHotelDetails: BaseTableVC {
         DispatchQueue.main.async {
             self.appendHotelSearctTvcells()
         }
+        
+        TimerManager.shared.delegate = self
+    }
+    
+    func timerDidFinish() {
+        guard let vc = PopupVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .overCurrentContext
+        self.present(vc, animated: false)
+    }
+    
+    func updateTimer() {
         
     }
     
