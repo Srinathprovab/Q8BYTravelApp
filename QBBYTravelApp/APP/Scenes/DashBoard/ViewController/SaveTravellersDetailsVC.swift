@@ -97,11 +97,11 @@ class SaveTravellersDetailsVC: BaseTableVC, GetMealsListViewModelDelegate {
         
         holderView.backgroundColor = .AppHolderViewColor
         
-        setuplabels(lbl:  nav.navtitle, text: "Travellers Details", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 20), align: .center)
+//        setuplabels(lbl:  nav.navtitle, text: "Travellers Details", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 20), align: .center)
         
         nav.backBtn.addTarget(self, action: #selector(gotoBackScreen), for: .touchUpInside)
         nav.citylbl.isHidden = false
-        nav.navtitle.isHidden = false
+    //    nav.navtitle.isHidden = false
         
         setuplabels(lbl:  nav.citylbl, text: self.ptitle.uppercased(), textcolor: .AppLabelColor, font: .OpenSansMedium(size: 14), align: .center)
         
