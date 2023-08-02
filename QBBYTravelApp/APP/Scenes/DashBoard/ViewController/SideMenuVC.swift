@@ -105,7 +105,9 @@ class SideMenuVC: BaseTableVC, ProfileUpdateViewModelDelegate {
         tablerow.append(TableRow(title:"Holiday",key: "menu", image: "menu6",cellType:.checkOptionsTVCell))
         tablerow.append(TableRow(height:10,cellType:.EmptyTVCell))
         tablerow.append(TableRow(title:"Traveler Tools",key: "ourproducts", image: "",cellType:.MenuTitleTVCell))
-        tablerow.append(TableRow(title:"Check My Bookings",key: "menu", image: "menu1",cellType:.checkOptionsTVCell))
+        if defaults.bool(forKey: UserDefaultsKeys.userLoggedIn) == true {
+            tablerow.append(TableRow(title:"Check My Bookings",key: "menu", image: "menu1",cellType:.checkOptionsTVCell))
+        }
         tablerow.append(TableRow(title:"FAQ's",key: "menu", image: "menu2",cellType:.checkOptionsTVCell))
         tablerow.append(TableRow(height:10,cellType:.EmptyTVCell))
         tablerow.append(TableRow(title:"Legal",key: "ourproducts", image: "",cellType:.MenuTitleTVCell))
@@ -156,7 +158,7 @@ class SideMenuVC: BaseTableVC, ProfileUpdateViewModelDelegate {
             break
             
         case "Hotels":
-            gotoBookHotelsVC()
+          //  gotoBookHotelsVC()
             break
             
         case "Logout":
