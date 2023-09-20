@@ -10,7 +10,7 @@ import CoreData
 import MaterialComponents
 
 
-class SaveTravellersDetailsVC: BaseTableVC, GetMealsListViewModelDelegate {
+class SaveTravellersDetailsVC: BaseTableVC {
     
     @IBOutlet weak var holderView: UIView!
     @IBOutlet weak var nav: NavBar!
@@ -41,7 +41,6 @@ class SaveTravellersDetailsVC: BaseTableVC, GetMealsListViewModelDelegate {
     var countryCode = String()
     var nameTitle = String()
     var genderTitle = String()
-    var vm:GetMealsListViewModel?
     var nationalityName = String()
     var passIssuingCountryName = String()
     
@@ -55,40 +54,16 @@ class SaveTravellersDetailsVC: BaseTableVC, GetMealsListViewModelDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(offline), name: NSNotification.Name("offline"), object: nil)
-        callAPI()
     }
     
     
-    func callAPI() {
-        DispatchQueue.main.async {[self] in
-            vm?.CALL_GET_MEAL_LIST_API(dictParam: [:])
-        }
-    }
     
-    
-    func mealList(response: GetMealsListModel) {
-        meallist = response.meal ?? []
-        DispatchQueue.main.async {[self] in
-            vm?.CALL_GET_special_Assistance_list_API(dictParam: [:])
-        }
-    }
-    
-    func specialAssistancelist(response: GetMealsListModel) {
-        specialAssistancelist1 = response.meal ?? []
-        DispatchQueue.main.async {[self] in
-            if keyStr == "edit" {
-                fetchCoreDataValues()
-            }else {
-                setupTVCells()
-            }
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupUI()
-        vm = GetMealsListViewModel(self)
+        
     }
     
     
@@ -97,31 +72,14 @@ class SaveTravellersDetailsVC: BaseTableVC, GetMealsListViewModelDelegate {
         
         holderView.backgroundColor = .AppHolderViewColor
         
-//        setuplabels(lbl:  nav.navtitle, text: "Travellers Details", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 20), align: .center)
+        //        setuplabels(lbl:  nav.navtitle, text: "Travellers Details", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 20), align: .center)
         
         nav.backBtn.addTarget(self, action: #selector(gotoBackScreen), for: .touchUpInside)
         nav.citylbl.isHidden = false
-    //    nav.navtitle.isHidden = false
+        //    nav.navtitle.isHidden = false
         
         setuplabels(lbl:  nav.citylbl, text: self.ptitle.uppercased(), textcolor: .AppLabelColor, font: .OpenSansMedium(size: 14), align: .center)
-        
-        //        if let selectedTab = defaults.string(forKey: UserDefaultsKeys.tabselect){
-        //            if selectedTab == "Airline" {
-        //
-        //                setuplabels(lbl:  nav.citylbl, text: self.ptitle.uppercased(), textcolor: .AppLabelColor, font: .OpenSansMedium(size: 14), align: .center)
-        //            }else {
-        //
-        //                if ptitle == "AD" {
-        //                    setuplabels(lbl:  nav.citylbl, text: "ADULT", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 14), align: .center)
-        //
-        //                }else {
-        //
-        //                    setuplabels(lbl:  nav.citylbl, text: "CHILD", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 14), align: .center)
-        //
-        //                }
-        //            }
-        //
-        //        }
+    
         
         commonTableView.backgroundColor = .AppHolderViewColor
         commonTableView.registerTVCells(["EmptyTVCell",
