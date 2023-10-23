@@ -276,7 +276,7 @@ class ModifyFlightSearchVC: BaseTableVC {
             payload["out_jrn"] = "All Times"
             payload["ret_jrn"] = "All Times"
             payload["carrier"] = ""
-            payload["psscarrier"] = "ALL"
+            payload["psscarrier"] = defaults.string(forKey: UserDefaultsKeys.airlinescode) ?? "ALL"
             payload["search_flight"] = "Search"
             payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
             
@@ -315,7 +315,7 @@ class ModifyFlightSearchVC: BaseTableVC {
             payload["ret_jrn"] = "All Times"
             payload["carrier"] = ""
             //  payload["direct_flight"] = "on"
-            payload["psscarrier"] = "ALL"
+            payload["psscarrier"] = defaults.string(forKey: UserDefaultsKeys.airlinescode) ?? "ALL"
             payload["search_flight"] = "Search"
             payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
             
@@ -458,6 +458,18 @@ class ModifyFlightSearchVC: BaseTableVC {
         vc.isvcfrom = "bookflightvc"
         vc.payload = payload33
         callapibool = true
+        self.present(vc, animated: true)
+    }
+    
+    
+    
+    override func didTapOnAirlineBtnAction(cell:FlightSearchTVCell) {
+        gotoNationalityVC()
+    }
+    
+    func gotoNationalityVC(){
+        guard let vc = NationalityVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
     }
     

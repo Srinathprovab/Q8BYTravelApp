@@ -23,6 +23,9 @@ class TitleLblTVCell: TableViewCell {
     @IBOutlet weak var holderViewLeading: NSLayoutConstraint!
     @IBOutlet weak var holderViewTraling: NSLayoutConstraint!
     
+    
+    
+    var airlinecode = String()
     var travellerId = String()
     var delegate:TitleLblTVCellDelegate?
     override func awakeFromNib() {

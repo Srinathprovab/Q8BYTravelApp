@@ -37,7 +37,7 @@ class PopupVC: UIViewController {
         setuplabels(lbl: titlelbl, text: "Your Session Expired", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 16), align: .center)
         searchBtnView.addCornerRadiusWithShadow(color: .clear, borderColor: .clear, cornerRadius: 5)
         searchBtnView.backgroundColor = .AppBackgroundColor
-        setuplabels(lbl: searchlbl, text: "Search Again", textcolor: .WhiteColor, font: .OpenSansBold(size: 15), align: .center)
+        setuplabels(lbl: searchlbl, text: "Search Again", textcolor: .WhiteColor, font: .OpenSansBold(size: 13), align: .center)
         searchBtn.setTitle("", for: .normal)
         searchBtn.addTarget(self, action: #selector(didTapOnSearchFlightAgainBtn(_:)), for: .touchUpInside)
         
@@ -52,7 +52,7 @@ class PopupVC: UIViewController {
     func gotoDashboardVC() {
         
         if let tabselect = defaults.string(forKey: UserDefaultsKeys.tabselect) {
-            if tabselect == "Flight" {
+            if tabselect == "Airline" {
                 guard let vc = BookFlightVC.newInstance.self else {return}
                 vc.modalPresentationStyle = .fullScreen
                 self.present(vc, animated: false)

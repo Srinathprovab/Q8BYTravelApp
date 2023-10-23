@@ -121,6 +121,13 @@ class TextfieldTVCell: TableViewCell {
             break
             
             
+            
+        case "alpha":
+            holderView.isUserInteractionEnabled = false
+            holderView.alpha = 0.5
+            break
+            
+            
         default:
             break
         }

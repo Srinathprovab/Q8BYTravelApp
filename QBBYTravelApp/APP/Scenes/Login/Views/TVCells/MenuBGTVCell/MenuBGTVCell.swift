@@ -59,9 +59,12 @@ class MenuBGTVCell: TableViewCell {
     }
     
     func setupUI() {
+        
         profileImage.image = UIImage(named: "profile")?.withRenderingMode(.alwaysOriginal)
         profileImage.layer.cornerRadius = 30
         profileImage.clipsToBounds = true
+        profileImage.layer.borderWidth = 2
+        profileImage.layer.borderColor = UIColor.WhiteColor.cgColor
         
         loginBtn.setTitle("Login/Signup", for: .normal)
         loginBtn.setTitleColor(.WhiteColor, for: .normal)

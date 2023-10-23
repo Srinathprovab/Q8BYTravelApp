@@ -206,9 +206,8 @@ class TravellerEconomyVC: BaseTableVC {
         }
         
         
-        guard let vc = BookFlightVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .overCurrentContext
-        self.present(vc, animated: false)
+        NotificationCenter.default.post(name: NSNotification.Name("reload"), object: nil)
+        self.dismiss(animated: true)
     }
     
     

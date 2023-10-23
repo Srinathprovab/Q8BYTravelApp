@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import MaterialComponents
 
-class CreateAccountVC: BaseTableVC {
+class CreateAccountVC: BaseTableVC, RegisterUserViewModelDelegate {
     
     
     var tablerow = [TableRow]()
@@ -20,10 +21,13 @@ class CreateAccountVC: BaseTableVC {
     var fname = String()
     var lname = String()
     var email = String()
+    var dob = String()
     var mobile = String()
     var pass = String()
     var cpass = String()
+    var payload = [String:Any]()
     
+    var vm:RegisterUserViewModel?
     
     @objc func offline(){
         guard let vc = NoInternetConnectionVC.newInstance.self else {return}
@@ -34,7 +38,7 @@ class CreateAccountVC: BaseTableVC {
     
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(offline), name: NSNotification.Name("offline"), object: nil)
-        
+       // countryCode = defaults.string(forKey: UserDefaultsKeys.mobilecountrycode) ?? ""
     }
     
     
@@ -43,11 +47,15 @@ class CreateAccountVC: BaseTableVC {
         
         // Do any additional setup after loading the view.
         setupTV()
+        vm = RegisterUserViewModel(self)
     }
     
     func setupTV() {
         
-        commonTableView.registerTVCells(["EmptyTVCell","LogoImgTVCell","LabelTVCell","TextfieldTVCell","RadioButtonTVCell","ButtonTVCell","LabelWithButtonTVCell"])
+        
+        commonTableView.registerTVCells(["EmptyTVCell",
+                                         "CreateAccountTVCell",
+                                         "LogoImgTVCell"])
         
         appendLoginTvcells()
     }
@@ -56,31 +64,19 @@ class CreateAccountVC: BaseTableVC {
     func appendLoginTvcells() {
         tablerow.removeAll()
         
-      //  tablerow.append(TableRow(height:20,cellType:.EmptyTVCell))
+       
         tablerow.append(TableRow(key:"createaccount",cellType:.LogoImgTVCell))
-       // tablerow.append(TableRow(title:"Create Account",subTitle: "please fill the below details",cellType:.LabelTVCell))
-        tablerow.append(TableRow(title:"Frist Name *",text:"1", tempText: "Name",cellType:.TextfieldTVCell))
-        tablerow.append(TableRow(title:"Last Name*",text:"2", tempText: "Last Name",cellType:.TextfieldTVCell))
-        tablerow.append(TableRow(title:"Email Address*",text:"3", tempText: "Email Adress",cellType:.TextfieldTVCell))
-        tablerow.append(TableRow(title:"Mobile Number*",key: "mobile",text:"4", moreData:["+91","+988","+133"], tempText: "Mobile",cellType:.TextfieldTVCell))
-        tablerow.append(TableRow(title:"Create Password*",key:"pwd", text:"5", tempText: "Password",cellType:.TextfieldTVCell))
-        tablerow.append(TableRow(title:"Confirm Password*",key:"pwd",text:"6", tempText: "Password",cellType:.TextfieldTVCell))
-        tablerow.append(TableRow(height:20,cellType:.EmptyTVCell))
-        tablerow.append(TableRow(title:"Yes ! i want to receive the latest travel deals, offers promotions",cellType:.RadioButtonTVCell))
-        tablerow.append(TableRow(height:20,cellType:.EmptyTVCell))
-        tablerow.append(TableRow(title:"Create Account",cellType:.ButtonTVCell))
-        tablerow.append(TableRow(height:50,cellType:.EmptyTVCell))
+        tablerow.append(TableRow(cellType:.CreateAccountTVCell))
         
-        tablerow.append(TableRow(title:"Back To !",subTitle: "",key: "backlogin", tempText: "Login",cellType:.LabelWithButtonTVCell))
-        tablerow.append(TableRow(height:50,cellType:.EmptyTVCell))
         commonTVData = tablerow
         commonTableView.reloadData()
         
     }
     
-    override func editingTextField(tf: UITextField) {
-        
-        print(tf.text ?? "")
+    
+    
+    override func editingMDCOutlinedTextField(tf:MDCOutlinedTextField){
+        setcolor(tf: tf, color: .black)
         switch tf.tag {
         case 1:
             fname = tf.text ?? ""
@@ -111,34 +107,78 @@ class CreateAccountVC: BaseTableVC {
     }
     
     
-    override func btnAction(cell: ButtonTVCell){
-        
-        if fname.isEmpty == true {
-            showToast(message: "Enter First Name")
-        }else  if lname.isEmpty == true {
-            showToast(message: "Enter Last Name")
-        }else  if email.isEmpty == true {
-            showToast(message: "Enter Email Address")
-        }else  if email.isValidEmail() == false {
-            showToast(message: "Enter Valid Address")
-        }else if mobile.isEmpty == true {
-            showToast(message: "Enter Mobile Number")
-        }else  if pass.isEmpty == true {
-            showToast(message: "Enter Password")
-        }else  if pass.isValidPassword() == false {
-            showToast(message: "Enter Valid Password")
-        }else  if cpass.isEmpty == true {
-            showToast(message: "Enter Conform Password")
-        }else  if pass != cpass {
-            showToast(message: "Password Should Match")
-        }else {
-            showToast(message: "Call apiiiiiiii.........")
-        }
+    
+    override func didTapOnCountryCodeBtnAction(cell: CreateAccountTVCell) {
+        countrycode = cell.countryCodeTF.text ?? ""
+    }
+    
+    func setcolor(tf:MDCOutlinedTextField,color:UIColor) {
+        tf.setOutlineColor(color, for: .normal)
+    }
+    
+   
+    override func donedatePicker(cell:CreateAccountTVCell){
+        dob = convertDateFormat(inputDate: cell.dobTF.text ?? "", f1: "dd-MM-yyyy", f2: "dd/MM/yyyy")
+        self.view.endEditing(true)
+    }
+    override func cancelDatePicker(cell:CreateAccountTVCell){
+        self.view.endEditing(true)
     }
     
     
-    override func didTapOnCountryCodeDropDownBtn(cell:TextfieldTVCell){
-        cell.dropDown.show()
+    override func didTapOnCreateAccountBtnBtnAction(cell: CreateAccountTVCell) {
+        
+        
+            if fname.isEmpty == true {
+                showToast(message: "Enter First Name")
+                setcolor(tf: cell.fnameTF, color: .red)
+            }else  if lname.isEmpty == true {
+                showToast(message: "Enter Last Name")
+                setcolor(tf: cell.lnameTF, color: .red)
+            }else  if dob.isEmpty == true {
+                showToast(message: "Enter Date Of Birth")
+                setcolor(tf: cell.emailTF, color: .red)
+            }else  if email.isEmpty == true {
+                showToast(message: "Enter Email Address")
+                setcolor(tf: cell.emailTF, color: .red)
+            }else  if email.isValidEmail() == false {
+                showToast(message: "Invalid Email address ")
+                setcolor(tf: cell.emailTF, color: .red)
+            }else if countrycode.isEmpty == true {
+                showToast(message: "Enter Country Code")
+                setcolor(tf: cell.mobileTF, color: .red)
+            }else if mobile.isEmpty == true {
+                showToast(message: "Enter Mobile Number")
+                setcolor(tf: cell.mobileTF, color: .red)
+            }else if mobilenoMaxLengthBool == false {
+                showToast(message: "Enter Valid Mobile No")
+                setcolor(tf: cell.mobileTF, color: .red)
+            }else if pass.isEmpty == true {
+                showToast(message: "Enter Password")
+                setcolor(tf: cell.createPassTF, color: .red)
+                setcolor(tf: cell.createPassTF, color: .red)
+            }else  if pass.isValidPassword() == false {
+                showToast(message: "Enter Valid Password")
+                setcolor(tf: cell.createPassTF, color: .red)
+            }else  if cpass.isEmpty == true {
+                showToast(message: "Enter Conform Password")
+                setcolor(tf: cell.confPassTF, color: .red)
+            }else  if pass != cpass {
+                showToast(message: "Password Should Match")
+                setcolor(tf: cell.createPassTF, color: .red)
+            }else {
+                callRegAPI()
+            }
+        
+        
+    }
+    
+    
+    override func didTapOnBackToLoginBtnAction(cell:CreateAccountTVCell){
+        guard let vc = LoginVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .fullScreen
+        vc.isvcFrom = "CreateAccountVC"
+        self.present(vc, animated: true)
     }
     
     
@@ -146,24 +186,40 @@ class CreateAccountVC: BaseTableVC {
         dismiss(animated: true)
     }
     
+}
+
+
+
+
+extension CreateAccountVC {
     
-    var bool = true
-//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if let cell = tableView.cellForRow(at: IndexPath(item: 10, section: 0)) as? RadioButtonTVCell {
-//            if bool == true {
-//                cell.radioImg.image = UIImage(named: "check")
-//                bool = false
-//            }else {
-//                cell.radioImg.image = UIImage(named: "uncheck")
-//                bool = true
-//            }
-//        }
-//    }
     
-    override func didTapOnBackToLoginBtn(cell: LabelWithButtonTVCell) {
-        guard let vc = LoginVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
+    func callRegAPI() {
+        
+        payload.removeAll()
+        payload["first_name"] = fname
+        payload["last_name"] = lname
+        payload["phone"] = mobile
+        payload["email"] = email
+        payload["date_of_birth"] = dob
+        payload["password"] = pass
+        payload["confirm_password"] = cpass
+        payload["about_us"] = "test"
+        
+        vm?.CALL_REGISTER_USER_API(dictParam: payload)
     }
     
+    
+    
+    func registerUserSucess(response: RegisterUserModel) {
+        if response.status == false {
+            showToast(message: response.msg ?? "")
+        }else {
+            showToast(message: "User Registration Sucess")
+            let seconds = 1.0
+            DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {[self] in
+                dismiss(animated: true)
+            }
+        }
+    }
 }

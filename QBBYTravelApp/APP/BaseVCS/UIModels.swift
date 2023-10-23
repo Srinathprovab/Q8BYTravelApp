@@ -78,6 +78,8 @@ enum TVCellType {
     case BookingConfTVCell
     case VoucherFDTVCell
     case DownloadTicketTVCell
+    case CreateAccountTVCell
+    case AddFareRulesTVCell
     
     //Hotel
     case HotelSearchResultTVCell

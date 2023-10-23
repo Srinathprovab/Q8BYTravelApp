@@ -63,7 +63,7 @@ class BookingConfirmedVC: BaseTableVC, VocherDetailsViewModelDelegate {
         vbookingsource = response.data?.booking_details?[0].booking_source ?? ""
         vbookingReference = response.data?.booking_details?[0].app_reference ?? ""
         vbookingStatus = response.data?.booking_details?[0].booking_transaction_details?[0].status ?? ""
-        vfaretype = response.flight_details?.fareType ?? ""
+      //  vfaretype = response.fareType ?? ""
         customerDetails = response.data?.booking_details?[0].customer_details ?? []
         flightsDetailsSummery = response.flight_details?.summary ?? []
         

@@ -9,6 +9,10 @@ import UIKit
 
 class LoginVC: BaseTableVC {
     
+    
+    @IBOutlet weak var backbtn: UIButton!
+    @IBOutlet weak var skipbtn: UIButton!
+    
     var tablerow = [TableRow]()
     static var newInstance: LoginVC? {
         let storyboard = UIStoryboard(name: Storyboard.Login.name,
@@ -16,6 +20,7 @@ class LoginVC: BaseTableVC {
         let vc = storyboard.instantiateViewController(withIdentifier: self.className()) as? LoginVC
         return vc
     }
+    var isvcFrom = String()
     var email = String()
     var pass = String()
     var showPwdBool = true
@@ -46,7 +51,23 @@ class LoginVC: BaseTableVC {
     
     func setupTV() {
         
-        commonTableView.registerTVCells(["EmptyTVCell","LogoImgTVCell","LabelTVCell","TextfieldTVCell","RadioButtonTVCell","ButtonTVCell","UnderLineTVCell","SignUpWithTVCell","LabelWithButtonTVCell"])
+        if isvcFrom == "splashscreen" {
+            skipbtn.isHidden = false
+            backbtn.isHidden = true
+        }else {
+            skipbtn.isHidden = true
+            backbtn.isHidden = false
+        }
+        
+        commonTableView.registerTVCells(["EmptyTVCell",
+                                         "LogoImgTVCell",
+                                         "LabelTVCell",
+                                         "TextfieldTVCell",
+                                         "RadioButtonTVCell",
+                                         "ButtonTVCell",
+                                         "UnderLineTVCell",
+                                         "SignUpWithTVCell",
+                                         "LabelWithButtonTVCell"])
         
         appendLoginTvcells()
     }
@@ -54,20 +75,21 @@ class LoginVC: BaseTableVC {
     
     func appendLoginTvcells() {
         tablerow.removeAll()
-        tablerow.append(TableRow(height:50,cellType:.EmptyTVCell))
+        tablerow.append(TableRow(height:65,cellType:.EmptyTVCell))
         tablerow.append(TableRow(cellType:.LogoImgTVCell))
-        tablerow.append(TableRow(title:"Email Address*",text:"1", tempText: "Email Adress",cellType:.TextfieldTVCell))
+        tablerow.append(TableRow(title:"Email Address*",text:"1", tempText: "Email Address",cellType:.TextfieldTVCell))
         tablerow.append(TableRow(title:"Password*",key:"pass", text:"2", tempText: "Password",cellType:.TextfieldTVCell))
         
         tablerow.append(TableRow(height:20,cellType:.EmptyTVCell))
         tablerow.append(TableRow(title:"Login",cellType:.ButtonTVCell))
         tablerow.append(TableRow(height:50,cellType:.EmptyTVCell))
-        tablerow.append(TableRow(cellType:.UnderLineTVCell))
-        tablerow.append(TableRow(height:20,cellType:.EmptyTVCell))
-        tablerow.append(TableRow(cellType:.SignUpWithTVCell))
-        tablerow.append(TableRow(height:100,cellType:.EmptyTVCell))
+        
+        
+        //  tablerow.append(TableRow(cellType:.UnderLineTVCell))
+        //  tablerow.append(TableRow(height:20,cellType:.EmptyTVCell))
+        //  tablerow.append(TableRow(cellType:.SignUpWithTVCell))
         tablerow.append(TableRow(title:"Not register yet?",subTitle: "",key: "acccreate", tempText: "Create Account",cellType:.LabelWithButtonTVCell))
-
+        
         
         commonTVData = tablerow
         commonTableView.reloadData()
@@ -101,12 +123,12 @@ class LoginVC: BaseTableVC {
         }else if pass.isEmpty == true {
             showToast(message: "Enter Password")
         }
-//        else  if pass.isValidPassword() == false {
-//            showToast(message: "Enter Valid Password")
-//        }
+        //        else  if pass.isValidPassword() == false {
+        //            showToast(message: "Enter Valid Password")
+        //        }
         
         else {
-           
+            
             payload.removeAll()
             payload["username"] = email
             payload["password"] = pass
@@ -118,12 +140,12 @@ class LoginVC: BaseTableVC {
     override func didTapOnShowPasswordBtn(cell:TextfieldTVCell){
         
         if showPwdBool == true {
-          // cell.showImage.image = UIImage(named: "showpass")
+            cell.showPassImg.image = UIImage(named: "showpass")?.withRenderingMode(.alwaysOriginal)
             cell.txtField.isSecureTextEntry = false
             showPwdBool = false
         }else {
             cell.txtField.isSecureTextEntry = true
-           // cell.showImage.image = UIImage(named: "hidepass")
+            cell.showPassImg.image = UIImage(named: "hidepass")?.withRenderingMode(.alwaysOriginal)
             showPwdBool = true
         }
         
@@ -148,11 +170,23 @@ class LoginVC: BaseTableVC {
         self.present(vc, animated: true)
     }
     
-   
+    
     
     
     @IBAction func didTapOnSkipBtn(_ sender: Any) {
-        dismiss(animated: false)
+        gotodashBoardScreen()
+    }
+    
+    func gotodashBoardScreen() {
+        guard let vc = DBTabbarController.newInstance.self else {return}
+        vc.modalPresentationStyle = .fullScreen
+        callapibool = true
+        present(vc, animated: true)
+    }
+    
+    
+    @IBAction func didTapOnBackBtnAction(_ sender: Any) {
+        dismiss(animated: true)
     }
     
 }
@@ -162,11 +196,14 @@ extension LoginVC:LoginViewModelDelegate {
     
     func loginSucess(response: LoginModel) {
         if response.status == false {
-            showToast(message: response.data ?? "Errorrrrr")
+            
+            showToast(message: response.msg ?? "")
             defaults.set(false, forKey: UserDefaultsKeys.userLoggedIn)
             defaults.set("0", forKey: UserDefaultsKeys.userid)
+            
         }else {
-            showToast(message: response.data ?? "")
+            
+            showToast(message: response.msg ?? "")
             defaults.set(true, forKey: UserDefaultsKeys.userLoggedIn)
             defaults.set(response.user_id, forKey: UserDefaultsKeys.userid)
             let seconds = 1.0

@@ -9,7 +9,8 @@ import UIKit
 import MaterialComponents
 
 
-class BaseTableVC: UIViewController, ButtonTVCellDelegate,TextfieldTVCellDelegate, SelectGenderTVCellDelegate, RadioButtonTVCellDelegate, SignUpWithTVCellDelegate, MenuBGTVCellDelegate,LabelWithButtonTVCellDelegate, SelectTabTVCellDelegate, SearchFlightTVCellDelegate, TravellerEconomyTVCellDelegate, SearchFlightResultInfoTVCellDelegate, BookNowTVCellDelegate, TDetailsLoginTVCellDelegate,PromocodeTVCellDelegate, PriceSummaryTVCellDelegate, AddTravellersDetailsTVCellDelegate, CheckBoxTVCellDelegate,MultiCityTripTVCellDelegate, RoomsTVCellDelegate, StarRatingTVCellDelegate, ChooseProfilPpictureTVCellDelegate,checkOptionsTVCellDelegate, AboutusTVCellDelegate, HotelDealsTVCellDelegate, RoundTripTVcellDelegate, FareRulesTVCellDelegate, SaveTravellerDetailsTVCellDelegate, AddInfantaTravellerTVCellDelegate, AddChildTravellerTVCellDelegate, AddAdultTravellerTVCellDelegate, ContactInformationTVCellDelegate, SortByPriceTVCellDelegate, SliderTVCellDelegate, AcceptTermsAndConditionTVCellDelegate, MyBookingsTVCellsDelegate, SearchHolidaysTVcellDelegate, HolidaySearchResultTVCellDelegate, FlightSearchTVCellDelegate, RoundTripDetailsTVcellDelegate, LogowithMenuTVCellDelegate, AddCityTVCellDelegate, BookingConfTVCellDelegate, DownloadTicketTVCellDelegate {
+class BaseTableVC: UIViewController, ButtonTVCellDelegate,TextfieldTVCellDelegate, SelectGenderTVCellDelegate, RadioButtonTVCellDelegate, SignUpWithTVCellDelegate, MenuBGTVCellDelegate,LabelWithButtonTVCellDelegate, SelectTabTVCellDelegate, SearchFlightTVCellDelegate, TravellerEconomyTVCellDelegate, SearchFlightResultInfoTVCellDelegate, BookNowTVCellDelegate, TDetailsLoginTVCellDelegate,PromocodeTVCellDelegate, PriceSummaryTVCellDelegate, AddTravellersDetailsTVCellDelegate, CheckBoxTVCellDelegate,MultiCityTripTVCellDelegate, RoomsTVCellDelegate, StarRatingTVCellDelegate, ChooseProfilPpictureTVCellDelegate,checkOptionsTVCellDelegate, AboutusTVCellDelegate, HotelDealsTVCellDelegate, RoundTripTVcellDelegate, FareRulesTVCellDelegate, SaveTravellerDetailsTVCellDelegate, AddInfantaTravellerTVCellDelegate, AddChildTravellerTVCellDelegate, AddAdultTravellerTVCellDelegate, ContactInformationTVCellDelegate, SortByPriceTVCellDelegate, SliderTVCellDelegate, AcceptTermsAndConditionTVCellDelegate, MyBookingsTVCellsDelegate, SearchHolidaysTVcellDelegate, HolidaySearchResultTVCellDelegate, FlightSearchTVCellDelegate, RoundTripDetailsTVcellDelegate, LogowithMenuTVCellDelegate, AddCityTVCellDelegate, BookingConfTVCellDelegate, DownloadTicketTVCellDelegate, CreateAccountTVCellDelegate, AddFareRulesTVCellDelegate {
+   
     
     
     
@@ -145,6 +146,9 @@ class BaseTableVC: UIViewController, ButtonTVCellDelegate,TextfieldTVCellDelegat
     func didTapOnEditBtn(cell:TitleLblTVCell){}
     func donedatePicker(cell:TextfieldTVCell){}
     func cancelDatePicker(cell:TextfieldTVCell){}
+    func donedatePicker(cell:CreateAccountTVCell){}
+    func cancelDatePicker(cell:CreateAccountTVCell){}
+    
     func didtapOnChooseprofilePitctureBtn(cell: ChooseProfilPpictureTVCell) {}
     func didTapOnMenuOptionBtn(cell:checkOptionsTVCell){}
     func didTapOnCheckBox(cell:checkOptionsTVCell){}
@@ -198,6 +202,7 @@ class BaseTableVC: UIViewController, ButtonTVCellDelegate,TextfieldTVCellDelegat
     func didTapOnSelectRepDateBtn(cell: FlightSearchTVCell) {}
     func didTapOnAddTravelerEconomy(cell: FlightSearchTVCell) {}
     func didTapOnSearchFlightsBtn(cell: FlightSearchTVCell) {}
+    func didTapOnAirlineBtnAction(cell:FlightSearchTVCell) {}
     
     func didTaponRoundTripCell(cell: RoundTripDetailsTVcell) {}
     func didTapOnMultiCityTripSearchFlight(cell:AddCityTVCell){}
@@ -208,7 +213,12 @@ class BaseTableVC: UIViewController, ButtonTVCellDelegate,TextfieldTVCellDelegat
     func didTapOnBackBtn(cell: BookingConfTVCell) {}
     func didTapOnDownloadBtnAction(cell: DownloadTicketTVCell) {}
     
+    func didTapOnSelectAirlines(){}
+    func didTapOnCountryCodeBtnAction(cell: CreateAccountTVCell) {}
+    func didTapOnCreateAccountBtnBtnAction(cell: CreateAccountTVCell) {}
+    func didTapOnBackToLoginBtnAction(cell: CreateAccountTVCell) {}
     
+    func didTapOnFareRulesBtnAction(cell: AddFareRulesTVCell) {}
     
     
     
@@ -692,6 +702,21 @@ extension BaseTableVC: UITableViewDataSource {
                 let cell: DownloadTicketTVCell = commonTV.dequeTVCell(indexPath: indexPath)
                 cell.delegate = self
                 commonCell = cell
+                
+                
+                
+            case .CreateAccountTVCell:
+                let cell: CreateAccountTVCell = commonTV.dequeTVCell(indexPath: indexPath)
+                cell.delegate = self
+                commonCell = cell
+                
+                
+            case .AddFareRulesTVCell:
+                let cell: AddFareRulesTVCell = commonTV.dequeTVCell(indexPath: indexPath)
+                cell.delegate = self
+                commonCell = cell
+                
+                
                 
                 
             default:

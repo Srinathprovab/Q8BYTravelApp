@@ -97,13 +97,35 @@ func checkDepartureAndReturnDates(_ parameters: [String: Any],p1:String,p2:Strin
 
 class ViewController: UIViewController {
     
+    
+    var ExecuteOnceBool = true
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
-            self.gotodashBoardScreen()
-        })
+        if !UserDefaults.standard.bool(forKey: "ExecuteOnceLoginVC") {
+            ExecuteOnceBool = false
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
+                self.gotoLoginVC()
+            })
+            
+            UserDefaults.standard.set(true, forKey: "ExecuteOnceLoginVC")
+        }
+        
+        
+        if ExecuteOnceBool == true {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
+                self.gotodashBoardScreen()
+                
+                
+                //                                defaults.set("Flight", forKey: UserDefaultsKeys.tabselect)
+                //                                self.gotoBookingConfirmedVC(url: "https://kuwaitways.com/mobile_webservices/index.php/voucher/flight/KWA-F-TP-0425-4745/PTBSID0000000016/show_voucher")
+            })
+        }
+        
     }
     
     
@@ -111,6 +133,15 @@ class ViewController: UIViewController {
         guard let vc = DBTabbarController.newInstance.self else {return}
         vc.modalPresentationStyle = .fullScreen
         callapibool = true
+        present(vc, animated: true)
+    }
+    
+    
+    func gotoLoginVC() {
+        guard let vc = LoginVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .fullScreen
+        callapibool = true
+        vc.isvcFrom = "splashscreen"
         present(vc, animated: true)
     }
     
@@ -133,8 +164,6 @@ class TimerManager {
     private var backgroundTask: UIBackgroundTaskIdentifier = .invalid
 
     private init() {}
-
-
 
 
     func startTimer(time:Int) {

@@ -14,6 +14,7 @@ protocol FlightSearchTVCellDelegate {
     func didTapOnSelectDepDateBtn(cell:FlightSearchTVCell)
     func didTapOnSelectRepDateBtn(cell:FlightSearchTVCell)
     func didTapOnAddTravelerEconomy(cell:FlightSearchTVCell)
+    func didTapOnAirlineBtnAction(cell:FlightSearchTVCell)
     func didTapOnSearchFlightsBtn(cell:FlightSearchTVCell)
 }
 
@@ -38,6 +39,11 @@ class FlightSearchTVCell: TableViewCell {
     @IBOutlet weak var searchFlightBtn: UIButton!
     @IBOutlet weak var swapBtn: UIButton!
     @IBOutlet weak var swapView: UIView!
+    @IBOutlet weak var airlinesView: UIView!
+    @IBOutlet weak var airlinesimg: UIImageView!
+    @IBOutlet weak var airlinelbl: UILabel!
+    @IBOutlet weak var airlineBtn: UIButton!
+    
     
     var delegate:FlightSearchTVCellDelegate?
     override func awakeFromNib() {
@@ -62,6 +68,7 @@ class FlightSearchTVCell: TableViewCell {
             deplbl.text = defaults.string(forKey: UserDefaultsKeys.calDepDate) ?? "Add Date"
             retlbl.text = defaults.string(forKey: UserDefaultsKeys.calRetDate) ?? "Add Date"
             tralbl.text = defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "Add Traveller"
+            airlinelbl.text = defaults.string(forKey: UserDefaultsKeys.nationality) ?? "ALL"
         }else {
             retView.isHidden = false
             fromcitylbl.text = defaults.string(forKey: UserDefaultsKeys.rfromCity) ?? "Origen"
@@ -69,6 +76,8 @@ class FlightSearchTVCell: TableViewCell {
             deplbl.text = defaults.string(forKey: UserDefaultsKeys.rcalDepDate) ?? "Add Date"
             retlbl.text = defaults.string(forKey: UserDefaultsKeys.rcalRetDate) ?? "Add Date"
             tralbl.text = defaults.string(forKey: UserDefaultsKeys.rtravellerDetails) ?? "Add Traveller"
+            airlinelbl.text = defaults.string(forKey: UserDefaultsKeys.nationality) ?? "ALL"
+
         }
     }
     
@@ -81,7 +90,9 @@ class FlightSearchTVCell: TableViewCell {
         dipView.addCornerRadiusWithShadow(color: HexColor("#254179",alpha: 0.10), borderColor: HexColor("#A6C2FA"), cornerRadius: 12)
         retView.addCornerRadiusWithShadow(color: HexColor("#254179",alpha: 0.10), borderColor: HexColor("#A6C2FA"), cornerRadius: 12)
         traView.addCornerRadiusWithShadow(color: HexColor("#254179",alpha: 0.10), borderColor: HexColor("#A6C2FA"), cornerRadius: 12)
-    
+        airlinesView.addCornerRadiusWithShadow(color: HexColor("#254179",alpha: 0.10), borderColor: HexColor("#A6C2FA"), cornerRadius: 12)
+        airlinesimg.image = UIImage(named: "airlines")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppBackgroundColor)
+        tralbl.numberOfLines = 2
 
         fromcityBtn.addTarget(self, action: #selector(didTapOnFromCityBtnAction(_:)), for: .touchUpInside)
         tocityBtn.addTarget(self, action: #selector(didTapOnToCityBtnAction(_:)), for: .touchUpInside)
@@ -90,7 +101,8 @@ class FlightSearchTVCell: TableViewCell {
         traBtn.addTarget(self, action: #selector(didTapOnTravellerBtnAction(_:)), for: .touchUpInside)
         searchFlightBtn.addTarget(self, action: #selector(didTapOnSearchFlightBtnAction(_:)), for: .touchUpInside)
         swapBtn.addTarget(self, action: #selector(didTapOnSwapCityBtnAction(_:)), for: .touchUpInside)
-        
+        airlineBtn.addTarget(self, action: #selector(didTapOnAirlineBtnAction(_:)), for: .touchUpInside)
+
     }
     
     
@@ -112,6 +124,11 @@ class FlightSearchTVCell: TableViewCell {
     
     @objc func didTapOnTravellerBtnAction(_ sender:UIButton) {
         delegate?.didTapOnAddTravelerEconomy(cell: self)
+    }
+    
+    
+    @objc func didTapOnAirlineBtnAction(_ sender:UIButton) {
+        delegate?.didTapOnAirlineBtnAction(cell: self)
     }
     
     @objc func didTapOnSearchFlightBtnAction(_ sender:UIButton) {

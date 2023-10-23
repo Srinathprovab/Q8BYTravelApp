@@ -57,7 +57,7 @@ class ItineraryTVCell: TableViewCell {
         setuplabels(lbl: hourslbl, text: "", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 12), align: .center)
         setuplabels(lbl: fromairportname, text: "", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 14), align: .left)
         setuplabels(lbl: toairportname, text: "", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 14), align: .right)
-        setuplabels(lbl: layoverCitylbl, text: "", textcolor: .AppLabelColor, font: .oswaldRegular(size: 12), align: .center)
+        setuplabels(lbl: layoverCitylbl, text: "", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12), align: .center)
         
         
         fromairportname.numberOfLines = 2
@@ -66,6 +66,28 @@ class ItineraryTVCell: TableViewCell {
         
         
         
+    }
+    
+    
+    
+    
+    
+    func setAttributedText(str1:String,str2:String) -> NSAttributedString {
+        
+        let atter1 = [NSAttributedString.Key.foregroundColor:UIColor.AppLabelColor,NSAttributedString.Key.font:UIFont.OpenSansRegular(size: 12)] as [NSAttributedString.Key : Any]
+        let atter2 = [NSAttributedString.Key.foregroundColor:UIColor.AppLabelColor,NSAttributedString.Key.font:UIFont.OpenSansBold(size: 12)] as [NSAttributedString.Key : Any]
+        
+        let atterStr1 = NSMutableAttributedString(string: str1, attributes: atter1)
+        let atterStr2 = NSMutableAttributedString(string: str2, attributes: atter2)
+        
+        
+        let combination = NSMutableAttributedString()
+        combination.append(atterStr1)
+        combination.append(atterStr2)
+        
+        layoverCitylbl.attributedText = combination
+        
+        return combination
     }
     
 }

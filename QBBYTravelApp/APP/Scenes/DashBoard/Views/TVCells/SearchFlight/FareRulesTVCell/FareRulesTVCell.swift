@@ -35,16 +35,16 @@ class FareRulesTVCell: TableViewCell {
         super.setSelected(selected, animated: animated)
         
         // Configure the view for the selected state
-        if isSelected {
-            show()
-        }else {
-            hide()
-        }
+//        if isSelected {
+//            show()
+//        }else {
+//            hide()
+//        }
         
     }
     
     override func prepareForReuse() {
-        hide()
+       // hide()
     }
    
     

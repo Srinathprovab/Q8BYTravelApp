@@ -49,6 +49,8 @@ var besttopflightArray = [Flight_top_destinations1]()
 var besttopHotelArray = [Flight_top_destinations1]()
 var perfectholidaysArray = [Perfect_holidays]()
 var imgPath = String()
+var mobilenoMaxLengthBool = Bool()
+var countrycode = String()
 
 var searchid = String()
 var bookingsource = String()
@@ -153,8 +155,10 @@ var checkTermsAndCondationStatus = false
 struct ApiEndpoints {
     static let countrylist1 = "general/getCountrylist"
     static let mobilePreFlightSearch = "mobile_pre_flight_search"
+    static let general_getAirlineList = "general/getAirlineList"
     static let mobilelogin = "mobile_login"
     static let mobilelogout = "mobile_logout"
+    static let mobileregister = "auth/mobile_register_on_light_box"
     static let mobileforgotpassword = "mobile_forgot_password"
     static let updatemobileprofile = "user/mobile_profile"
     static let getCurrencyList = "general/getCurrencyList"
@@ -221,6 +225,12 @@ struct UserDefaultsKeys {
     static var mselect_classIndex = "mselect_classIndex"
     static var totalTravellerCount = "totalTravellerCount"
     static var cellTag = "cellTag"
+    static var nationality = "nationality"
+    static var airlinescode = "airlinescode"
+    static var hnationality = "hnationality"
+    static var hnationalitycode = "hnationalitycode"
+    
+    
     
     
     

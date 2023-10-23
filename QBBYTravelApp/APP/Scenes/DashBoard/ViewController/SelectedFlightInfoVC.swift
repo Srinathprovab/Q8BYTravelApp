@@ -145,7 +145,7 @@ class SelectedFlightInfoVC: BaseTableVC, TimerManagerDelegate {
                                          "BaggageInfoTVCell",
                                          "FareRulesDataTVCell",
                                          "FareRulesTVCell",
-                                         "RadioButtonTVCell"])
+                                         "RadioButtonTVCell","AddFareRulesTVCell"])
         
         
         
@@ -310,20 +310,15 @@ class SelectedFlightInfoVC: BaseTableVC, TimerManagerDelegate {
     
     func setupFareRulesTVCells() {
         
-        self.commonTableView.estimatedRowHeight = 500
-        self.commonTableView.rowHeight = 40
+        //        self.commonTableView.estimatedRowHeight = 500
+        //        self.commonTableView.rowHeight = 40
         
-        tablerow.append(TableRow(title:"Fare Rules",subTitle: "",key: "title",cellType:.TitleLblTVCell))
+        //tablerow.append(TableRow(title:"Fare Rules",subTitle: "",key: "title",cellType:.TitleLblTVCell))
         //        tablerow.append(TableRow(moreData:fareRulesData,cellType:.FareRulesDataTVCell))
         
         
-        if fareRulesData.isEmpty == true || fareRulesData.count == 0 {
-            TableViewHelper.EmptyMessage(message: "No Data Found", tableview: commonTableView, vc: self)
-        }else {
-            TableViewHelper.EmptyMessage(message: "", tableview: commonTableView, vc: self)
-            fareRulesData.forEach { i in
-                tablerow.append(TableRow(title:i.rule_heading,subTitle: i.rule_content,cellType:.FareRulesTVCell))
-            }
+        if fareRulesData.count != 0 {
+            tablerow.append(TableRow(cellType:.AddFareRulesTVCell))
         }
         
         
@@ -357,6 +352,23 @@ class SelectedFlightInfoVC: BaseTableVC, TimerManagerDelegate {
     }
     
     
+    override func didTapOnFareRulesBtnAction(cell: AddFareRulesTVCell) {
+        commonTableView.reloadData()
+    }
+    
+    
+    override func showContentBtnAction(cell:FareRulesTVCell){
+        if cell.showBool == true {
+            cell.show()
+            cell.showBool = false
+        }else {
+            cell.hide()
+            cell.showBool = true
+        }
+        
+        
+        commonTableView.reloadData()
+    }
     
     
 }
@@ -399,27 +411,27 @@ extension SelectedFlightInfoVC: FDViewModelDelegate {
 }
 
 
-extension SelectedFlightInfoVC {
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) as? FareRulesTVCell {
-            if cell.showBool == true {
-                cell.show()
-                cell.showBool = false
-            }else {
-                cell.hide()
-                cell.showBool = true
-            }
-        }
-        
-        commonTableView.beginUpdates()
-        commonTableView.endUpdates()
-    }
-    
-    
-    //    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-    //        if let cell = tableView.cellForRow(at: indexPath) as? FareRulesTVCell {
-    //            cell.hide()
-    //        }
-    //
-    //    }
-}
+//extension SelectedFlightInfoVC {
+//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        if let cell = tableView.cellForRow(at: indexPath) as? FareRulesTVCell {
+//            if cell.showBool == true {
+//                cell.show()
+//                cell.showBool = false
+//            }else {
+//                cell.hide()
+//                cell.showBool = true
+//            }
+//        }
+//
+//        commonTableView.beginUpdates()
+//        commonTableView.endUpdates()
+//    }
+//
+//
+//    //    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+//    //        if let cell = tableView.cellForRow(at: indexPath) as? FareRulesTVCell {
+//    //            cell.hide()
+//    //        }
+//    //
+//    //    }
+//}

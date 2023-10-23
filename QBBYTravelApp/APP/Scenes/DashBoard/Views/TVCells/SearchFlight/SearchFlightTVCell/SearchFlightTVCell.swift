@@ -19,6 +19,9 @@ protocol SearchFlightTVCellDelegate {
     func didTapOnAddRooms(cell:HolderViewTVCell)
     func didTapOnSearchHotelsBtn(cell:ButtonTVCell)
     
+    func didTapOnSelectAirlines()
+   
+    
 }
 
 class SearchFlightTVCell: TableViewCell,DualViewTVCellDelegate,ButtonTVCellDelegate {
@@ -61,7 +64,7 @@ class SearchFlightTVCell: TableViewCell,DualViewTVCellDelegate,ButtonTVCellDeleg
         searchFlightTV.register(UINib(nibName: "HolderViewTVCell", bundle: nil), forCellReuseIdentifier: "cell")
         searchFlightTV.register(UINib(nibName: "HolderViewTVCell", bundle: nil), forCellReuseIdentifier: "cell1")
         searchFlightTV.register(UINib(nibName: "DualViewTVCell", bundle: nil), forCellReuseIdentifier: "cell2")
-        searchFlightTV.register(UINib(nibName: "HolderViewTVCell", bundle: nil), forCellReuseIdentifier: "cell3")
+        searchFlightTV.register(UINib(nibName: "DualViewTVCell", bundle: nil), forCellReuseIdentifier: "cell33")
         searchFlightTV.register(UINib(nibName: "HolderViewTVCell", bundle: nil), forCellReuseIdentifier: "cell5")
         searchFlightTV.register(UINib(nibName: "ButtonTVCell", bundle: nil), forCellReuseIdentifier: "cell4")
         searchFlightTV.separatorStyle = .none
@@ -126,6 +129,13 @@ class SearchFlightTVCell: TableViewCell,DualViewTVCellDelegate,ButtonTVCellDeleg
         //   cell.dropDown.show()
     }
     
+    
+    
+    @objc func didTapOnSelectAirlines(){
+        delegate?.didTapOnSelectAirlines()
+    }
+    
+  
     
 }
 
@@ -267,25 +277,50 @@ extension SearchFlightTVCell:UITableViewDelegate,UITableViewDataSource {
                     c = cell
                 }
             }else  if indexPath.row == 2 {
-                if let cell = tableView.dequeueReusableCell(withIdentifier: "cell3") as? HolderViewTVCell {
-                    
-                    cell.locImg.image = UIImage(named: "traveler")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppBackgroundColor)
-                    cell.dropdownimg.isHidden = false
-                    cell.fromBtn.addTarget(self, action: #selector(didTapOnAddTravelerEconomy(cell:)), for: .touchUpInside)
-                    cell.tag = 3
-                    
-                    
-                    
-                    if let selectedJourneyType = defaults.string(forKey: UserDefaultsKeys.journeyType) {
-                        if selectedJourneyType == "circle" {
-                            cell.titlelbl.text = "\(defaults.string(forKey: UserDefaultsKeys.rtravellerDetails) ?? "+ Add Traveller")"
-                        }else {
-                            cell.titlelbl.text = "\(defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "+ Add Traveller")"
-                        }
+//                if let cell = tableView.dequeueReusableCell(withIdentifier: "cell3") as? HolderViewTVCell {
+//
+//                    cell.locImg.image = UIImage(named: "traveler")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppBackgroundColor)
+//                    cell.dropdownimg.isHidden = false
+//                    cell.fromBtn.addTarget(self, action: #selector(didTapOnAddTravelerEconomy(cell:)), for: .touchUpInside)
+//                    cell.tag = 3
+//
+//
+//
+//                    if let selectedJourneyType = defaults.string(forKey: UserDefaultsKeys.journeyType) {
+//                        if selectedJourneyType == "circle" {
+//                            cell.titlelbl.text = "\(defaults.string(forKey: UserDefaultsKeys.rtravellerDetails) ?? "+ Add Traveller")"
+//                        }else {
+//                            cell.titlelbl.text = "\(defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "+ Add Traveller")"
+//                        }
+//                    }
+//
+//                    c = cell
+//                }
+                
+                
+                if let cell = tableView.dequeueReusableCell(withIdentifier: "cell33") as? DualViewTVCell {
+                    cell.selectionStyle = .none
+                    cell.delegate = self
+                    cell.showReturnView()
+                    cell.key = "airlines"
+                    cell.cal1Img.image = UIImage(named: "traveler")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppJournyTabSelectColor)
+                    cell.cal2img.image = UIImage(named: "airlines")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppJournyTabSelectColor)
+
+                    if self.key == "roundtrip" {
+                        cell.deplbl.text = "\(defaults.string(forKey: UserDefaultsKeys.rtravellerDetails) ?? "+ Add Traveller")"
+                    }else {
+                        cell.deplbl.text = "\(defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "+ Add Traveller")"
                     }
-                    
+
+                    cell.returnlbl.text = "\(defaults.string(forKey: UserDefaultsKeys.nationality) ?? "ALL")"
+
+                    cell.depBtn.addTarget(self, action: #selector(didTapOnAddTravelerEconomy), for: .touchUpInside)
+                    cell.returnBtn.addTarget(self, action: #selector(didTapOnSelectAirlines), for: .touchUpInside)
+
                     c = cell
                 }
+                
+                
             }else {
                 if let cell = tableView.dequeueReusableCell(withIdentifier: "cell4") as? ButtonTVCell {
                     cell.titlelbl.text = "Search Flights"

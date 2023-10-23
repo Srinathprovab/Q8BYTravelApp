@@ -85,7 +85,7 @@ class HotelSearchResultVC: BaseTableVC, HotelListViewModelDelegate, TimerManager
         hotelSearchResult = response.data?.hotelSearchResult ?? []
         
         TimerManager.shared.totalTime = response.session_expiry_details?.session_start_time ?? 0
-        TimerManager.shared.startTimer()
+        TimerManager.shared.startTimer(time: 900)
         
         setupLabels(lbl: sessionlbl, text: "Your Session Expires In: \(response.session_expiry_details?.session_start_time ?? 0)", textcolor: .WhiteColor, font: .OpenSansRegular(size: 12))
         setupLabels(lbl: subtitlelbl, text: "\(hotelSearchResult.count) Hotels Found", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12))

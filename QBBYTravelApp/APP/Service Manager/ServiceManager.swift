@@ -309,6 +309,7 @@ class ServiceManager {
         
         if !isConnection() {
             print("Error: you are offline")
+            
             NotificationCenter.default.post(name: NSNotification.Name("offline"), object: nil)
             completionHandler(false, nil, ApiError.networkError.message)
             return
@@ -372,8 +373,25 @@ class ServiceManager {
             encoding: URLEncoding.default,
             headers: nil).validate().responseJSON { resp in
                 
-                print(resp.value as Any)
+              
                 print(resp.response?.statusCode as Any)
+                if let data = resp.data { // Assuming `response` is the API response object
+                    do {
+                        if let json = try JSONSerialization.jsonObject(with:  data , options: []) as? [String: Any] {
+
+                            let arrJson = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
+                            let theJSONText = NSString(data: arrJson, encoding: String.Encoding.utf8.rawValue)
+                            print(theJSONText ?? "")
+                        }
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                }
+                
+                
+                
+                
+                
                 
                 
                 if resp.value != nil {
@@ -389,37 +407,18 @@ class ServiceManager {
                             let jsonData = try JSONSerialization.data(withJSONObject: resp.value as Any,options: [])
                             if let jsonResponse = try? JSONDecoder().decode(T.self, from: jsonData) {
                                 
-                                
-                                
-                                //                                if let data = resp.data { // Assuming `response` is the API response object
-                                //                                    do {
-                                //                                        if let json = try JSONSerialization.jsonObject(with:  resp.data ?? NSData() as Data, options: []) as? [String: Any] {
-                                //
-                                //                                            let arrJson = try JSONSerialization.data(withJSONObject: json, options: JSONSerialization.WritingOptions.prettyPrinted)
-                                //                                            let theJSONText = NSString(data: arrJson, encoding: String.Encoding.utf8.rawValue)
-                                //                                           //   print(theJSONText ?? "")
-                                //                                        }
-                                //                                    } catch {
-                                //                                        print(error.localizedDescription)
-                                //                                    }
-                                //                                }
-                                
-                                
-                                completionHandler(true, jsonResponse, nil)
-                            }
                             
-                            else {
+                                completionHandler(true, jsonResponse, nil)
+                            }else {
                                 
                                 
-                                NotificationCenter.default.post(name: NSNotification.Name("somthingwentwrong"), object: nil)
+                                NotificationCenter.default.post(name: NSNotification.Name("resultnil"), object: nil)
                                 completionHandler(false, nil, "ApiError.somthingwentwrong.message")
                             }
                             
                             
                             
                         }catch {
-                            
-                            
                             completionHandler(false, nil, ApiError.unknown.message)
                             print("JSONSerialization error")
                         }
@@ -441,6 +440,8 @@ class ServiceManager {
                     
                     
                 }else {
+                    
+                    
                     NotificationCenter.default.post(name: NSNotification.Name("resultnil"), object: nil)
                     completionHandler(false, nil, "Result Nil")
                 }

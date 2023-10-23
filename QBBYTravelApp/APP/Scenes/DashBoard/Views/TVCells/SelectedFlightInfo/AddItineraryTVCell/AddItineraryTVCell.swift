@@ -75,11 +75,11 @@ extension AddItineraryTVCell:UITableViewDelegate,UITableViewDataSource {
             cell.hourslbl.text = data.duration
             cell.fromairportname.text = data.origin?.city
             cell.toairportname.text = data.destination?.city
-            cell.layoverCitylbl.text = "Stopover: \(data.layOverDuration ?? "") \(data.destination?.loc ?? "") \(data.destination?.city ?? "")"
+          
             
             cell.logoImg.sd_setImage(with: URL(string: data.operator_image ?? ""), placeholderImage:UIImage(contentsOfFile:"placeholder.png"))
 
-          
+            cell.setAttributedText(str1: "Stopover: \(data.layOverDuration ?? "") \(data.destination?.loc ?? "")", str2: " \(data.destination?.city ?? "")")
             
             
             if tableView.isLast(for: indexPath) == true {

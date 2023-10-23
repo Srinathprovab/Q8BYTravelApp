@@ -63,6 +63,7 @@ class BookFlightVC: BaseTableVC {
     
     
     @objc func reload(notification: NSNotification){
+
         commonTableView.reloadData()
     }
     
@@ -101,7 +102,6 @@ class BookFlightVC: BaseTableVC {
         multicityBtn.setTitle("", for: .normal)
         
         commonTableView.registerTVCells(["EmptyTVCell",
-                                         "SearchFlightTVCell",
                                          "DashboardDealsTitleTVCell",
                                          "FlightRelatedSearchTVCell",
                                          "FlightSearchTVCell",
@@ -255,6 +255,17 @@ class BookFlightVC: BaseTableVC {
         gotoAddTravelerVC()
     }
     
+    override func didTapOnAirlineBtnAction(cell:FlightSearchTVCell) {
+        gotoNationalityVC()
+    }
+    
+    func gotoNationalityVC(){
+        guard let vc = NationalityVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
+    }
+   
+    
     func gotoSelectCityVC(str:String,celltag1:Int) {
         guard let vc = SelectFromCityVC.newInstance.self else {return}
         vc.modalPresentationStyle = .fullScreen
@@ -275,7 +286,6 @@ class BookFlightVC: BaseTableVC {
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
     }
-    
     
    
     
@@ -302,7 +312,7 @@ class BookFlightVC: BaseTableVC {
             payload["out_jrn"] = "All Times"
             payload["ret_jrn"] = "All Times"
             payload["carrier"] = ""
-            payload["psscarrier"] = "ALL"
+            payload["psscarrier"] = defaults.string(forKey: UserDefaultsKeys.airlinescode) ?? "ALL"
             payload["search_flight"] = "Search"
             payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
             
@@ -341,7 +351,7 @@ class BookFlightVC: BaseTableVC {
             payload["ret_jrn"] = "All Times"
             payload["carrier"] = ""
             //  payload["direct_flight"] = "on"
-            payload["psscarrier"] = "ALL"
+            payload["psscarrier"] = defaults.string(forKey: UserDefaultsKeys.airlinescode) ?? "ALL"
             payload["search_flight"] = "Search"
             payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
             
@@ -489,4 +499,7 @@ class BookFlightVC: BaseTableVC {
         callapibool = true
         self.present(vc, animated: true)
     }
+    
+    
+    
 }
