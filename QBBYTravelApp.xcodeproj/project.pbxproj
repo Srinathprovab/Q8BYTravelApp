@@ -283,6 +283,7 @@
 		658F1E6B296D7E3000F7CDDC /* ItineraryTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 658F1E69296D7E3000F7CDDC /* ItineraryTVCell.xib */; };
 		658F1E6F296D868900F7CDDC /* AddItineraryTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658F1E6D296D868900F7CDDC /* AddItineraryTVCell.swift */; };
 		658F1E70296D868900F7CDDC /* AddItineraryTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 658F1E6E296D868900F7CDDC /* AddItineraryTVCell.xib */; };
+		65AF96A62B0B59AC0068A964 /* BorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AF96A52B0B59AC0068A964 /* BorderView.swift */; };
 		65B2CA8A2AE6704400AD2B27 /* CreateAccountTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65B2CA882AE6704400AD2B27 /* CreateAccountTVCell.xib */; };
 		65B2CA8B2AE6704400AD2B27 /* CreateAccountTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B2CA892AE6704400AD2B27 /* CreateAccountTVCell.swift */; };
 		65B2CA8D2AE6720A00AD2B27 /* RegisterUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B2CA8C2AE6720A00AD2B27 /* RegisterUserViewModel.swift */; };
@@ -707,6 +708,7 @@
 		658F1E6D296D868900F7CDDC /* AddItineraryTVCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItineraryTVCell.swift; sourceTree = "<group>"; };
 		658F1E6E296D868900F7CDDC /* AddItineraryTVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddItineraryTVCell.xib; sourceTree = "<group>"; };
 		659A114429753EC9001F1472 /* QBBYTravelApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QBBYTravelApp.entitlements; sourceTree = "<group>"; };
+		65AF96A52B0B59AC0068A964 /* BorderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderView.swift; sourceTree = "<group>"; };
 		65B2CA882AE6704400AD2B27 /* CreateAccountTVCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateAccountTVCell.xib; sourceTree = "<group>"; };
 		65B2CA892AE6704400AD2B27 /* CreateAccountTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountTVCell.swift; sourceTree = "<group>"; };
 		65B2CA8C2AE6720A00AD2B27 /* RegisterUserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterUserViewModel.swift; sourceTree = "<group>"; };
@@ -1881,6 +1883,7 @@
 		654C88DB29630A7F006BAF76 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
+				65AF96A52B0B59AC0068A964 /* BorderView.swift */,
 				654C88DC29630A7F006BAF76 /* Constants.swift */,
 				654C88DD29630A7F006BAF76 /* SessionManager.swift */,
 			);
@@ -3202,6 +3205,7 @@
 				654C897929630A80006BAF76 /* RadioButtonTVCell.swift in Sources */,
 				6561B2F329F9230A00B02039 /* AcceptTermsAndConditionTVCell.swift in Sources */,
 				655CBA122A1B98D000D594C3 /* ViewHotelDetails.swift in Sources */,
+				65AF96A62B0B59AC0068A964 /* BorderView.swift in Sources */,
 				654476522AE650FC00E2E762 /* AirlinesListVModel.swift in Sources */,
 				656B637D2A0CA5F600E2DB96 /* RegisterUserModel.swift in Sources */,
 				654476472AE6500900E2E762 /* NationalityVC.swift in Sources */,

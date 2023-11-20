@@ -264,8 +264,8 @@ class Calvc: UIViewController {
                         }else if calstartDate == calendDate{
                             showToast(message: "Please Select Multiple Dates")
                         }else{
-                            defaults.set(calstartDate, forKey: UserDefaultsKeys.rcalDepDate)
-                            defaults.set(calendDate, forKey: UserDefaultsKeys.rcalRetDate)
+                            defaults.set(calstartDate, forKey: UserDefaultsKeys.calDepDate)
+                            defaults.set(calendDate, forKey: UserDefaultsKeys.calRetDate)
                             //                            keyStr = "select1"
                             NotificationCenter.default.post(name: Notification.Name("reload"), object: nil)
                             dismiss(animated: false)

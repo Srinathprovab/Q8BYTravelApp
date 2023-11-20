@@ -80,7 +80,7 @@ class NoInternetConnectionVC: UIViewController {
         
         if key == "noresult" {
             
-            if let tabselect = defaults.string(forKey: UserDefaultsKeys.tabselect),tabselect == "Flight" {
+            if let tabselect = defaults.string(forKey: UserDefaultsKeys.tabselect),tabselect == "Airline" {
                 guard let vc = BookFlightVC.newInstance.self else {return}
                 vc.modalPresentationStyle = .fullScreen
                 self.present(vc, animated: true)

@@ -27,11 +27,16 @@ class SliderTVCell: TableViewCell, TTRangeSliderDelegate {
     @IBOutlet weak var maxlbl: UILabel!
     
     
+    var minValue = Float()
+    var maxValue = Float()
     var key = String()
     var minValue1 = Double()
     var maxValue1 = Double()
     var showbool = true
     var delegate:SliderTVCellDelegate?
+    
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -40,6 +45,8 @@ class SliderTVCell: TableViewCell, TTRangeSliderDelegate {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+        
+        
     }
     
     override func updateUI() {
@@ -50,9 +57,13 @@ class SliderTVCell: TableViewCell, TTRangeSliderDelegate {
             downImg.isHidden = true
             expand()
         }
+        
+        
     }
     
+    
     func setupUI() {
+        
         holderView.backgroundColor = .WhiteColor
         lblHolderView.backgroundColor = .WhiteColor
         sliderHolderView.backgroundColor = .WhiteColor
@@ -64,20 +75,8 @@ class SliderTVCell: TableViewCell, TTRangeSliderDelegate {
         rangeSlider.isHidden = true
         rangeSlider.backgroundColor = .WhiteColor
         
-        let pricesFloat = prices.compactMap { Float($0) }
-        let minValue = pricesFloat.min() ?? 0.0
-        let maxValue = pricesFloat.max() ?? 0.0
-        rangeSlider.minValue = minValue
-        rangeSlider.maxValue = maxValue
-        minValue1 = Double(minValue)
-        maxValue1 = Double(maxValue)
-        minlbl.text = "\(defaults.string(forKey: UserDefaultsKeys.selectedCurrency) ?? "")\(minValue)"
-        maxlbl.text = "\(defaults.string(forKey: UserDefaultsKeys.selectedCurrency) ?? "")\(maxValue)"
+        setupInitivalues()
         
-        
-        // Set the thumbs to the minimum and maximum values
-        rangeSlider.selectedMinimum = minValue
-        rangeSlider.selectedMaximum = maxValue
         
         // rangeSlider.step = 10
         rangeSlider.handleType = .rectangle
@@ -94,6 +93,56 @@ class SliderTVCell: TableViewCell, TTRangeSliderDelegate {
         downBtn.isHidden = true
     }
     
+    
+    func setupInitivalues() {
+        if let selectedTap = defaults.object(forKey: UserDefaultsKeys.tabselect) as? String {
+            if selectedTap == "Airline" {
+                if let minPrice = filterModel.minPriceRange, let maxPrice = filterModel.maxPriceRange {
+                    // Both minPrice and maxPrice have values in filterModel
+                    minValue = Float(minPrice)
+                    maxValue = Float(maxPrice)
+                    
+                    
+                    rangeSlider.minValue = prices.compactMap { Float($0) }.min()!
+                    rangeSlider.maxValue = prices.compactMap { Float($0) }.max()!
+                    
+                    // Set the thumbs to the values
+                    rangeSlider.selectedMinimum = minValue
+                    rangeSlider.selectedMaximum = maxValue
+                    
+                    //  Update the slider's appearance
+                    rangeSlider.setNeedsDisplay()
+                }
+                
+                
+            } else {
+                if let minPrice = hotelfiltermodel.minPriceRange, let maxPrice = hotelfiltermodel.maxPriceRange {
+                    // Both minPrice and maxPrice have values in filterModel
+                    minValue = Float(minPrice)
+                    maxValue = Float(maxPrice)
+                    
+                    
+                    rangeSlider.minValue = prices.compactMap { Float($0) }.min()!
+                    rangeSlider.maxValue = prices.compactMap { Float($0) }.max()!
+                    
+                    // Set the thumbs to the values
+                    rangeSlider.selectedMinimum = minValue
+                    rangeSlider.selectedMaximum = maxValue
+                    
+                    //  Update the slider's appearance
+                    rangeSlider.setNeedsDisplay()
+                }
+                
+            }
+        }
+        
+        // Update labels and other UI elements as needed
+        minValue1 = Double(String(format: "%.2f", Double(minValue))) ?? 0.0
+        maxValue1 = Double(String(format: "%.2f", Double(maxValue))) ?? 100.0 // Update the default max value here
+        minlbl.text = "\(defaults.string(forKey: UserDefaultsKeys.selectedCurrency) ?? "") \(minValue1)"
+        maxlbl.text = "\(defaults.string(forKey: UserDefaultsKeys.selectedCurrency) ?? "") \(maxValue1)"
+        
+    }
     
     
     
@@ -130,14 +179,14 @@ class SliderTVCell: TableViewCell, TTRangeSliderDelegate {
     
     
     func rangeSlider(_ sender: TTRangeSlider!, didChangeSelectedMinimumValue selectedMinimum: Float, andMaximumValue selectedMaximum: Float) {
-        let minLabelText = String(format: "%.1f", selectedMinimum)
-        let maxLabelText = String(format: "%.1f", selectedMaximum)
+        let minLabelText = String(format: "%.2f", selectedMinimum)
+        let maxLabelText = String(format: "%.2f", selectedMaximum)
         
         minValue1 = Double(minLabelText) ?? 0.0
         maxValue1 = Double(maxLabelText) ?? 0.0
         
-        minlbl.text = "\(defaults.string(forKey: UserDefaultsKeys.selectedCurrency) ?? "")\(minLabelText)"
-        maxlbl.text = "\(defaults.string(forKey: UserDefaultsKeys.selectedCurrency) ?? "")\(maxLabelText)"
+        minlbl.text = "\(defaults.string(forKey: UserDefaultsKeys.selectedCurrency) ?? "") \(minLabelText)"
+        maxlbl.text = "\(defaults.string(forKey: UserDefaultsKeys.selectedCurrency) ?? "") \(maxLabelText)"
         
         delegate?.didTapOnShowSliderBtn(cell: self)
     }

@@ -15,7 +15,7 @@ class CommonTVCell: TableViewCell {
     
     
     var index = Int()
-    var selectClassArray = ["Economy","Premium Economy","First","Business"]
+    var selectClassArray = ["Economy","PremiumEconomy","First","Business"]
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

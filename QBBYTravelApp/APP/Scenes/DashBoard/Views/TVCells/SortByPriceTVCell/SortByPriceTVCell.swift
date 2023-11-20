@@ -44,8 +44,122 @@ class SortByPriceTVCell: TableViewCell {
         titlelbl.text = cellInfo?.title
         lowlbl.text = cellInfo?.subTitle
         heighlbl.text = cellInfo?.buttonTitle
-        if cellInfo?.key == "hotel" {
-            setuplabels(lbl: titlelbl, text: "Hotels", textcolor: .AppLabelColor, font: .LatoSemibold(size: 16), align: .left)
+        setupSotyBy()
+        
+    }
+    
+    
+    func setupSotyBy() {
+        
+        switch sortBy {
+            
+            //Price
+        case .PriceLow:
+            if titlelbl.text == "PRICE" {
+                lowtoheigh()
+            }
+            
+            if titlelbl.text == "Price" {
+                lowtoheigh()
+            }
+            break
+            
+        case .PriceHigh:
+            
+            if titlelbl.text == "PRICE" {
+                heightolow()
+            }
+            
+            if titlelbl.text == "Price" {
+                heightolow()
+            }
+            break
+            
+            //Departure
+        case .DepartureLow:
+            if titlelbl.text == "Departure Time" {
+                lowtoheigh()
+            }
+            break
+            
+        case .DepartureHigh:
+            
+            if titlelbl.text == "Departure Time" {
+                heightolow()
+            }
+            break
+            
+            
+            //Arrival Time
+        case .ArrivalLow:
+            if titlelbl.text == "Arrival Time" {
+                lowtoheigh()
+            }
+            break
+            
+        case .ArrivalHigh:
+            
+            if titlelbl.text == "Arrival Time" {
+                heightolow()
+            }
+            break
+            
+            
+            
+            //Duration
+        case .DurationLow:
+            if titlelbl.text == "Duration" {
+                lowtoheigh()
+            }
+            break
+            
+        case .DurationHigh:
+            
+            if titlelbl.text == "Duration" {
+                heightolow()
+            }
+            break
+            
+            
+            
+            //Airlines Names Sort
+        case .airlineaz:
+            if titlelbl.text == "AIRLINE" {
+                lowtoheigh()
+            }
+            break
+            
+        case .airlineza:
+            
+            if titlelbl.text == "AIRLINE" {
+                heightolow()
+            }
+            break
+            
+            
+            //Airlines Names Sort
+        case .hotelaz:
+            if titlelbl.text == "Hotel" {
+                lowtoheigh()
+            }
+            break
+            
+        case .hotelza:
+            
+            if titlelbl.text == "Hotel" {
+                heightolow()
+            }
+            break
+            
+            
+        case .nothing:
+            starting()
+            break
+            
+            
+        default:
+            starting()
+            break
         }
     }
     
@@ -87,5 +201,29 @@ class SortByPriceTVCell: TableViewCell {
         delegate?.didTapOnHeighToLowBtnAction(cell: self)
     }
     
+    
+    func starting(){
+        self.lowlbl.textColor = .AppLabelColor
+        self.lowView.backgroundColor = .WhiteColor
+        self.heighlbl.textColor = .AppLabelColor
+        self.heightView.backgroundColor = .WhiteColor
+    }
+    
+    
+    
+    func lowtoheigh(){
+        self.lowlbl.textColor = .WhiteColor
+        self.lowView.backgroundColor = .AppBtnColor
+        self.heighlbl.textColor = .AppLabelColor
+        self.heightView.backgroundColor = .WhiteColor
+    }
+    
+    
+    func heightolow(){
+        self.lowlbl.textColor = .AppLabelColor
+        self.lowView.backgroundColor = .WhiteColor
+        self.heighlbl.textColor = .WhiteColor
+        self.heightView.backgroundColor = .AppBtnColor
+    }
     
 }

@@ -10,17 +10,20 @@ import UIKit
 class HotelSearchResultVC: BaseTableVC, HotelListViewModelDelegate, TimerManagerDelegate {
     
     
+    
+    
     @IBOutlet weak var nav: NavBar!
     @IBOutlet weak var holderView: UIView!
     @IBOutlet weak var navHeight: NSLayoutConstraint!
     @IBOutlet weak var sessionlbl: UILabel!
     @IBOutlet weak var subtitlelbl: UILabel!
     
-    
+    var isSearchBool = false
     var payload = [String:Any]()
     var isVcFrom = String()
     var tablerow = [TableRow]()
-    var hotelSearchResult = [HotelSearchResult]()
+    var hotelSearchResultArray = [HotelSearchResult]()
+    var filtered = [HotelSearchResult]()
     var viewModel:HotelListViewModel?
     
     static var newInstance: HotelSearchResultVC? {
@@ -82,19 +85,19 @@ class HotelSearchResultVC: BaseTableVC, HotelListViewModelDelegate, TimerManager
         hsearch_id = String(response.search_id ?? 0)
         hbooking_source = response.booking_source ?? ""
         holderView.isHidden = false
-        hotelSearchResult = response.data?.hotelSearchResult ?? []
+        hotelSearchResultArray = response.data?.hotelSearchResult ?? []
         
         TimerManager.shared.totalTime = response.session_expiry_details?.session_start_time ?? 0
         TimerManager.shared.startTimer(time: 900)
         
         setupLabels(lbl: sessionlbl, text: "Your Session Expires In: \(response.session_expiry_details?.session_start_time ?? 0)", textcolor: .WhiteColor, font: .OpenSansRegular(size: 12))
-        setupLabels(lbl: subtitlelbl, text: "\(hotelSearchResult.count) Hotels Found", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12))
+        setupLabels(lbl: subtitlelbl, text: "\(hotelSearchResultArray.count) Hotels Found", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12))
         
         
         
         
         DispatchQueue.main.async {
-            self.setupTVCells(hotelList: self.hotelSearchResult)
+            self.setupTVCells(hotelList: self.hotelSearchResultArray)
         }
     }
     
@@ -197,7 +200,7 @@ class HotelSearchResultVC: BaseTableVC, HotelListViewModelDelegate, TimerManager
     @IBAction func didTapOnFilterBtnAction(_ sender: Any) {
         guard let vc = FilterSearchVC.newInstance.self else {return}
         vc.modalPresentationStyle = .overCurrentContext
-        vc.delegate1 = self
+        vc.delegate = self
         self.present(vc, animated: false)
     }
     
@@ -225,34 +228,121 @@ extension HotelSearchResultVC {
 
 
 
-extension HotelSearchResultVC:AppliedHotelFilters {
+
+
+
+extension HotelSearchResultVC:AppliedFilters {
     
     
-    func hotelFilterByApplied(minpricerange: Double, maxpricerange: Double, starRating: String, hotelAZAndZAfilter: String) {
+    func hotelFilterByApplied(minpricerange: Double, maxpricerange: Double, starRating: String, refundableTypeArray: [String], nearByLocA: [String], niberhoodA: [String], aminitiesA: [String]) {
         
+        
+        isSearchBool = true
         
         print("====minpricerange ==== \(minpricerange)")
         print("====maxpricerange ==== \(maxpricerange)")
-        print(" ==== starRating === \n\(starRating)")
+        print(" ==== starRating === \(starRating)")
+        print(" ==== refundableTypeArray === \n\(refundableTypeArray)")
+        print(" ==== nearByLocA === \n\(nearByLocA)")
+        print(" ==== niberhoodA === \n\(niberhoodA)")
+        print(" ==== aminitiesA === \n\(aminitiesA)")
         
-        let filteredArray = hotelSearchResult.filter { i in
-            guard let netPrice = Double(i.price ?? "0.0") else { return false }
-            let ratingMatches = i.star_rating == Int(starRating) || starRating.isEmpty
-            return ratingMatches &&
-            netPrice >= minpricerange &&
-            netPrice <= maxpricerange
+        
+        
+        let filteredArray = hotelSearchResultArray.filter { hotel in
+            guard let netPrice = Double(hotel.price ?? "0.0") else { return false }
+            
+            let ratingMatches = hotel.star_rating == Int(starRating) || starRating.isEmpty
+       //     let refundableMatch = refundableTypeArray.isEmpty || refundableTypeArray.contains(hotel.refund ?? "")
+            let nearByLocMatch = nearByLocA.isEmpty || nearByLocA.contains(hotel.location ?? "")
+
+            
+            let facilityMatch = aminitiesA.isEmpty || aminitiesA.allSatisfy { desiredAmenity in
+                hotel.facility?.contains { facility in
+                    let facilityName = facility.name?.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() ?? ""
+                    return facilityName == desiredAmenity.lowercased()
+                } ?? false
+            }
+
+
+            return ratingMatches && netPrice >= minpricerange && netPrice <= maxpricerange && facilityMatch && nearByLocMatch
+            
+            
+        }
+
+        
+        
+        
+        
+        filtered = filteredArray
+        if filtered.count == 0{
+            TableViewHelper.EmptyMessage(message: "No Data Found", tableview: commonTableView, vc: self)
+        }else {
+            TableViewHelper.EmptyMessage(message: "", tableview: commonTableView, vc: self)
         }
         
-        let sortedArray: [HotelSearchResult]
-        if hotelAZAndZAfilter == "A-Z" {
-            sortedArray = filteredArray.sorted { $0.name ?? "" < $1.name ?? "" }
-        } else if hotelAZAndZAfilter == "Z-A" {
-            sortedArray = filteredArray.sorted { $0.name ?? "" > $1.name ?? "" }
-        } else {
-            sortedArray = filteredArray
+        DispatchQueue.main.async {[self] in
+            setupTVCells(hotelList: filtered)
+        }
+    }
+    
+    
+    
+    func filtersSortByApplied(sortBy: SortParameter) {
+        
+        
+        
+        
+        switch sortBy {
+        case .PriceLow:
+            
+            let sortedByPriceLowToHigh = hotelSearchResultArray.sorted { hotel1, hotel2 in
+                return (Double(hotel1.price ?? "") ?? 0.0) < (Double(hotel2.price ?? "") ?? 0.0)
+            }
+          
+            setupTVCells(hotelList: sortedByPriceLowToHigh)
+            break
+            
+        case .PriceHigh:
+            
+            let sortedByPriceLowToHigh = hotelSearchResultArray.sorted { hotel1, hotel2 in
+                return (Double(hotel1.price ?? "") ?? 0.0) > (Double(hotel2.price ?? "") ?? 0.0)
+            }
+            setupTVCells(hotelList: sortedByPriceLowToHigh)
+            break
+            
+            
+            
+        case .hotelaz:
+            // Sort hotel names alphabetically
+            let sortedByNameAZ = hotelSearchResultArray.sorted { $0.name?.localizedCaseInsensitiveCompare($1.name ?? "") == .orderedAscending }
+            setupTVCells(hotelList: sortedByNameAZ)
+            break
+            
+        case .hotelza:
+            // Sort hotel names alphabetically
+            let sortedByNameAZ = hotelSearchResultArray.sorted { $0.name?.localizedCaseInsensitiveCompare($1.name ?? "") == .orderedDescending }
+            setupTVCells(hotelList: sortedByNameAZ)
+            break
+            
+            
+            
+            
+        case .nothing:
+            setupTVCells(hotelList: hotelSearchResultArray)
+            break
+            
+        default:
+            break
         }
         
-        setupTVCells(hotelList: sortedArray)
+        DispatchQueue.main.async {[self] in
+            // commonTableView.scrollToRow(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+        }
+        
+    }
+    
+    func filterByApplied(minpricerange: Double, maxpricerange: Double, noofstopsFA: [String], departureTimeFilter: [String], arrivalTimeFilter: [String], airlinesFA: [String], cancellationTypeFA: [String], connectingFlightsFA: [String], connectingAirportsFA: [String]) {
         
     }
     
@@ -261,46 +351,35 @@ extension HotelSearchResultVC:AppliedHotelFilters {
     
     
     
-    
-    
     func setupTVCells(hotelList:[HotelSearchResult]) {
-        prices.removeAll()
         
-        if hotelSearchResult.count == 0 {
+        
+        if hotelList.count == 0 {
             tablerow.removeAll()
-            
             TableViewHelper.EmptyMessage(message: "No Data Found", tableview: commonTableView, vc: self)
-            
             commonTVData = tablerow
             commonTableView.reloadData()
         }else {
             tablerow.removeAll()
-            TableViewHelper.EmptyMessage(message: "", tableview: commonTableView, vc: self)
-            
-            hotelSearchResult.forEach { i in
-                
-                prices.append(i.price ?? "")
+            setupLabels(lbl: subtitlelbl, text: "\(hotelList.count) Hotels Found", textcolor: .WhiteColor, font: .OpenSansRegular(size: 12))
+            hotelList.forEach { i in
                 tablerow.append(TableRow(title:i.name,
-                                         subTitle: i.address,
-                                         text: "\(i.currency ?? ""):\(i.price ?? "")",
-                                         buttonTitle: String(i.hotel_code ?? 0),
+                                         subTitle: "\(i.address ?? "")",
+                                         kwdprice: "\(i.currency ?? "") \(i.price ?? "")",
+                                         text: "\(i.hotel_code ?? 0)",
                                          image: i.image,
-                                         tempText: "Refundable",
                                          characterLimit: i.star_rating,
                                          cellType:.HotelSearchResultTVCell))
+                
             }
             
-            
-            prices = Array(Set(prices))
-            
-            
-            
+            tablerow.append(TableRow(height:50,
+                                     bgColor: .AppHolderViewColor,
+                                     cellType:.EmptyTVCell))
             
             commonTVData = tablerow
             commonTableView.reloadData()
         }
-        
-        
         
     }
     

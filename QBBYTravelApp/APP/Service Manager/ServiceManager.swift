@@ -298,18 +298,8 @@ class ServiceManager {
     static func postOrPutApiCall<T: Decodable>(authorization: Bool = false, endPoint: String, urlParams: Dictionary<String,String>? = nil, parameters: NSDictionary? = nil, methodType: HTTPMethod = .post, resultType: T.Type,p:[String:Any], completionHandler:@escaping(Bool, _ result: T?, String?) -> Void) {
         
         
-        do {
-            let data1 =  try JSONSerialization.data(withJSONObject: p, options: JSONSerialization.WritingOptions.prettyPrinted) // first of all convert json to the data
-            let convertedString = String(data: data1, encoding: String.Encoding.utf8) // the data will be converted to the string
-            print("\(convertedString ?? "default value")" )
-        } catch let myJSONError {
-            print(myJSONError)
-        }
-        
-        
         if !isConnection() {
             print("Error: you are offline")
-            
             NotificationCenter.default.post(name: NSNotification.Name("offline"), object: nil)
             completionHandler(false, nil, ApiError.networkError.message)
             return
@@ -352,7 +342,7 @@ class ServiceManager {
             
             do {
                 
-                // request.httpBody = p.percentEncoded()
+                //  request.httpBody = p.percentEncoded()
                 request.httpBody = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted) // pass dictionary to data object and set it as request body
                 
                 
@@ -363,7 +353,6 @@ class ServiceManager {
             }
         }
         
-        print("Request for \(endPoint) :: \(request)")
         
         
         AF.request(
@@ -373,8 +362,10 @@ class ServiceManager {
             encoding: URLEncoding.default,
             headers: nil).validate().responseJSON { resp in
                 
-              
+               // print(resp.value as Any)
                 print(resp.response?.statusCode as Any)
+                
+                
                 if let data = resp.data { // Assuming `response` is the API response object
                     do {
                         if let json = try JSONSerialization.jsonObject(with:  data , options: []) as? [String: Any] {
@@ -391,37 +382,33 @@ class ServiceManager {
                 
                 
                 
-                
-                
-                
+
                 if resp.value != nil {
                     //do something with data
                     
                     switch resp.result {
                     case .success(let data):
+                       
                         
-                        
-                        do{
+
+                        do {
+                            let jsonData = try JSONSerialization.data(withJSONObject: resp.value as Any, options: [])
                             
-                            
-                            let jsonData = try JSONSerialization.data(withJSONObject: resp.value as Any,options: [])
-                            if let jsonResponse = try? JSONDecoder().decode(T.self, from: jsonData) {
-                                
-                            
+                            do {
+                                let jsonResponse = try JSONDecoder().decode(T.self, from: jsonData)
                                 completionHandler(true, jsonResponse, nil)
-                            }else {
-                                
-                                
+                            } catch let decodingError {
+                                print("JSON Decoding Error: \(decodingError)")
                                 NotificationCenter.default.post(name: NSNotification.Name("resultnil"), object: nil)
-                                completionHandler(false, nil, "ApiError.somthingwentwrong.message")
+                                completionHandler(false, nil, ApiError.unknown.message)
                             }
-                            
-                            
-                            
-                        }catch {
+                        } catch let serializationError {
+                            print("JSON Serialization Error: \(serializationError)")
+                            NotificationCenter.default.post(name: NSNotification.Name("resultnil"), object: nil)
                             completionHandler(false, nil, ApiError.unknown.message)
-                            print("JSONSerialization error")
                         }
+
+                        
                         
                         
                         break

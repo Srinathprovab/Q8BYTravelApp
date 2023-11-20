@@ -44,6 +44,13 @@ var profildata:ProfileUpdateData?
 var callapibool = Bool()
 
 
+//MARK: - Filters
+var filterModel = FlightFilterModel()
+var hotelfiltermodel = HotelFilterModel()
+var sortBy: SortParameter = .nothing
+var starRatingFilter = String()
+
+
 //MARK: - Homepage
 var besttopflightArray = [Flight_top_destinations1]()
 var besttopHotelArray = [Flight_top_destinations1]()
@@ -147,7 +154,12 @@ var bookedDate = String()
 var bookingRefrence = String()
 var checkTermsAndCondationStatus = false
 
-
+//Hotels
+var facilityArray = [String]()
+var faretypeArray = [String]()
+var neighbourwoodArray = [String]()
+var amenitiesArray = [String]()
+var nearBylocationsArray = [String]()
 
 
 

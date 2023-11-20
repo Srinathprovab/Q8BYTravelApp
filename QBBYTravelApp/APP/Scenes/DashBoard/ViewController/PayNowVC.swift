@@ -68,141 +68,11 @@ class PayNowVC: BaseTableVC, PreBookingViewModelDelegate,GetCountryListViewModel
     var hcurrency = String()
     var securebooingbool = false
     
-    @objc func offline(){
-        guard let vc = NoInternetConnectionVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .fullScreen
-        callapibool = true
-        present(vc, animated: true)
-    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(offline), name: NSNotification.Name("offline"), object: nil)
-        fetchCoreDataValues()
-        if keystr == "flight" {
-            if let journeyType = defaults.string(forKey: UserDefaultsKeys.journeyType) {
-                if journeyType == "oneway" {
-                    adultsCount = Int(defaults.string(forKey: UserDefaultsKeys.adultCount) ?? "1") ?? 0
-                    childCount = Int(defaults.string(forKey: UserDefaultsKeys.childCount) ?? "0") ?? 0
-                    infantsCount = Int(defaults.string(forKey: UserDefaultsKeys.infantsCount) ?? "0") ?? 0
-                    
-                }else if journeyType == "circle"{
-                    adultsCount = Int(defaults.string(forKey: UserDefaultsKeys.radultCount) ?? "1") ?? 0
-                    childCount = Int(defaults.string(forKey: UserDefaultsKeys.rchildCount) ?? "0") ?? 0
-                    infantsCount = Int(defaults.string(forKey: UserDefaultsKeys.rinfantsCount) ?? "0") ?? 0
-                }else {
-                    
-                    adultsCount = Int(defaults.string(forKey: UserDefaultsKeys.madultCount) ?? "1") ?? 0
-                    childCount = Int(defaults.string(forKey: UserDefaultsKeys.mchildCount) ?? "0") ?? 0
-                    infantsCount = Int(defaults.string(forKey: UserDefaultsKeys.minfantsCount) ?? "0") ?? 0
-                }
-            }
-            
-            
-            NotificationCenter.default.addObserver(self, selector: #selector(reload(notification:)), name: NSNotification.Name(rawValue: "reload"), object: nil)
-            
-            booknowHolderView.isHidden = true
-            if callapibool == true {
-                DispatchQueue.main.async {[self] in
-                    holderView.isHidden = true
-                    callGetCountryListAPI()
-                }
-            }
-            
-        }else {
-            adultsCount = Int(defaults.string(forKey: UserDefaultsKeys.hoteladultscount) ?? "1") ?? 0
-            childCount = Int(defaults.string(forKey: UserDefaultsKeys.hotelchildcount) ?? "0") ?? 0
-            
-            
-            if callapibool == true {
-                DispatchQueue.main.async {[self] in
-                    holderView.isHidden = true
-                    callGetCountryListAPI()
-                }
-            }
-        }
-        
-        TimerManager.shared.delegate = self
+        addObserver()
     }
-    
-    func timerDidFinish() {
-        guard let vc = PopupVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .overCurrentContext
-        self.present(vc, animated: false)
-    }
-    
-    func updateTimer() {
-        
-    }
-    
-    func callGetCountryListAPI() {
-        vm1?.CALL_GET_COUNTRY_LIST_API(dictParam: [:])
-    }
-    
-    
-    func countryList(response: GetCountryListModel) {
-        countrylist = response.data?.country_list ?? []
-        
-        DispatchQueue.main.async {[self] in
-            
-            if keystr == "flight" {
-                holderView.isHidden = true
-                callAPI()
-            }else {
-                callHotelMobileBookingAPI()
-            }
-        }
-    }
-    
-    
-    func callAPI() {
-        payload["search_id"] = searchid
-        payload["booking_source"] = bookingsource
-        payload["promocode_val"] = ""
-        payload["access_key"] = accesskey
-        vm?.CALL_MOBILE_PRE_BOOKING_API(dictParam: payload)
-    }
-    
-    
-    func preBookingDetails(response: PreBookingModel) {
-        tmpFlightPreBookingId = response.form_params?.booking_id ?? ""
-        holderView.isHidden = false
-        DispatchQueue.main.async {[self] in
-            
-            
-            let seconds = 0.50
-            DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {[self] in
-                payload.removeAll()
-                payload["search_id"] = searchid
-                payload["booking_source"] = bookingsourcekey
-                payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
-                payload["promocode_val"] = ""
-                payload["access_key"] = accesskey
-                vm?.CALL_MOBILE_FLIGHT_BOOKING_API(dictParam: payload)
-            }
-        }
-        
-    }
-    
-    
-    func flightBookingDetails(response: FlightBookingModel) {
-        
-        holderView.isHidden = false
-        booknowHolderView.isHidden = false
-        searchid = response.pre_booking_params?.search_id ?? ""
-        tokenkey = response.form_params?.token_key ?? ""
-        accesskey = response.access_key_tp ?? ""
-        activepaymentoptions = response.active_payment_options?[0] ?? ""
-        flightSummery = response.flight_data?[0].flight_details?.summary ?? []
-        
-        DispatchQueue.main.async {[self] in
-            setupTVCells()
-        }
-    }
-    
-    @objc func reload(notification:NSNotification) {
-        commonTableView.reloadData()
-    }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -222,16 +92,11 @@ class PayNowVC: BaseTableVC, PreBookingViewModelDelegate,GetCountryListViewModel
     func setupUI() {
         
         navHeight.constant = 174
-        
-        
         holderView.isHidden = false
         holderView.backgroundColor = .WhiteColor
-        
         nav.backBtn.addTarget(self, action: #selector(gotoBackScreen), for: .touchUpInside)
         nav.citylbl.isHidden = false
         nav.datelbl.isHidden = false
-        
-        
         
         booknowHolderView.backgroundColor = .AppBackgroundColor
         bookNowView.backgroundColor = .layoverColor
@@ -240,31 +105,6 @@ class PayNowVC: BaseTableVC, PreBookingViewModelDelegate,GetCountryListViewModel
         setuplabels(lbl: bookNowlbl, text: "PAY NOW", textcolor: .AppLabelColor, font: .oswaldRegular(size: 16), align: .center)
         bookNowBtn.setTitle("", for: .normal)
         bookNowBtn.addTarget(self, action: #selector(didTapOnBookNowBtn(_:)), for: .touchUpInside)
-        
-        
-        if keystr == "flight" {
-            
-            setuplabels(lbl: nav.titlelbl, text: defaults.string(forKey: UserDefaultsKeys.journyCitys) ?? "", textcolor: .AppLabelColor, font: .OpenSansBold(size: 14), align: .left)
-            setuplabels(lbl: nav.citylbl, text: "\(defaults.string(forKey: UserDefaultsKeys.journyDates) ?? ""), \(defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "")", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12), align: .left)
-            
-            
-            
-        }else {
-            
-            nav.titlelbl.text = "\(defaults.string(forKey: UserDefaultsKeys.locationcity) ?? "")"
-            nav.citylbl.text = "CheckIn -\(defaults.string(forKey: UserDefaultsKeys.checkin) ?? "" ) CheckOut -\(defaults.string(forKey: UserDefaultsKeys.checkout) ?? "")"
-            
-            nav.datelbl.text = "Guests-1 \(defaults.string(forKey: UserDefaultsKeys.guestcount) ?? "")/ Room - \(defaults.string(forKey: UserDefaultsKeys.roomcount) ?? "")"
-            
-            
-            if screenHeight > 835 {
-                navHeight.constant = 200
-            }else {
-                navHeight.constant = 180
-            }
-            
-            
-        }
         
         commonTableView.registerTVCells(["TDetailsLoginTVCell",
                                          "EmptyTVCell",
@@ -286,6 +126,7 @@ class PayNowVC: BaseTableVC, PreBookingViewModelDelegate,GetCountryListViewModel
         
     }
     
+    
     @objc func gotoBackScreen() {
         callapibool = false
         if securebooingbool == false {
@@ -306,8 +147,6 @@ class PayNowVC: BaseTableVC, PreBookingViewModelDelegate,GetCountryListViewModel
         if flightSummery.count != 0 {
             setupRoundTripTVCells()
         }
-        
-        
         
         if defaults.bool(forKey: UserDefaultsKeys.loggedInStatus) == false {
             tablerow.append(TableRow(cellType:.TDetailsLoginTVCell))
@@ -508,7 +347,7 @@ class PayNowVC: BaseTableVC, PreBookingViewModelDelegate,GetCountryListViewModel
                 passportissuingcountryA.append((data.value(forKey: "issuingCountryCode") as? String) ?? "")
                 leadPassengerA.append("1")
                 
-            
+                
             }
             
             
@@ -524,7 +363,195 @@ class PayNowVC: BaseTableVC, PreBookingViewModelDelegate,GetCountryListViewModel
 }
 
 
+extension PayNowVC {
+    
+    
+    func callGetCountryListAPI() {
+        vm1?.CALL_GET_COUNTRY_LIST_API(dictParam: [:])
+    }
+    
+    
+    func countryList(response: GetCountryListModel) {
+        countrylist = response.data?.country_list ?? []
+        
+        DispatchQueue.main.async {[self] in
+            
+            if keystr == "flight" {
+                holderView.isHidden = true
+                callAPI()
+            }else {
+                callHotelMobileBookingAPI()
+            }
+        }
+    }
+    
+    
+    func callAPI() {
+        payload["search_id"] = searchid
+        payload["booking_source"] = bookingsource
+        payload["promocode_val"] = ""
+        payload["access_key"] = accesskey
+        vm?.CALL_MOBILE_PRE_BOOKING_API(dictParam: payload)
+    }
+    
+    
+    func preBookingDetails(response: PreBookingModel) {
+        tmpFlightPreBookingId = response.form_params?.booking_id ?? ""
+        holderView.isHidden = false
+        DispatchQueue.main.async {[self] in
+            
+            
+            let seconds = 0.50
+            DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {[self] in
+                payload.removeAll()
+                payload["search_id"] = searchid
+                payload["booking_source"] = bookingsourcekey
+                payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
+                payload["promocode_val"] = ""
+                payload["access_key"] = accesskey
+                vm?.CALL_MOBILE_FLIGHT_BOOKING_API(dictParam: payload)
+            }
+        }
+        
+    }
+    
+    
+    func flightBookingDetails(response: FlightBookingModel) {
+        
+        holderView.isHidden = false
+        booknowHolderView.isHidden = false
+        searchid = response.pre_booking_params?.search_id ?? ""
+        tokenkey = response.form_params?.token_key ?? ""
+        accesskey = response.access_key_tp ?? ""
+        activepaymentoptions = response.active_payment_options?[0] ?? ""
+        flightSummery = response.flight_data?[0].flight_details?.summary ?? []
+        
+        DispatchQueue.main.async {[self] in
+            setupTVCells()
+        }
+    }
+    
+}
 
+
+
+
+extension PayNowVC {
+    
+    func addObserver() {
+        
+        if keystr == "flight" {
+            
+            
+            setuplabels(lbl: nav.titlelbl, text: defaults.string(forKey: UserDefaultsKeys.journyCitys) ?? "", textcolor: .AppLabelColor, font: .OpenSansBold(size: 14), align: .left)
+            setuplabels(lbl: nav.citylbl, text: "\(defaults.string(forKey: UserDefaultsKeys.journyDates) ?? ""), \(defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "")", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12), align: .left)
+            
+            
+            if let journeyType = defaults.string(forKey: UserDefaultsKeys.journeyType) {
+                if journeyType == "oneway" {
+                    adultsCount = Int(defaults.string(forKey: UserDefaultsKeys.adultCount) ?? "1") ?? 0
+                    childCount = Int(defaults.string(forKey: UserDefaultsKeys.childCount) ?? "0") ?? 0
+                    infantsCount = Int(defaults.string(forKey: UserDefaultsKeys.infantsCount) ?? "0") ?? 0
+                    
+                }else if journeyType == "circle"{
+                    adultsCount = Int(defaults.string(forKey: UserDefaultsKeys.radultCount) ?? "1") ?? 0
+                    childCount = Int(defaults.string(forKey: UserDefaultsKeys.rchildCount) ?? "0") ?? 0
+                    infantsCount = Int(defaults.string(forKey: UserDefaultsKeys.rinfantsCount) ?? "0") ?? 0
+                }else {
+                    
+                    adultsCount = Int(defaults.string(forKey: UserDefaultsKeys.madultCount) ?? "1") ?? 0
+                    childCount = Int(defaults.string(forKey: UserDefaultsKeys.mchildCount) ?? "0") ?? 0
+                    infantsCount = Int(defaults.string(forKey: UserDefaultsKeys.minfantsCount) ?? "0") ?? 0
+                }
+            }
+            
+            
+            
+            booknowHolderView.isHidden = true
+            if callapibool == true {
+                DispatchQueue.main.async {[self] in
+                    holderView.isHidden = true
+                    callGetCountryListAPI()
+                }
+            }
+            
+        }else {
+            
+            if screenHeight > 835 {
+                navHeight.constant = 200
+            }else {
+                navHeight.constant = 180
+            }
+            
+            nav.titlelbl.text = "\(defaults.string(forKey: UserDefaultsKeys.locationcity) ?? "")"
+            nav.citylbl.text = "CheckIn -\(defaults.string(forKey: UserDefaultsKeys.checkin) ?? "" ) CheckOut -\(defaults.string(forKey: UserDefaultsKeys.checkout) ?? "")"
+            
+            nav.datelbl.text = "Guests-1 \(defaults.string(forKey: UserDefaultsKeys.guestcount) ?? "")/ Room - \(defaults.string(forKey: UserDefaultsKeys.roomcount) ?? "")"
+            
+            adultsCount = Int(defaults.string(forKey: UserDefaultsKeys.hoteladultscount) ?? "1") ?? 0
+            childCount = Int(defaults.string(forKey: UserDefaultsKeys.hotelchildcount) ?? "0") ?? 0
+            
+            
+            if callapibool == true {
+                DispatchQueue.main.async {[self] in
+                    holderView.isHidden = true
+                    callGetCountryListAPI()
+                }
+            }
+        }
+        
+        TimerManager.shared.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(nointernet), name: Notification.Name("offline"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name("reload"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(resultnil), name: NSNotification.Name("resultnil"), object: nil)
+        
+    }
+    
+    
+    
+    
+    @objc func reload(){
+        DispatchQueue.main.async {[self] in
+            commonTableView.reloadData()
+        }
+    }
+    
+    @objc func nointernet(){
+        gotoNoInternetConnectionVC(key: "nointernet", titleStr: "")
+    }
+    
+    @objc func resultnil(){
+        gotoNoInternetConnectionVC(key: "noresult", titleStr: "NO AVAILABILITY FOR THIS REQUEST")
+    }
+    
+    
+    
+    
+    func gotoNoInternetConnectionVC(key:String,titleStr:String) {
+        guard let vc = NoInternetConnectionVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.key = key
+        vc.titleStr = titleStr
+        self.present(vc, animated: false)
+    }
+    
+    
+    func timerDidFinish() {
+        guard let vc = PopupVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .overCurrentContext
+        self.present(vc, animated: false)
+    }
+    
+    func updateTimer() {
+        
+    }
+    
+    
+}
+
+
+//MARK: - setup Flight TVCells
 extension PayNowVC {
     
     func bookFlight() {
@@ -681,11 +708,9 @@ extension PayNowVC {
 }
 
 
+//MARK: - setupHotelTVCells
 extension PayNowVC {
     
-    
-    
-    //MARK: - setupHotelTVCells
     func setupHotelTVCells() {
         tablerow.removeAll()
         holderView.isHidden = false
@@ -818,6 +843,3 @@ extension PayNowVC {
     
     
 }
-
-
-

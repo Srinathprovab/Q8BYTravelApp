@@ -28,6 +28,7 @@ class SearchFlightResultVC: BaseTableVC, TimerManagerDelegate {
         let vc = storyboard.instantiateViewController(withIdentifier: self.className()) as? SearchFlightResultVC
         return vc
     }
+    let dateFormatter = DateFormatter()
     var tablerow = [TableRow]()
     var payload = [String:Any]()
     var payload1 = [String:Any]()
@@ -41,17 +42,8 @@ class SearchFlightResultVC: BaseTableVC, TimerManagerDelegate {
     
     
     override func viewWillAppear(_ animated: Bool) {
-        TimerManager.shared.delegate = self
-        if callapibool == true {
-            DispatchQueue.main.async {[self] in
-                holderView.isHidden = true
-                callAPI()
-            }
-        }
-        
+        addObserver()
     }
-    
-    
     
     @objc func backvc() {
         callapibool = false
@@ -71,7 +63,7 @@ class SearchFlightResultVC: BaseTableVC, TimerManagerDelegate {
     
     func setupUI() {
         
-      
+        
         navHeight.constant = 174
         
         
@@ -121,9 +113,6 @@ class SearchFlightResultVC: BaseTableVC, TimerManagerDelegate {
         vc.delegate = self
         self.present(vc, animated: false)
     }
-    
-    
-    
     
     @objc func gotoBackScreen() {
         callapibool = false
@@ -182,8 +171,34 @@ extension SearchFlightResultVC {
 
 
 
-
 extension SearchFlightResultVC:AppliedFilters {
+    func hotelFilterByApplied(minpricerange: Double, maxpricerange: Double, starRating: String, refundableTypeArray: [String], nearByLocA: [String], niberhoodA: [String], aminitiesA: [String]) {
+        
+    }
+    
+    
+    // Create a function to check if a given time string is within a time range
+    func isTimeInRange(time: String, range: String) -> Bool {
+        guard let departureDate = dateFormatter.date(from: time) else {
+            return false
+        }
+        
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: departureDate)
+        
+        switch range {
+        case "12 am - 6 am":
+            return hour >= 0 && hour < 6
+        case "06 am - 12 pm":
+            return hour >= 6 && hour < 12
+        case "12 pm - 06 pm":
+            return hour >= 12 && hour < 18
+        case "06 pm - 12 am":
+            return hour >= 18 && hour < 24
+        default:
+            return false
+        }
+    }
     
     
     
@@ -200,42 +215,127 @@ extension SearchFlightResultVC:AppliedFilters {
         print("==== connectingFlightsFA ==== \(connectingFlightsFA)")
         print("==== connectingAirportsFA ==== \(connectingAirportsFA)")
         
-        let sortedArray = oneWayFlights.filter { flightList in
+        
+        if let journyType = defaults.string(forKey: UserDefaultsKeys.journeyType) {
             
-            
-            
-            // Calculate the total price for each flight in the flight list
-            let totalPrice = flightList.reduce(0.0) { result, flight in
-                result + (Double(flight.totalPrice ?? "") ?? 0.0)
+            let sortedArray = oneWayFlights.filter { flightList in
+                
+                guard let details = flightList.first?.flight_details?.details else { return false }
+                //                guard let sum = flightList.first?.flight_details?.summary else { return false }
+                //                guard let totaldisplayfare = flightList.first?.price?.api_total_display_fare else { return false }
+                
+                
+                // Calculate the total price for each flight in the flight list
+                let totalPrice = flightList.reduce(0.0) { result, flight in
+                    result + (Double(flight.totalPrice ?? "") ?? 0.0)
+                }
+                
+                // Check if the flight list has at least one flight with the specified number of stops
+                let noOfStopsMatch = noofstopsFA.isEmpty || flightList.contains(where: { $0.flight_details?.summary?.contains(where: { noofstopsFA.contains("\($0.no_of_stops ?? 0)") }) ?? false })
+                
+                // Check if the flight list has at least one flight with the specified airline
+                let airlinesMatch = airlinesFA.isEmpty || flightList.contains(where: { $0.flight_details?.summary?.contains(where: { airlinesFA.contains($0.operator_name ?? "") }) ?? false })
+                
+                // Check if the flight list has at least one flight with the specified cancellation type
+                let refundableMatch = cancellationTypeFA.isEmpty || flightList.contains(where: { $0.fareType == cancellationTypeFA.first })
+                
+                
+                
+                let connectingFlightsMatch = flightList.contains { flight in
+                    if connectingFlightsFA.isEmpty {
+                        return true // Return true for all flights if 'connectingAirportsFA' is empty
+                    }
+                    
+                    
+                    for summaryArray in details {
+                        if summaryArray.contains(where: { flightDetail in
+                            let operatorname = flightDetail.operator_name ?? ""
+                            let loc = flightDetail.operator_code ?? ""
+                            return connectingFlightsFA.contains("\(operatorname) (\(loc))")
+                        }) {
+                            return true // Return true for this flight if it contains a matching airport
+                        }
+                    }
+                    
+                    
+                    return false // Return false if no matching airport is found in this flight
+                }
+                
+                
+                
+                let connectingAirportsMatch = flightList.contains { flight in
+                    if connectingAirportsFA.isEmpty {
+                        return true // Return true for all flights if 'connectingAirportsFA' is empty
+                    }
+                    
+                    // Check if 'details' is available and contains the specified airports
+                    
+                    for summaryArray in details {
+                        if summaryArray.contains(where: { flightDetail in
+                            let airportName = flightDetail.destination?.city ?? ""
+                            let airportloc = flightDetail.destination?.loc ?? ""
+                            return connectingAirportsFA.contains("\(airportName) (\(airportloc))")
+                        }) {
+                            return true // Return true for this flight if it contains a matching airport
+                        }
+                    }
+                    
+                    
+                    return false // Return false if no matching airport is found in this flight
+                }
+                
+                
+                
+                let depMatch = departureTimeFilter.isEmpty || flightList.contains { flight in
+                    if let departureDateTime = flight.flight_details?.summary?.first?.origin?.datetime {
+                        return departureTimeFilter.contains { departureTime in
+                            return isTimeInRange(time: departureDateTime, range: departureTime)
+                        }
+                    }
+                    return false
+                }
+                
+                let arrMatch = arrivalTimeFilter.isEmpty || flightList.contains { flight in
+                    if let arrivalDateTime = flight.flight_details?.summary?.first?.destination?.datetime {
+                        return arrivalTimeFilter.contains { arrivalTime in
+                            return isTimeInRange(time: arrivalDateTime, range: arrivalTime)
+                        }
+                    }
+                    return false
+                }
+                
+                
+                
+                
+                
+                // Check if the total price is within the specified range
+                return totalPrice >= minpricerange && totalPrice <= maxpricerange && noOfStopsMatch && airlinesMatch && refundableMatch && connectingFlightsMatch && connectingAirportsMatch && depMatch && arrMatch
             }
             
-            // Check if the flight list has at least one flight with the specified number of stops
-            let noOfStopsMatch = noofstopsFA.isEmpty || flightList.contains(where: { $0.flight_details?.summary?.contains(where: { noofstopsFA.contains("\($0.no_of_stops ?? 0)") }) ?? false })
             
-            // Check if the flight list has at least one flight with the specified airline
-            let airlinesMatch = airlinesFA.isEmpty || flightList.contains(where: { $0.flight_details?.summary?.contains(where: { airlinesFA.contains($0.operator_name ?? "") }) ?? false })
-            
-            // Check if the flight list has at least one flight with the specified cancellation type
-            let refundableMatch = cancellationTypeFA.isEmpty || flightList.contains(where: { $0.fareType == cancellationTypeFA.first })
-            
-            // Check if the flight list has at least one flight with the specified connecting flights
-            let connectingFlightsMatch = connectingFlightsFA.isEmpty || flightList.contains(where: { $0.flight_details?.summary?.contains(where: { connectingFlightsFA.contains($0.destination?.loc ?? "") }) ?? false })
-            
-            // Check if the flight list has at least one flight with the specified connecting airports
-            let connectingAirportsMatch = connectingAirportsFA.isEmpty || flightList.contains(where: { $0.flight_details?.summary?.contains(where: { $0.destination?.airport_name == connectingAirportsFA.first }) ?? false })
+            setupRoundTripTVCells(jfl: sortedArray)
             
             
-            
-            // Check if the total price is within the specified range
-            return totalPrice >= minpricerange && totalPrice <= maxpricerange && noOfStopsMatch && airlinesMatch && refundableMatch && connectingFlightsMatch && connectingAirportsMatch
         }
         
         
         
-        setupRoundTripTVCells(jfl: sortedArray)
+        
+        //        if let journeyType = defaults.string(forKey: UserDefaultsKeys.journeyType), journeyType == "multicity" {
+        //
+        //            let totalPrice = multicityFlights.reduce(0.0) { result, flight in
+        //                result + (Double(flight.totalPrice ?? "") ?? 0.0)
+        //            }
+        //
+        //            let sortedFlights = multicityFlights.filter { i in
+        //                return totalPrice >= minpricerange && totalPrice <= maxpricerange
+        //            }
+        //
+        //
+        //            setupMulticityTVCells(jfl: sortedFlights)
+        //        }
+        
     }
-    
-    
     
     
     func filtersSortByApplied(sortBy: SortParameter) {
@@ -243,33 +343,33 @@ extension SearchFlightResultVC:AppliedFilters {
         
         switch sortBy {
         case .PriceLow:
-            
-            
-            let sortedArray = oneWayFlights.sorted(by: { j1, j2 in
-                let totalPrice1 = j1.first?.totalPrice ?? "0"
-                let totalPrice2 = j2.first?.totalPrice ?? "0"
+            let sortedFlights = oneWayFlights.sorted { (flights1, flights2) -> Bool in
+                let totalPrice1 = flights1.reduce(0) { $0 + (Double($1.totalPrice ?? "0") ?? 0) }
+                let totalPrice2 = flights2.reduce(0) { $0 + (Double($1.totalPrice ?? "0") ?? 0) }
                 return totalPrice1 < totalPrice2
-            })
+            }
             
-            setupRoundTripTVCells(jfl: sortedArray)
+            
+            setupRoundTripTVCells(jfl: sortedFlights)
+            
             break
             
         case .PriceHigh:
-            let sortedArray = oneWayFlights.sorted(by: { j1, j2 in
-                let totalPrice1 = j1.first?.totalPrice ?? "0"
-                let totalPrice2 = j2.first?.totalPrice ?? "0"
+            let sortedFlights = oneWayFlights.sorted { (flights1, flights2) -> Bool in
+                let totalPrice1 = flights1.reduce(0) { $0 + (Double($1.totalPrice ?? "0") ?? 0) }
+                let totalPrice2 = flights2.reduce(0) { $0 + (Double($1.totalPrice ?? "0") ?? 0) }
                 return totalPrice1 > totalPrice2
-            })
+            }
             
-            setupRoundTripTVCells(jfl: sortedArray)
+            setupRoundTripTVCells(jfl: sortedFlights)
             break
             
             
             
         case .DepartureLow:
             let sortedArray = oneWayFlights.sorted(by: { j1, j2 in
-                let time1 = j1.first?.flight_details?.summary?.first?.destination?.datetime ?? "0"
-                let time2 = j2.first?.flight_details?.summary?.first?.destination?.datetime ?? "0"
+                let time1 = j1.first?.flight_details?.summary?.first?.origin?.time ?? "0"
+                let time2 = j2.first?.flight_details?.summary?.first?.origin?.time ?? "0"
                 return time1 < time2
             })
             
@@ -278,8 +378,8 @@ extension SearchFlightResultVC:AppliedFilters {
             
         case .DepartureHigh:
             let sortedArray = oneWayFlights.sorted(by: { j1, j2 in
-                let time1 = j1.first?.flight_details?.summary?.first?.destination?.datetime ?? "0"
-                let time2 = j2.first?.flight_details?.summary?.first?.destination?.datetime ?? "0"
+                let time1 = j1.first?.flight_details?.summary?.first?.origin?.time ?? "0"
+                let time2 = j2.first?.flight_details?.summary?.first?.origin?.time ?? "0"
                 return time1 > time2
             })
             
@@ -290,8 +390,8 @@ extension SearchFlightResultVC:AppliedFilters {
             
         case .ArrivalLow:
             let sortedArray = oneWayFlights.sorted(by: { j1, j2 in
-                let time1 = j1.first?.flight_details?.summary?.first?.origin?.datetime ?? "0"
-                let time2 = j2.first?.flight_details?.summary?.first?.origin?.datetime ?? "0"
+                let time1 = j1.first?.flight_details?.summary?.first?.destination?.time ?? "0"
+                let time2 = j2.first?.flight_details?.summary?.first?.destination?.time ?? "0"
                 return time1 < time2
             })
             
@@ -300,13 +400,12 @@ extension SearchFlightResultVC:AppliedFilters {
             
         case .ArrivalHigh:
             let sortedArray = oneWayFlights.sorted(by: { j1, j2 in
-                let time1 = j1.first?.flight_details?.summary?.first?.origin?.datetime ?? "0"
-                let time2 = j2.first?.flight_details?.summary?.first?.origin?.datetime ?? "0"
+                let time1 = j1.first?.flight_details?.summary?.first?.destination?.time ?? "0"
+                let time2 = j2.first?.flight_details?.summary?.first?.destination?.time ?? "0"
                 return time1 > time2
             })
             
             setupRoundTripTVCells(jfl: sortedArray)
-            
             break
             
             
@@ -352,7 +451,6 @@ extension SearchFlightResultVC:AppliedFilters {
                 return operatorCode1 > operatorCode2
             })
             
-            
             setupRoundTripTVCells(jfl: sortedArray)
             break
             
@@ -361,16 +459,10 @@ extension SearchFlightResultVC:AppliedFilters {
             setupRoundTripTVCells(jfl: oneWayFlights)
             break
             
-            
-            
         default:
             break
         }
         
-        
-        DispatchQueue.main.async {[self] in
-            commonTableView.scrollToRow(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
-        }
         
     }
     
@@ -538,9 +630,6 @@ extension SearchFlightResultVC:OnewayViewModelDelegate {
         bookingsourcekey = response.data?.booking_source_key ?? ""
         holderView.isHidden = false
         
-       
-        
-        
         oneWayFlights = response.data?.j_flight_list ?? [[]]
         oneWayFlights.forEach { i in
             i.forEach { j in
@@ -581,7 +670,7 @@ extension SearchFlightResultVC:OnewayViewModelDelegate {
         
         setuplabels(lbl: sessonlbl, text: "Your Session Expires In: 14:15", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12), align: .left)
         
-       
+        
         
         
         
@@ -599,7 +688,7 @@ extension SearchFlightResultVC:OnewayViewModelDelegate {
             defaults.set(defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "", forKey: UserDefaultsKeys.travellerDetails)
             
             
-           
+            
             setupRoundTripTVCells(jfl: response.data?.j_flight_list ?? [[]])
             
             break
@@ -613,8 +702,8 @@ extension SearchFlightResultVC:OnewayViewModelDelegate {
             
             defaults.set(response.data?.search_params?.from_loc ?? "", forKey: UserDefaultsKeys.travellerDetails)
             setupRoundTripTVCells(jfl: response.data?.j_flight_list ?? [[]])
-           
-           
+            
+            
             break
             
         default:
@@ -694,10 +783,18 @@ extension SearchFlightResultVC {
     
     func addObserver() {
         
+        TimerManager.shared.delegate = self
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
+        if callapibool == true {
+            DispatchQueue.main.async {[self] in
+                holderView.isHidden = true
+                callAPI()
+            }
+        }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(nointernet), name: Notification.Name("offline"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name("reload"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(resultnil), name: NSNotification.Name("resultnil"), object: nil)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTimer), name: NSNotification.Name("reloadTimer"), object: nil)
         
     }

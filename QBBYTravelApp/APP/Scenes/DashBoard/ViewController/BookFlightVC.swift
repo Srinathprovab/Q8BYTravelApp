@@ -200,6 +200,7 @@ class BookFlightVC: BaseTableVC {
         roundTripView.backgroundColor = .WhiteColor
         multicityView.backgroundColor = .WhiteColor
         
+        defaults.set("Add Return", forKey: UserDefaultsKeys.calRetDate)
         defaults.set("oneway", forKey: UserDefaultsKeys.journeyType)
         appendTvcells(str: "oneway")
     }
@@ -322,7 +323,7 @@ class BookFlightVC: BaseTableVC {
                 showToast(message: "Please Select To City")
             }else if defaults.string(forKey:UserDefaultsKeys.toCity) == defaults.string(forKey:UserDefaultsKeys.fromCity) {
                 showToast(message: "Please Select Different Citys")
-            }else if defaults.string(forKey:UserDefaultsKeys.calDepDate) == "" {
+            }else if defaults.string(forKey:UserDefaultsKeys.calDepDate) == "Add Date" {
                 showToast(message: "Please Select Departure Date")
             }else if defaults.string(forKey:UserDefaultsKeys.travellerDetails) == "Add Details" {
                 showToast(message: "Add Traveller")
@@ -333,7 +334,9 @@ class BookFlightVC: BaseTableVC {
             }else{
                 gotoSearchFlightResultVC(payload33: payload)
             }
-        }else if journyType == "circle"{
+        }
+        
+        else if journyType == "circle"{
             
             payload["trip_type"] = defaults.string(forKey: UserDefaultsKeys.journeyType)
             payload["adult"] = defaults.string(forKey: UserDefaultsKeys.radultCount)
@@ -341,12 +344,12 @@ class BookFlightVC: BaseTableVC {
             payload["infant"] = defaults.string(forKey: UserDefaultsKeys.rinfantsCount)
             payload["v_class"] = defaults.string(forKey: UserDefaultsKeys.rselectClass) ?? "Economy"
             payload["sector_type"] = "international"
-            payload["from"] = defaults.string(forKey: UserDefaultsKeys.rfromCity)
-            payload["from_loc_id"] = defaults.string(forKey: UserDefaultsKeys.rfromlocid)
-            payload["to"] = defaults.string(forKey: UserDefaultsKeys.rtoCity)
-            payload["to_loc_id"] = defaults.string(forKey: UserDefaultsKeys.rtolocid)
-            payload["depature"] = defaults.string(forKey: UserDefaultsKeys.rcalDepDate)
-            payload["return"] = defaults.string(forKey: UserDefaultsKeys.rcalRetDate)
+            payload["from"] = defaults.string(forKey: UserDefaultsKeys.fromCity)
+            payload["from_loc_id"] = defaults.string(forKey: UserDefaultsKeys.fromlocid)
+            payload["to"] = defaults.string(forKey: UserDefaultsKeys.toCity)
+            payload["to_loc_id"] = defaults.string(forKey: UserDefaultsKeys.tolocid)
+            payload["depature"] = defaults.string(forKey: UserDefaultsKeys.calDepDate)
+            payload["return"] = defaults.string(forKey: UserDefaultsKeys.calRetDate)
             payload["out_jrn"] = "All Times"
             payload["ret_jrn"] = "All Times"
             payload["carrier"] = ""
@@ -355,16 +358,16 @@ class BookFlightVC: BaseTableVC {
             payload["search_flight"] = "Search"
             payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
             
-            if defaults.string(forKey:UserDefaultsKeys.rfromCity) == "" {
+            if defaults.string(forKey:UserDefaultsKeys.fromCity) == "" {
                 showToast(message: "Please Select From City")
-            }else if defaults.string(forKey:UserDefaultsKeys.rtoCity) == "" {
+            }else if defaults.string(forKey:UserDefaultsKeys.toCity) == "" {
                 showToast(message: "Please Select To City")
-            }else if defaults.string(forKey:UserDefaultsKeys.rtoCity) == defaults.string(forKey:UserDefaultsKeys.rfromCity) {
+            }else if defaults.string(forKey:UserDefaultsKeys.toCity) == defaults.string(forKey:UserDefaultsKeys.fromCity) {
                 showToast(message: "Please Select Different Citys")
-            }else if defaults.string(forKey:UserDefaultsKeys.rcalDepDate) == "" {
+            }else if defaults.string(forKey:UserDefaultsKeys.calDepDate) == "Add Date" {
                 showToast(message: "Please Select Departure Date")
-            }else if defaults.string(forKey:UserDefaultsKeys.rcalRetDate) == "" {
-                showToast(message: "Please Select Departure Date")
+            }else if defaults.string(forKey:UserDefaultsKeys.calRetDate) == "Add Return" {
+                showToast(message: "Please Select Return Date")
             }else if defaults.string(forKey:UserDefaultsKeys.rtravellerDetails) == "Add Details" {
                 showToast(message: "Add Traveller")
             }else if defaults.string(forKey:UserDefaultsKeys.rselectClass) == "Add Details" {
@@ -374,7 +377,9 @@ class BookFlightVC: BaseTableVC {
             }else{
                 gotoSearchFlightResultVC(payload33: payload)
             }
-        }else {
+        }
+        
+        else {
             
         }
         

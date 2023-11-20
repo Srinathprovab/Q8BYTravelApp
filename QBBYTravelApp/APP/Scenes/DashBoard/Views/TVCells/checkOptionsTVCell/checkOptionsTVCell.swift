@@ -47,7 +47,7 @@ class checkOptionsTVCell: TableViewCell {
         if cellInfo?.key == "menu" {
             sunImg.isHidden = false
             checkImg.isHidden = true
-            sunImg.image = UIImage(named: cellInfo?.image ?? "")?.withRenderingMode(.alwaysOriginal)
+            sunImg.image = UIImage(named: cellInfo?.image ?? "")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppJournyTabSelectColor)
             menuOttionBtn.isHidden = false
         }
         
@@ -104,6 +104,24 @@ class checkOptionsTVCell: TableViewCell {
     
     @IBAction func didTapOnMenuOptionBtn(_ sender: Any) {
         delegate?.didTapOnMenuOptionBtn(cell: self)
+    }
+    
+    
+    func sele() {
+        if let image = UIImage(named: "chk")?.withRenderingMode(.alwaysOriginal) {
+            checkImg.image = image
+        } else {
+            print("Image not found or nil for 'chk'")
+        }
+    }
+    
+    
+    func unselected() {
+        if let image = UIImage(named: "uncheck")?.withRenderingMode(.alwaysOriginal) {
+            checkImg.image = image
+        } else {
+            print("Image not found or nil for 'chk'")
+        }
     }
     
     

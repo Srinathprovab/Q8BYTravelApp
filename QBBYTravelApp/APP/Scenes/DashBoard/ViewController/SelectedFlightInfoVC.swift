@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SelectedFlightInfoVC: BaseTableVC, TimerManagerDelegate {
+class SelectedFlightInfoVC: BaseTableVC, TimerManagerDelegate, FDViewModelDelegate {
     
     
     @IBOutlet weak var holderView: UIView!
@@ -42,7 +42,6 @@ class SelectedFlightInfoVC: BaseTableVC, TimerManagerDelegate {
     var childCount = Int()
     var infantsCount = Int()
     var dropdownBool = true
-    
     var acessKey = String()
     
     
@@ -54,56 +53,8 @@ class SelectedFlightInfoVC: BaseTableVC, TimerManagerDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(offline), name: NSNotification.Name("offline"), object: nil)
-        
-        if let journeyType = defaults.string(forKey: UserDefaultsKeys.journeyType) {
-            if journeyType == "oneway" {
-                adultsCount = Int(defaults.string(forKey: UserDefaultsKeys.adultCount) ?? "1") ?? 0
-                childCount = Int(defaults.string(forKey: UserDefaultsKeys.childCount) ?? "0") ?? 0
-                infantsCount = Int(defaults.string(forKey: UserDefaultsKeys.infantsCount) ?? "0") ?? 0
-                
-                
-            }else if journeyType == "circle"{
-                adultsCount = Int(defaults.string(forKey: UserDefaultsKeys.radultCount) ?? "1") ?? 0
-                childCount = Int(defaults.string(forKey: UserDefaultsKeys.rchildCount) ?? "0") ?? 0
-                infantsCount = Int(defaults.string(forKey: UserDefaultsKeys.rinfantsCount) ?? "0") ?? 0
-            }else {
-                
-                adultsCount = Int(defaults.string(forKey: UserDefaultsKeys.madultCount) ?? "1") ?? 0
-                childCount = Int(defaults.string(forKey: UserDefaultsKeys.mchildCount) ?? "0") ?? 0
-                infantsCount = Int(defaults.string(forKey: UserDefaultsKeys.minfantsCount) ?? "0") ?? 0
-            }
-        }
-        
-        if callapibool == true {
-            DispatchQueue.main.async {[self] in
-                callAPI()
-            }
-        }
-        
-        TimerManager.shared.delegate = self
+        addObserver()
     }
-    
-    func timerDidFinish() {
-        guard let vc = PopupVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .overCurrentContext
-        self.present(vc, animated: false)
-    }
-    
-    func updateTimer() {
-        
-    }
-    
-    func callAPI() {
-        
-        payload["search_id"] = searchid
-        payload["booking_source"] = bookingsource
-        payload["access_key"] = accesskey
-        payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
-        
-        vm?.CALL_GET_FLIGHT_DETAILS_API(dictParam: payload)
-    }
-    
     
     
     override func viewDidLoad() {
@@ -127,9 +78,6 @@ class SelectedFlightInfoVC: BaseTableVC, TimerManagerDelegate {
         
         setuplabels(lbl: nav.titlelbl, text: defaults.string(forKey: UserDefaultsKeys.journyCitys) ?? "", textcolor: .AppLabelColor, font: .OpenSansBold(size: 14), align: .left)
         setuplabels(lbl: nav.citylbl, text: "\(defaults.string(forKey: UserDefaultsKeys.journyDates) ?? ""), \(defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "")", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12), align: .left)
-        
-        
-        
         
         setupViews(v: booknowHolderView, radius: 0, color: .AppBackgroundColor)
         setupViews(v: bookNowView, radius: 20, color: .AppBtnColor)
@@ -165,6 +113,84 @@ class SelectedFlightInfoVC: BaseTableVC, TimerManagerDelegate {
         NotificationCenter.default.post(name: NSNotification.Name("backvc"), object: nil)
         dismiss(animated: true)
     }
+    
+    
+    
+    
+    @IBAction func didTapOnBookNowBtn(_ sender: Any) {
+        guard let vc = PayNowVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .fullScreen
+        vc.keystr = "flight"
+        callapibool = true
+        self.present(vc, animated: true)
+    }
+    
+    
+    override func didTapOnFareRulesBtnAction(cell: AddFareRulesTVCell) {
+        commonTableView.reloadData()
+    }
+    
+    
+    override func showContentBtnAction(cell:FareRulesTVCell){
+        if cell.showBool == true {
+            cell.show()
+            cell.showBool = false
+        }else {
+            cell.hide()
+            cell.showBool = true
+        }
+        
+        
+        commonTableView.reloadData()
+    }
+    
+    
+}
+
+
+
+extension SelectedFlightInfoVC {
+    func callAPI() {
+        
+        payload["search_id"] = searchid
+        payload["booking_source"] = bookingsource
+        payload["access_key"] = accesskey
+        payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
+        
+        vm?.CALL_GET_FLIGHT_DETAILS_API(dictParam: payload)
+    }
+    
+    
+    func flightDetails(response: FDModel) {
+        booknowHolderView.isHidden = false
+        //  cvHolderView.isHidden = false
+        nav.isHidden = false
+        titlelbl.text = "\(response.priceDetails?.api_currency ?? ""):\(response.priceDetails?.grand_total ?? "")"
+        grandTotal = "\(response.priceDetails?.api_currency ?? ""):\(response.priceDetails?.grand_total ?? "")"
+        jm = response.journeySummary ?? []
+        fd = response.flightDetails ?? [[]]
+        fareRulesData = response.fareRulehtml ?? []
+        farepricedetails = response.priceDetails
+        
+        Adults_Base_Price = String(response.priceDetails?.adultsBasePrice ?? "0")
+        Adults_Tax_Price = String(response.priceDetails?.adultsTaxPrice ?? "0")
+        Childs_Base_Price = String(response.priceDetails?.childBasePrice ?? "0")
+        Childs_Tax_Price = String(response.priceDetails?.childTaxPrice ?? "0")
+        Infants_Base_Price = String(response.priceDetails?.infantBasePrice ?? "0")
+        Infants_Tax_Price = String(response.priceDetails?.infantTaxPrice ?? "0")
+        AdultsTotalPrice = String(response.priceDetails?.adultsTotalPrice ?? "0")
+        ChildTotalPrice = String(response.priceDetails?.childTotalPrice ?? "0")
+        InfantTotalPrice = String(response.priceDetails?.infantTotalPrice ?? "0")
+        sub_total_adult = String(response.priceDetails?.sub_total_adult ?? "0")
+        sub_total_child = String(response.priceDetails?.sub_total_child ?? "0")
+        sub_total_infant = String(response.priceDetails?.sub_total_infant ?? "0")
+        
+        DispatchQueue.main.async {[self] in
+            // setupItineraryTVCells()
+            setupFareBreakdownTVCells()
+        }
+    }
+    
     
     func setupItineraryTVCells() {
         
@@ -342,96 +368,85 @@ class SelectedFlightInfoVC: BaseTableVC, TimerManagerDelegate {
         
     }
     
-    
-    @IBAction func didTapOnBookNowBtn(_ sender: Any) {
-        guard let vc = PayNowVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .fullScreen
-        vc.keystr = "flight"
-        callapibool = true
-        self.present(vc, animated: true)
-    }
-    
-    
-    override func didTapOnFareRulesBtnAction(cell: AddFareRulesTVCell) {
-        commonTableView.reloadData()
-    }
-    
-    
-    override func showContentBtnAction(cell:FareRulesTVCell){
-        if cell.showBool == true {
-            cell.show()
-            cell.showBool = false
-        }else {
-            cell.hide()
-            cell.showBool = true
-        }
-        
-        
-        commonTableView.reloadData()
-    }
-    
-    
 }
 
 
 
-
-extension SelectedFlightInfoVC: FDViewModelDelegate {
+extension SelectedFlightInfoVC {
     
-    func flightDetails(response: FDModel) {
-        booknowHolderView.isHidden = false
-        //  cvHolderView.isHidden = false
-        nav.isHidden = false
-        titlelbl.text = "\(response.priceDetails?.api_currency ?? ""):\(response.priceDetails?.grand_total ?? "")"
-        grandTotal = "\(response.priceDetails?.api_currency ?? ""):\(response.priceDetails?.grand_total ?? "")"
-        jm = response.journeySummary ?? []
-        fd = response.flightDetails ?? [[]]
-        fareRulesData = response.fareRulehtml ?? []
-        farepricedetails = response.priceDetails
+    func addObserver() {
         
-        Adults_Base_Price = String(response.priceDetails?.adultsBasePrice ?? "0")
-        Adults_Tax_Price = String(response.priceDetails?.adultsTaxPrice ?? "0")
-        Childs_Base_Price = String(response.priceDetails?.childBasePrice ?? "0")
-        Childs_Tax_Price = String(response.priceDetails?.childTaxPrice ?? "0")
-        Infants_Base_Price = String(response.priceDetails?.infantBasePrice ?? "0")
-        Infants_Tax_Price = String(response.priceDetails?.infantTaxPrice ?? "0")
-        AdultsTotalPrice = String(response.priceDetails?.adultsTotalPrice ?? "0")
-        ChildTotalPrice = String(response.priceDetails?.childTotalPrice ?? "0")
-        InfantTotalPrice = String(response.priceDetails?.infantTotalPrice ?? "0")
-        sub_total_adult = String(response.priceDetails?.sub_total_adult ?? "0")
-        sub_total_child = String(response.priceDetails?.sub_total_child ?? "0")
-        sub_total_infant = String(response.priceDetails?.sub_total_infant ?? "0")
         
+        if let journeyType = defaults.string(forKey: UserDefaultsKeys.journeyType) {
+            if journeyType == "oneway" {
+                adultsCount = Int(defaults.string(forKey: UserDefaultsKeys.adultCount) ?? "1") ?? 0
+                childCount = Int(defaults.string(forKey: UserDefaultsKeys.childCount) ?? "0") ?? 0
+                infantsCount = Int(defaults.string(forKey: UserDefaultsKeys.infantsCount) ?? "0") ?? 0
+                
+                
+            }else if journeyType == "circle"{
+                adultsCount = Int(defaults.string(forKey: UserDefaultsKeys.radultCount) ?? "1") ?? 0
+                childCount = Int(defaults.string(forKey: UserDefaultsKeys.rchildCount) ?? "0") ?? 0
+                infantsCount = Int(defaults.string(forKey: UserDefaultsKeys.rinfantsCount) ?? "0") ?? 0
+            }else {
+                
+                adultsCount = Int(defaults.string(forKey: UserDefaultsKeys.madultCount) ?? "1") ?? 0
+                childCount = Int(defaults.string(forKey: UserDefaultsKeys.mchildCount) ?? "0") ?? 0
+                infantsCount = Int(defaults.string(forKey: UserDefaultsKeys.minfantsCount) ?? "0") ?? 0
+            }
+        }
+        
+        if callapibool == true {
+            DispatchQueue.main.async {[self] in
+                callAPI()
+            }
+        }
+        
+        TimerManager.shared.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(nointernet), name: Notification.Name("offline"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name("reload"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(resultnil), name: NSNotification.Name("resultnil"), object: nil)
+        
+    }
+    
+    
+    
+    
+    @objc func reload(){
         DispatchQueue.main.async {[self] in
-            // setupItineraryTVCells()
-            setupFareBreakdownTVCells()
+            commonTableView.reloadData()
         }
     }
     
+    @objc func nointernet(){
+        gotoNoInternetConnectionVC(key: "nointernet", titleStr: "")
+    }
+    
+    @objc func resultnil(){
+        gotoNoInternetConnectionVC(key: "noresult", titleStr: "NO AVAILABILITY FOR THIS REQUEST")
+    }
+    
+    
+    
+    
+    func gotoNoInternetConnectionVC(key:String,titleStr:String) {
+        guard let vc = NoInternetConnectionVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.key = key
+        vc.titleStr = titleStr
+        self.present(vc, animated: false)
+    }
+    
+    
+    func timerDidFinish() {
+        guard let vc = PopupVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .overCurrentContext
+        self.present(vc, animated: false)
+    }
+    
+    func updateTimer() {
+        
+    }
+    
+    
 }
-
-
-//extension SelectedFlightInfoVC {
-//    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if let cell = tableView.cellForRow(at: indexPath) as? FareRulesTVCell {
-//            if cell.showBool == true {
-//                cell.show()
-//                cell.showBool = false
-//            }else {
-//                cell.hide()
-//                cell.showBool = true
-//            }
-//        }
-//
-//        commonTableView.beginUpdates()
-//        commonTableView.endUpdates()
-//    }
-//
-//
-//    //    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-//    //        if let cell = tableView.cellForRow(at: indexPath) as? FareRulesTVCell {
-//    //            cell.hide()
-//    //        }
-//    //
-//    //    }
-//}

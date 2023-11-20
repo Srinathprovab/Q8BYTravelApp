@@ -61,23 +61,20 @@ class FlightSearchTVCell: TableViewCell {
     
     override func updateUI() {
         let journeyType = defaults.string(forKey: UserDefaultsKeys.journeyType)
+        fromcitylbl.text = defaults.string(forKey: UserDefaultsKeys.fromCity) ?? "Origin"
+        tocitylbl.text = defaults.string(forKey: UserDefaultsKeys.toCity) ?? "Destination"
+        deplbl.text = defaults.string(forKey: UserDefaultsKeys.calDepDate) ?? "Add Date"
+        retlbl.text = defaults.string(forKey: UserDefaultsKeys.calRetDate) ?? "Add Return"
+        airlinelbl.text = defaults.string(forKey: UserDefaultsKeys.nationality) ?? "ALL"
+        
         if journeyType == "oneway" {
-            retView.isHidden = true
-            fromcitylbl.text = defaults.string(forKey: UserDefaultsKeys.fromCity) ?? "Origen"
-            tocitylbl.text = defaults.string(forKey: UserDefaultsKeys.toCity) ?? "Destination"
-            deplbl.text = defaults.string(forKey: UserDefaultsKeys.calDepDate) ?? "Add Date"
-            retlbl.text = defaults.string(forKey: UserDefaultsKeys.calRetDate) ?? "Add Date"
+            retView.alpha = 0.3
+            retView.isUserInteractionEnabled = false
             tralbl.text = defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "Add Traveller"
-            airlinelbl.text = defaults.string(forKey: UserDefaultsKeys.nationality) ?? "ALL"
         }else {
-            retView.isHidden = false
-            fromcitylbl.text = defaults.string(forKey: UserDefaultsKeys.rfromCity) ?? "Origen"
-            tocitylbl.text = defaults.string(forKey: UserDefaultsKeys.rtoCity) ?? "Destination"
-            deplbl.text = defaults.string(forKey: UserDefaultsKeys.rcalDepDate) ?? "Add Date"
-            retlbl.text = defaults.string(forKey: UserDefaultsKeys.rcalRetDate) ?? "Add Date"
+            retView.alpha = 1
+            retView.isUserInteractionEnabled = true
             tralbl.text = defaults.string(forKey: UserDefaultsKeys.rtravellerDetails) ?? "Add Traveller"
-            airlinelbl.text = defaults.string(forKey: UserDefaultsKeys.nationality) ?? "ALL"
-
         }
     }
     
@@ -93,7 +90,7 @@ class FlightSearchTVCell: TableViewCell {
         airlinesView.addCornerRadiusWithShadow(color: HexColor("#254179",alpha: 0.10), borderColor: HexColor("#A6C2FA"), cornerRadius: 12)
         airlinesimg.image = UIImage(named: "airlines")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppBackgroundColor)
         tralbl.numberOfLines = 2
-
+        
         fromcityBtn.addTarget(self, action: #selector(didTapOnFromCityBtnAction(_:)), for: .touchUpInside)
         tocityBtn.addTarget(self, action: #selector(didTapOnToCityBtnAction(_:)), for: .touchUpInside)
         depBtn.addTarget(self, action: #selector(didTapOnDepratureDateBtnAction(_:)), for: .touchUpInside)
@@ -102,7 +99,7 @@ class FlightSearchTVCell: TableViewCell {
         searchFlightBtn.addTarget(self, action: #selector(didTapOnSearchFlightBtnAction(_:)), for: .touchUpInside)
         swapBtn.addTarget(self, action: #selector(didTapOnSwapCityBtnAction(_:)), for: .touchUpInside)
         airlineBtn.addTarget(self, action: #selector(didTapOnAirlineBtnAction(_:)), for: .touchUpInside)
-
+        
     }
     
     
