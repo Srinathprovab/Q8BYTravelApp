@@ -155,6 +155,21 @@ class ContactInformationTVCell: TableViewCell {
     }
     
     @objc func editingText(textField:UITextField) {
+        
+        if textField == mobileTF {
+            if let text = textField.text {
+                let length = text.count
+                if length != maxLength {
+                    mobilenoMaxLengthBool = false
+                }else{
+                    mobilenoMaxLengthBool = true
+                }
+               
+            } else {
+                mobilenoMaxLengthBool = false
+            }
+        }
+        
         delegate?.editingTextField(tf: textField)
     }
     

@@ -63,7 +63,7 @@ class BookFlightVC: BaseTableVC {
     
     
     @objc func reload(notification: NSNotification){
-
+        
         commonTableView.reloadData()
     }
     
@@ -126,8 +126,8 @@ class BookFlightVC: BaseTableVC {
         
         tablerow.append(TableRow(key:str,cellType:.FlightSearchTVCell))
         tablerow.append(TableRow(height:20,bgColor: .AppHolderViewColor,cellType:.EmptyTVCell))
-        tablerow.append(TableRow(cellType:.FlightRelatedSearchTVCell))
-        tablerow.append(TableRow(height:30,bgColor: .AppHolderViewColor,cellType:.EmptyTVCell))
+        //        tablerow.append(TableRow(cellType:.FlightRelatedSearchTVCell))
+        //        tablerow.append(TableRow(height:30,bgColor: .AppHolderViewColor,cellType:.EmptyTVCell))
         
         commonTVData = tablerow
         commonTableView.reloadData()
@@ -140,8 +140,8 @@ class BookFlightVC: BaseTableVC {
         
         tablerow.append(TableRow(cellType:.AddCityTVCell))
         tablerow.append(TableRow(height:20,bgColor: .AppHolderViewColor,cellType:.EmptyTVCell))
-        tablerow.append(TableRow(cellType:.FlightRelatedSearchTVCell))
-        tablerow.append(TableRow(height:30,bgColor: .AppHolderViewColor,cellType:.EmptyTVCell))
+        //        tablerow.append(TableRow(cellType:.FlightRelatedSearchTVCell))
+        //        tablerow.append(TableRow(height:30,bgColor: .AppHolderViewColor,cellType:.EmptyTVCell))
         
         commonTVData = tablerow
         commonTableView.reloadData()
@@ -265,7 +265,7 @@ class BookFlightVC: BaseTableVC {
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
     }
-   
+    
     
     func gotoSelectCityVC(str:String,celltag1:Int) {
         guard let vc = SelectFromCityVC.newInstance.self else {return}
@@ -288,7 +288,7 @@ class BookFlightVC: BaseTableVC {
         self.present(vc, animated: true)
     }
     
-   
+    
     
     
     override func didTapOnSearchFlightsBtn(cell:FlightSearchTVCell) {
@@ -317,13 +317,13 @@ class BookFlightVC: BaseTableVC {
             payload["search_flight"] = "Search"
             payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
             
-            if defaults.string(forKey:UserDefaultsKeys.fromCity) == "" {
+            if defaults.string(forKey:UserDefaultsKeys.fromCity) == nil {
                 showToast(message: "Please Select From City")
-            }else if defaults.string(forKey:UserDefaultsKeys.toCity) == "" {
+            }else if defaults.string(forKey:UserDefaultsKeys.toCity) == nil {
                 showToast(message: "Please Select To City")
             }else if defaults.string(forKey:UserDefaultsKeys.toCity) == defaults.string(forKey:UserDefaultsKeys.fromCity) {
                 showToast(message: "Please Select Different Citys")
-            }else if defaults.string(forKey:UserDefaultsKeys.calDepDate) == "Add Date" {
+            }else if defaults.string(forKey:UserDefaultsKeys.calDepDate) == "Add Date" ||  defaults.string(forKey:UserDefaultsKeys.calDepDate) == nil{
                 showToast(message: "Please Select Departure Date")
             }else if defaults.string(forKey:UserDefaultsKeys.travellerDetails) == "Add Details" {
                 showToast(message: "Add Traveller")
@@ -358,15 +358,15 @@ class BookFlightVC: BaseTableVC {
             payload["search_flight"] = "Search"
             payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
             
-            if defaults.string(forKey:UserDefaultsKeys.fromCity) == "" {
+            if defaults.string(forKey:UserDefaultsKeys.fromCity) == nil {
                 showToast(message: "Please Select From City")
-            }else if defaults.string(forKey:UserDefaultsKeys.toCity) == "" {
+            }else if defaults.string(forKey:UserDefaultsKeys.toCity) == nil {
                 showToast(message: "Please Select To City")
             }else if defaults.string(forKey:UserDefaultsKeys.toCity) == defaults.string(forKey:UserDefaultsKeys.fromCity) {
                 showToast(message: "Please Select Different Citys")
-            }else if defaults.string(forKey:UserDefaultsKeys.calDepDate) == "Add Date" {
+            }else if defaults.string(forKey:UserDefaultsKeys.calDepDate) == "Add Date" ||  defaults.string(forKey:UserDefaultsKeys.calDepDate) == nil{
                 showToast(message: "Please Select Departure Date")
-            }else if defaults.string(forKey:UserDefaultsKeys.calRetDate) == "Add Return" {
+            }else if defaults.string(forKey:UserDefaultsKeys.calRetDate) == "Add Return" ||  defaults.string(forKey:UserDefaultsKeys.calRetDate) == nil{
                 showToast(message: "Please Select Return Date")
             }else if defaults.string(forKey:UserDefaultsKeys.rtravellerDetails) == "Add Details" {
                 showToast(message: "Add Traveller")
@@ -387,7 +387,7 @@ class BookFlightVC: BaseTableVC {
     
     
     
-   
+    
     override func didTapOnFromBtn(cell:MulticityFromToTVCell){
         gotoSelectCityVC(str: "From", celltag1: cell.fromBtn.tag)
     }
@@ -487,9 +487,8 @@ class BookFlightVC: BaseTableVC {
             gotoSearchFlightResultVC(payload33: payload)
         }
         
-        
-        
     }
+    
     
     override func didTapOnMultiCityTripSearchFlight(cell:AddCityTVCell){
         CALLMULTICITYAPI()

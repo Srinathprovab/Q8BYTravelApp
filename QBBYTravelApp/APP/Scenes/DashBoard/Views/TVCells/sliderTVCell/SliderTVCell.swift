@@ -81,9 +81,9 @@ class SliderTVCell: TableViewCell, TTRangeSliderDelegate {
         // rangeSlider.step = 10
         rangeSlider.handleType = .rectangle
         rangeSlider.lineHeight = 5
-        rangeSlider.tintColor = .AppBtnColor
-        rangeSlider.tintColorBetweenHandles = .AppBtnColor
-        rangeSlider.lineBorderColor = .AppBtnColor
+        rangeSlider.tintColor = .AppBackgroundColor
+        rangeSlider.tintColorBetweenHandles = .AppBackgroundColor
+        rangeSlider.lineBorderColor = .AppBackgroundColor
         rangeSlider.handleDiameter = 40.0
         rangeSlider.hideLabels = true
         rangeSlider.handleColor = .lightGray
@@ -120,15 +120,15 @@ class SliderTVCell: TableViewCell, TTRangeSliderDelegate {
                     // Both minPrice and maxPrice have values in filterModel
                     minValue = Float(minPrice)
                     maxValue = Float(maxPrice)
-                    
-                    
+
+
                     rangeSlider.minValue = prices.compactMap { Float($0) }.min()!
                     rangeSlider.maxValue = prices.compactMap { Float($0) }.max()!
-                    
+
                     // Set the thumbs to the values
                     rangeSlider.selectedMinimum = minValue
                     rangeSlider.selectedMaximum = maxValue
-                    
+
                     //  Update the slider's appearance
                     rangeSlider.setNeedsDisplay()
                 }

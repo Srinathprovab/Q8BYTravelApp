@@ -171,6 +171,326 @@ extension SearchFlightResultVC {
 
 
 
+
+
+extension SearchFlightResultVC:UICollectionViewDelegate,UICollectionViewDataSource {
+    
+    func setupCV() {
+        
+        let nib = UINib(nibName: "ItineraryCVCell", bundle: nil)
+        noofstopscv.register(nib, forCellWithReuseIdentifier: "cell")
+        noofstopscv.delegate = self
+        noofstopscv.dataSource = self
+        let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: 75, height: 40)
+        layout.scrollDirection = .vertical
+        layout.minimumInteritemSpacing = 5
+        layout.minimumLineSpacing = 5
+        layout.sectionInset = UIEdgeInsets(top: 15, left: 10, bottom: 0, right: 10)
+        noofstopscv.collectionViewLayout = layout
+        noofstopscv.backgroundColor = .clear
+        noofstopscv.showsVerticalScrollIndicator = false
+        noofstopscv.isScrollEnabled = false
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return noofStopsArray.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        var commonCell = UICollectionViewCell()
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ItineraryCVCell {
+            cell.setupNoofStopsView()
+            cell.titlelbl.text = noofStopsArray[indexPath.row]
+            commonCell = cell
+        }
+        return commonCell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? ItineraryCVCell {
+            cell.viewselected()
+            
+            switch cell.titlelbl.text {
+            case "Non Stop":
+                noofStopsFilter(stops: 0)
+                break
+                
+            case "1 Stop":
+                noofStopsFilter(stops: 1)
+                break
+                
+            case "1+ Stop":
+                noofStopsFilter(stops: 2)
+                break
+                
+                
+            default:
+                break
+            }
+        }
+    }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if let cell = collectionView.cellForItem(at: indexPath) as? ItineraryCVCell {
+            cell.viewunselected()
+        }
+    }
+    
+    
+    
+    func noofStopsFilter(stops:Int) {
+        let sortedArray = oneWayFlights.filter { flightList in
+            let noOfStopsMatch = String(stops).isEmpty || flightList.contains { flight in
+                return flight.flight_details?.summary?.contains { summary in
+                    return String(stops) == "\(summary.no_of_stops ?? 0)"
+                } ?? false
+            }
+            return noOfStopsMatch
+        }
+        
+        setupRoundTripTVCells(jfl: sortedArray)
+        
+    }
+    
+}
+
+
+
+extension SearchFlightResultVC:OnewayViewModelDelegate {
+    
+    
+    
+    func callAPI() {
+        viewmodel?.CALL_GET_FLIGHT_LIST_API(dictParam: payload)
+        
+    }
+    
+    
+    
+    func multicityFlightList(response: MulticityModel) {
+        
+        searchid = "\(response.data?.search_id ?? 0)"
+        bookingsource = response.data?.booking_source ?? ""
+        bookingsourcekey = response.data?.booking_source_key ?? ""
+        TimerManager.shared.totalTime = response.session_expiry_details?.session_start_time ?? 0
+        TimerManager.shared.startTimer(time: 900)
+        
+        setuplabels(lbl: flightsFoundlbl, text: "\(response.data?.j_flight_list?.count ?? 0) Flights found", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12), align: .right)
+        
+        //        defaults.set("\(response.data?.search_params?.depature?.joined(separator: ","))", forKey: UserDefaultsKeys.journyDates)
+        //
+        //        defaults.set("\(response.data?.search_params?.from_loc ?? "") - \(response.data?.search_params?.to_loc ?? "")", forKey: UserDefaultsKeys.journyCitys)
+        
+        
+        
+        response.data?.j_flight_list?.forEach { j in
+            prices.append(j.totalPrice ?? "")
+            fareTypeA.append(j.fareType ?? "")
+            j.flight_details?.summary?.forEach({ k in
+                
+                airlinesA.append(k.operator_name ?? "")
+                connectingFlightsA.append(k.destination?.loc ?? "")
+                connectingAirportA.append(k.origin?.airport_name ?? "")
+                
+                switch k.no_of_stops {
+                case 0:
+                    noofStopsA.append("0 Stop")
+                    break
+                case 1:
+                    noofStopsA.append("1 Stop")
+                    break
+                case 2:
+                    noofStopsA.append("1+ Stop")
+                    break
+                default:
+                    break
+                }
+            })
+        }
+        
+        prices = Array(Set(prices))
+        noofStopsA = Array(Set(noofStopsA))
+        fareTypeA = Array(Set(fareTypeA))
+        airlinesA = Array(Set(airlinesA))
+        connectingFlightsA = Array(Set(connectingFlightsA))
+        connectingAirportA = Array(Set(connectingAirportA))
+        
+        defaults.set(defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "", forKey: UserDefaultsKeys.travellerDetails)
+        setupMulticityTVCells(jfl: response.data?.j_flight_list ?? [])
+        setupUI()
+    }
+    
+    
+    
+    func onewayFlightList(response: OnewayModel) {
+        
+        searchid = "\(response.data?.search_id ?? 0)"
+        bookingsource = response.data?.booking_source ?? ""
+        bookingsourcekey = response.data?.booking_source_key ?? ""
+        holderView.isHidden = false
+        
+        oneWayFlights = response.data?.j_flight_list ?? [[]]
+        oneWayFlights.forEach { i in
+            i.forEach { j in
+                prices.append("\(j.price?.api_total_display_fare ?? 0.0)")
+                fareTypeA.append(j.fareType ?? "")
+                j.flight_details?.summary?.forEach({ k in
+                    
+                    airlinesA.append(k.operator_name ?? "")
+                    
+                    switch k.no_of_stops {
+                    case 0:
+                        noofStopsA.append("0 Stop")
+                        break
+                    case 1:
+                        noofStopsA.append("1 Stop")
+                        break
+                    case 2:
+                        noofStopsA.append("1+ Stop")
+                        break
+                    default:
+                        break
+                    }
+                })
+            }
+        }
+        
+        
+        oneWayFlights.forEach { i in
+            i.forEach { j in
+                
+                j.flight_details?.details?.forEach({ i in
+                    i.forEach { j in
+                        
+                        connectingFlightsA.append("\(j.operator_name ?? "") (\(j.operator_code ?? ""))")
+                        connectingAirportA.append("\( j.destination?.city ?? "") (\(j.destination?.loc ?? ""))")
+                    }
+                })
+            }
+        }
+        
+        prices = Array(Set(prices))
+        noofStopsA = Array(Set(noofStopsA))
+        fareTypeA = Array(Set(fareTypeA))
+        airlinesA = Array(Set(airlinesA))
+        connectingFlightsA = Array(Set(connectingFlightsA))
+        connectingAirportA = Array(Set(connectingAirportA))
+        
+        TimerManager.shared.totalTime = response.session_expiry_details?.session_start_time ?? 0
+        TimerManager.shared.startTimer(time: 900)
+        
+        setuplabels(lbl: sessonlbl, text: "Your Session Expires In: 14:15", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12), align: .left)
+        
+        
+        let journyType = defaults.string(forKey: UserDefaultsKeys.journeyType)
+        switch journyType {
+            
+        case "oneway":
+            
+            
+            defaults.set("\(convertDateFormat(inputDate: response.data?.search_params?.depature ?? "", f1: "dd-MM-yyyy", f2: "EEE, dd MMM"))", forKey: UserDefaultsKeys.journyDates)
+            
+            defaults.set("\(response.data?.search_params?.from_loc ?? "") - \(response.data?.search_params?.to_loc ?? "")", forKey: UserDefaultsKeys.journyCitys)
+            
+            
+            defaults.set(defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "", forKey: UserDefaultsKeys.travellerDetails)
+            
+            
+            
+            setupRoundTripTVCells(jfl: response.data?.j_flight_list ?? [[]])
+            
+            break
+            
+        case "circle":
+            
+            defaults.set("\(convertDateFormat(inputDate: response.data?.search_params?.depature ?? "", f1: "dd-MM-yyyy", f2: "EEE, dd MMM")) - \(convertDateFormat(inputDate: response.data?.search_params?.freturn ?? "", f1: "dd-MM-yyyy", f2: "EEE, dd MMM"))", forKey: UserDefaultsKeys.journyDates)
+            
+            defaults.set("\(response.data?.search_params?.from_loc ?? "") - \(response.data?.search_params?.to_loc ?? "") & \(response.data?.search_params?.to_loc ?? "") - \(response.data?.search_params?.from_loc ?? "")", forKey: UserDefaultsKeys.journyCitys)
+            
+            
+            defaults.set(response.data?.search_params?.from_loc ?? "", forKey: UserDefaultsKeys.travellerDetails)
+            setupRoundTripTVCells(jfl: response.data?.j_flight_list ?? [[]])
+            
+            
+            break
+            
+        default:
+            break
+        }
+    }
+    
+    
+    
+    
+    
+    func setupRoundTripTVCells(jfl:[[J_flight_list]]) {
+        commonTableView.separatorStyle = .none
+        setuplabels(lbl: flightsFoundlbl, text: "\(jfl.count ) Flights found", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12), align: .right)
+        
+        
+        tablerow.removeAll()
+        
+        jfl.forEach { i in
+            i.forEach { j in
+                tablerow.append(TableRow(title:j.access_key,kwdprice:j.totalPrice_API,refundable:j.fareType,moreData: j.flight_details?.summary, cellType:.RoundTripTVcell))
+            }
+        }
+        
+        
+        commonTVData = tablerow
+        commonTableView.reloadData()
+        
+        
+        if jfl.count == 0 {
+            tablerow.removeAll()
+            
+            TableViewHelper.EmptyMessage(message: "No Data Found", tableview: commonTableView, vc: self)
+            
+            commonTVData = tablerow
+            commonTableView.reloadData()
+        }
+    }
+    
+    
+    
+    func setupMulticityTVCells(jfl:[MJ_flight_list]) {
+        commonTableView.separatorStyle = .none
+        
+        tablerow.removeAll()
+        
+        
+        jfl.forEach { j in
+            tablerow.append(TableRow(title:j.access_key,
+                                     kwdprice:j.totalPrice_API,
+                                     refundable:j.fareType,
+                                     moreData: j.flight_details?.summary,
+                                     cellType:.RoundTripTVcell))
+        }
+        
+        
+        
+        commonTVData = tablerow
+        commonTableView.reloadData()
+        
+        
+        if jfl.count == 0 {
+            tablerow.removeAll()
+            
+            TableViewHelper.EmptyMessage(message: "No Data Found", tableview: commonTableView, vc: self)
+            
+            commonTVData = tablerow
+            commonTableView.reloadData()
+        }
+    }
+    
+}
+
+
+
+
+
 extension SearchFlightResultVC:AppliedFilters {
     func hotelFilterByApplied(minpricerange: Double, maxpricerange: Double, starRating: String, refundableTypeArray: [String], nearByLocA: [String], niberhoodA: [String], aminitiesA: [String]) {
         
@@ -472,313 +792,6 @@ extension SearchFlightResultVC:AppliedFilters {
 
 
 
-extension SearchFlightResultVC:UICollectionViewDelegate,UICollectionViewDataSource {
-    
-    func setupCV() {
-        
-        let nib = UINib(nibName: "ItineraryCVCell", bundle: nil)
-        noofstopscv.register(nib, forCellWithReuseIdentifier: "cell")
-        noofstopscv.delegate = self
-        noofstopscv.dataSource = self
-        let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 75, height: 40)
-        layout.scrollDirection = .vertical
-        layout.minimumInteritemSpacing = 5
-        layout.minimumLineSpacing = 5
-        layout.sectionInset = UIEdgeInsets(top: 15, left: 10, bottom: 0, right: 10)
-        noofstopscv.collectionViewLayout = layout
-        noofstopscv.backgroundColor = .clear
-        noofstopscv.showsVerticalScrollIndicator = false
-        noofstopscv.isScrollEnabled = false
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return noofStopsArray.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        var commonCell = UICollectionViewCell()
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as? ItineraryCVCell {
-            cell.setupNoofStopsView()
-            cell.titlelbl.text = noofStopsArray[indexPath.row]
-            commonCell = cell
-        }
-        return commonCell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) as? ItineraryCVCell {
-            cell.viewselected()
-            
-            switch cell.titlelbl.text {
-            case "Non Stop":
-                noofStopsFilter(stops: 0)
-                break
-                
-            case "1 Stop":
-                noofStopsFilter(stops: 1)
-                break
-                
-            case "1+ Stop":
-                noofStopsFilter(stops: 2)
-                break
-                
-                
-            default:
-                break
-            }
-        }
-    }
-    
-    
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) as? ItineraryCVCell {
-            cell.viewunselected()
-        }
-    }
-    
-    
-    
-    func noofStopsFilter(stops:Int) {
-        let sortedArray = oneWayFlights.filter { flightList in
-            let noOfStopsMatch = String(stops).isEmpty || flightList.contains { flight in
-                return flight.flight_details?.summary?.contains { summary in
-                    return String(stops) == "\(summary.no_of_stops ?? 0)"
-                } ?? false
-            }
-            return noOfStopsMatch
-        }
-        
-        setupRoundTripTVCells(jfl: sortedArray)
-        
-    }
-    
-}
-
-
-
-extension SearchFlightResultVC:OnewayViewModelDelegate {
-    
-    
-    
-    func callAPI() {
-        viewmodel?.CALL_GET_FLIGHT_LIST_API(dictParam: payload)
-        
-    }
-    
-    
-    
-    func multicityFlightList(response: MulticityModel) {
-        
-        searchid = "\(response.data?.search_id ?? 0)"
-        bookingsource = response.data?.booking_source ?? ""
-        bookingsourcekey = response.data?.booking_source_key ?? ""
-        TimerManager.shared.totalTime = response.session_expiry_details?.session_start_time ?? 0
-        TimerManager.shared.startTimer(time: 900)
-        
-        setuplabels(lbl: flightsFoundlbl, text: "\(response.data?.j_flight_list?.count ?? 0) Flights found", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12), align: .right)
-        
-        //        defaults.set("\(response.data?.search_params?.depature?.joined(separator: ","))", forKey: UserDefaultsKeys.journyDates)
-        //
-        //        defaults.set("\(response.data?.search_params?.from_loc ?? "") - \(response.data?.search_params?.to_loc ?? "")", forKey: UserDefaultsKeys.journyCitys)
-        
-        
-        
-        response.data?.j_flight_list?.forEach { j in
-            prices.append(j.totalPrice ?? "")
-            fareTypeA.append(j.fareType ?? "")
-            j.flight_details?.summary?.forEach({ k in
-                
-                airlinesA.append(k.operator_name ?? "")
-                connectingFlightsA.append(k.destination?.loc ?? "")
-                connectingAirportA.append(k.origin?.airport_name ?? "")
-                
-                switch k.no_of_stops {
-                case 0:
-                    noofStopsA.append("0 Stop")
-                    break
-                case 1:
-                    noofStopsA.append("1 Stop")
-                    break
-                case 2:
-                    noofStopsA.append("1+ Stop")
-                    break
-                default:
-                    break
-                }
-            })
-        }
-        
-        prices = Array(Set(prices))
-        noofStopsA = Array(Set(noofStopsA))
-        fareTypeA = Array(Set(fareTypeA))
-        airlinesA = Array(Set(airlinesA))
-        connectingFlightsA = Array(Set(connectingFlightsA))
-        connectingAirportA = Array(Set(connectingAirportA))
-        
-        defaults.set(defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "", forKey: UserDefaultsKeys.travellerDetails)
-        setupMulticityTVCells(jfl: response.data?.j_flight_list ?? [])
-        setupUI()
-    }
-    
-    
-    
-    func onewayFlightList(response: OnewayModel) {
-        
-        searchid = "\(response.data?.search_id ?? 0)"
-        bookingsource = response.data?.booking_source ?? ""
-        bookingsourcekey = response.data?.booking_source_key ?? ""
-        holderView.isHidden = false
-        
-        oneWayFlights = response.data?.j_flight_list ?? [[]]
-        oneWayFlights.forEach { i in
-            i.forEach { j in
-                prices.append(j.totalPrice ?? "")
-                fareTypeA.append(j.fareType ?? "")
-                j.flight_details?.summary?.forEach({ k in
-                    
-                    airlinesA.append(k.operator_name ?? "")
-                    connectingFlightsA.append(k.destination?.loc ?? "")
-                    connectingAirportA.append(k.origin?.airport_name ?? "")
-                    
-                    switch k.no_of_stops {
-                    case 0:
-                        noofStopsA.append("0 Stop")
-                        break
-                    case 1:
-                        noofStopsA.append("1 Stop")
-                        break
-                    case 2:
-                        noofStopsA.append("1+ Stop")
-                        break
-                    default:
-                        break
-                    }
-                })
-            }
-        }
-        
-        prices = Array(Set(prices))
-        noofStopsA = Array(Set(noofStopsA))
-        fareTypeA = Array(Set(fareTypeA))
-        airlinesA = Array(Set(airlinesA))
-        connectingFlightsA = Array(Set(connectingFlightsA))
-        connectingAirportA = Array(Set(connectingAirportA))
-        
-        TimerManager.shared.totalTime = response.session_expiry_details?.session_start_time ?? 0
-        TimerManager.shared.startTimer(time: 900)
-        
-        setuplabels(lbl: sessonlbl, text: "Your Session Expires In: 14:15", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12), align: .left)
-        
-        
-        
-        
-        
-        let journyType = defaults.string(forKey: UserDefaultsKeys.journeyType)
-        switch journyType {
-            
-        case "oneway":
-            
-            
-            defaults.set("\(convertDateFormat(inputDate: response.data?.search_params?.depature ?? "", f1: "dd-MM-yyyy", f2: "EEE, dd MMM"))", forKey: UserDefaultsKeys.journyDates)
-            
-            defaults.set("\(response.data?.search_params?.from_loc ?? "") - \(response.data?.search_params?.to_loc ?? "")", forKey: UserDefaultsKeys.journyCitys)
-            
-            
-            defaults.set(defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "", forKey: UserDefaultsKeys.travellerDetails)
-            
-            
-            
-            setupRoundTripTVCells(jfl: response.data?.j_flight_list ?? [[]])
-            
-            break
-            
-        case "circle":
-            
-            defaults.set("\(convertDateFormat(inputDate: response.data?.search_params?.depature ?? "", f1: "dd-MM-yyyy", f2: "EEE, dd MMM")) - \(convertDateFormat(inputDate: response.data?.search_params?.freturn ?? "", f1: "dd-MM-yyyy", f2: "EEE, dd MMM"))", forKey: UserDefaultsKeys.journyDates)
-            
-            defaults.set("\(response.data?.search_params?.from_loc ?? "") - \(response.data?.search_params?.to_loc ?? "") & \(response.data?.search_params?.to_loc ?? "") - \(response.data?.search_params?.from_loc ?? "")", forKey: UserDefaultsKeys.journyCitys)
-            
-            
-            defaults.set(response.data?.search_params?.from_loc ?? "", forKey: UserDefaultsKeys.travellerDetails)
-            setupRoundTripTVCells(jfl: response.data?.j_flight_list ?? [[]])
-            
-            
-            break
-            
-        default:
-            break
-        }
-    }
-    
-    
-    
-    
-    
-    func setupRoundTripTVCells(jfl:[[J_flight_list]]) {
-        commonTableView.separatorStyle = .none
-        setuplabels(lbl: flightsFoundlbl, text: "\(jfl.count ) Flights found", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12), align: .right)
-        
-        
-        tablerow.removeAll()
-        
-        jfl.forEach { i in
-            i.forEach { j in
-                tablerow.append(TableRow(title:j.access_key,kwdprice:j.totalPrice_API,refundable:j.fareType,moreData: j.flight_details?.summary, cellType:.RoundTripTVcell))
-            }
-        }
-        
-        
-        commonTVData = tablerow
-        commonTableView.reloadData()
-        
-        
-        if jfl.count == 0 {
-            tablerow.removeAll()
-            
-            TableViewHelper.EmptyMessage(message: "No Data Found", tableview: commonTableView, vc: self)
-            
-            commonTVData = tablerow
-            commonTableView.reloadData()
-        }
-    }
-    
-    
-    
-    func setupMulticityTVCells(jfl:[MJ_flight_list]) {
-        commonTableView.separatorStyle = .none
-        
-        tablerow.removeAll()
-        
-        
-        jfl.forEach { j in
-            tablerow.append(TableRow(title:j.access_key,
-                                     kwdprice:j.totalPrice_API,
-                                     refundable:j.fareType,
-                                     moreData: j.flight_details?.summary,
-                                     cellType:.RoundTripTVcell))
-        }
-        
-        
-        
-        commonTVData = tablerow
-        commonTableView.reloadData()
-        
-        
-        if jfl.count == 0 {
-            tablerow.removeAll()
-            
-            TableViewHelper.EmptyMessage(message: "No Data Found", tableview: commonTableView, vc: self)
-            
-            commonTVData = tablerow
-            commonTableView.reloadData()
-        }
-    }
-    
-}
-
-
-
 extension SearchFlightResultVC {
     
     func addObserver() {
@@ -855,3 +868,5 @@ extension SearchFlightResultVC {
     
     
 }
+
+

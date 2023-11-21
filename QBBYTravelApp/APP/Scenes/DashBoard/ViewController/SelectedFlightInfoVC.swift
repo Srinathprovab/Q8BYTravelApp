@@ -268,7 +268,7 @@ extension SelectedFlightInfoVC {
             
             tablerow.append(TableRow(height:5,cellType:.EmptyTVCell))
             
-            tablerow.append(TableRow(title:"Infanta",
+            tablerow.append(TableRow(title:"Infant",
                                      subTitle: "X\(String(infantsCount))",
                                      key:farepricedetails?.api_currency,
                                      text: farepricedetails?.infantBasePrice,
@@ -306,7 +306,7 @@ extension SelectedFlightInfoVC {
             
             tablerow.append(TableRow(height:5,cellType:.EmptyTVCell))
             
-            tablerow.append(TableRow(title:"Infanta",
+            tablerow.append(TableRow(title:"Infant",
                                      subTitle: "X\(String(infantsCount))",
                                      key:farepricedetails?.api_currency,
                                      text: farepricedetails?.infantBasePrice,

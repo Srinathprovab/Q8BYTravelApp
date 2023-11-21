@@ -34,7 +34,7 @@ struct FlightBookingModel : Codable {
     let reward_usable : Int?
     let reward_earned : Int?
     let total_price_with_rewards : Int?
-    //   let domain_list : [Domain_list]?
+    //   let domain_list : [Domain_list]? token_key
     let status : Int?
     let msg : String?
     

@@ -21,6 +21,9 @@ class RoundTripInfoTVCell: UITableViewCell {
     @IBOutlet weak var round2: UIImageView!
     @IBOutlet weak var round1: UIImageView!
     @IBOutlet weak var round3: UIImageView!
+   
+    
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -51,19 +54,19 @@ class RoundTripInfoTVCell: UITableViewCell {
         round2.isHidden = true
         round3.isHidden = true
         
-        switch noOfStopslbl.text {
-        case "0":
-            break
-        case "1":
-            round1.isHidden = false
-            break
-        case "2":
-            round1.isHidden = false
-            round2.isHidden = false
-            break
-        default:
-            break
-        }
+//        switch noOfStopslbl.text {
+//        case "0":
+//            break
+//        case "1":
+//            round1.isHidden = false
+//            break
+//        case "2":
+//            round1.isHidden = false
+//            round2.isHidden = false
+//            break
+//        default:
+//            break
+//        }
         
     }
     

@@ -149,6 +149,11 @@ var passengerA = [Passenger]()
 var travellerdetails  = [NSFetchRequestResult]()
 
 
+
+//PaymentVC
+var travelerArray: [Traveler] = []
+
+
 //Booking confirmed
 var bookedDate = String()
 var bookingRefrence = String()

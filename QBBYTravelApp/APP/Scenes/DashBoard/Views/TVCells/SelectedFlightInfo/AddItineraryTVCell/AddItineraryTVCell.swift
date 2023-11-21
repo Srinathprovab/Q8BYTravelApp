@@ -86,6 +86,9 @@ extension AddItineraryTVCell:UITableViewDelegate,UITableViewDataSource {
                 cell.layoverView.isHidden = true
             }
             
+            
+           
+            
             c = cell
         }
         return c

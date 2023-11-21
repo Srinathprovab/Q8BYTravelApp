@@ -284,6 +284,10 @@
 		658F1E6F296D868900F7CDDC /* AddItineraryTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 658F1E6D296D868900F7CDDC /* AddItineraryTVCell.swift */; };
 		658F1E70296D868900F7CDDC /* AddItineraryTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 658F1E6E296D868900F7CDDC /* AddItineraryTVCell.xib */; };
 		65AF96A62B0B59AC0068A964 /* BorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AF96A52B0B59AC0068A964 /* BorderView.swift */; };
+		65AF96AA2B0C8DAD0068A964 /* TotalNoofTravellerTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65AF96A82B0C8DAC0068A964 /* TotalNoofTravellerTVCell.xib */; };
+		65AF96AB2B0C8DAD0068A964 /* TotalNoofTravellerTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AF96A92B0C8DAD0068A964 /* TotalNoofTravellerTVCell.swift */; };
+		65AF96AF2B0C8E530068A964 /* AddDeatilsOfTravellerTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AF96AD2B0C8E530068A964 /* AddDeatilsOfTravellerTVCell.swift */; };
+		65AF96B02B0C8E530068A964 /* AddDeatilsOfTravellerTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65AF96AE2B0C8E530068A964 /* AddDeatilsOfTravellerTVCell.xib */; };
 		65B2CA8A2AE6704400AD2B27 /* CreateAccountTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65B2CA882AE6704400AD2B27 /* CreateAccountTVCell.xib */; };
 		65B2CA8B2AE6704400AD2B27 /* CreateAccountTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B2CA892AE6704400AD2B27 /* CreateAccountTVCell.swift */; };
 		65B2CA8D2AE6720A00AD2B27 /* RegisterUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B2CA8C2AE6720A00AD2B27 /* RegisterUserViewModel.swift */; };
@@ -709,6 +713,10 @@
 		658F1E6E296D868900F7CDDC /* AddItineraryTVCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddItineraryTVCell.xib; sourceTree = "<group>"; };
 		659A114429753EC9001F1472 /* QBBYTravelApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = QBBYTravelApp.entitlements; sourceTree = "<group>"; };
 		65AF96A52B0B59AC0068A964 /* BorderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderView.swift; sourceTree = "<group>"; };
+		65AF96A82B0C8DAC0068A964 /* TotalNoofTravellerTVCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TotalNoofTravellerTVCell.xib; sourceTree = "<group>"; };
+		65AF96A92B0C8DAD0068A964 /* TotalNoofTravellerTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TotalNoofTravellerTVCell.swift; sourceTree = "<group>"; };
+		65AF96AD2B0C8E530068A964 /* AddDeatilsOfTravellerTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddDeatilsOfTravellerTVCell.swift; sourceTree = "<group>"; };
+		65AF96AE2B0C8E530068A964 /* AddDeatilsOfTravellerTVCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddDeatilsOfTravellerTVCell.xib; sourceTree = "<group>"; };
 		65B2CA882AE6704400AD2B27 /* CreateAccountTVCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateAccountTVCell.xib; sourceTree = "<group>"; };
 		65B2CA892AE6704400AD2B27 /* CreateAccountTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountTVCell.swift; sourceTree = "<group>"; };
 		65B2CA8C2AE6720A00AD2B27 /* RegisterUserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterUserViewModel.swift; sourceTree = "<group>"; };
@@ -2180,6 +2188,24 @@
 			path = AddItineraryTVCell;
 			sourceTree = "<group>";
 		};
+		65AF96A72B0C8D9B0068A964 /* TotalNoofTravellerTVCell */ = {
+			isa = PBXGroup;
+			children = (
+				65AF96A92B0C8DAD0068A964 /* TotalNoofTravellerTVCell.swift */,
+				65AF96A82B0C8DAC0068A964 /* TotalNoofTravellerTVCell.xib */,
+			);
+			path = TotalNoofTravellerTVCell;
+			sourceTree = "<group>";
+		};
+		65AF96AC2B0C8E480068A964 /* AddDeatilsOfTravellerTVCell */ = {
+			isa = PBXGroup;
+			children = (
+				65AF96AD2B0C8E530068A964 /* AddDeatilsOfTravellerTVCell.swift */,
+				65AF96AE2B0C8E530068A964 /* AddDeatilsOfTravellerTVCell.xib */,
+			);
+			path = AddDeatilsOfTravellerTVCell;
+			sourceTree = "<group>";
+		};
 		65B2CA872AE6703800AD2B27 /* CreateAccountTVCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -2201,6 +2227,8 @@
 		65B99E68296EE1580049B808 /* PaymentVC */ = {
 			isa = PBXGroup;
 			children = (
+				65AF96AC2B0C8E480068A964 /* AddDeatilsOfTravellerTVCell */,
+				65AF96A72B0C8D9B0068A964 /* TotalNoofTravellerTVCell */,
 				6586E0C62A4DB51C00CA94B1 /* ContactInformationTVCell */,
 				65FE7CE92A1E4ED000458B0E /* SaveTravellerDetailsTVCell */,
 				65D7B2EB29F002DC0043A6D0 /* AddAdultsOrGuestTVCell */,
@@ -2777,6 +2805,7 @@
 				654C898529630A80006BAF76 /* LabelTVCell.xib in Resources */,
 				654C892729630A7F006BAF76 /* StarRatingCVCell.xib in Resources */,
 				654C896B29630A80006BAF76 /* ItineraryCVCell.xib in Resources */,
+				65AF96B02B0C8E530068A964 /* AddDeatilsOfTravellerTVCell.xib in Resources */,
 				655CBA042A1B2CD000D594C3 /* FromCityTVCell.xib in Resources */,
 				654C897D29630A80006BAF76 /* MenuBGTVCell.xib in Resources */,
 				654A8A622A1877F30031FAC5 /* NavBar.xib in Resources */,
@@ -2817,6 +2846,7 @@
 				654C894F29630A7F006BAF76 /* MulticityFromToTVCell.xib in Resources */,
 				654C89B429630A80006BAF76 /* OpenSans-Light.ttf in Resources */,
 				654C89B229630A80006BAF76 /* Poppins-SemiBold.ttf in Resources */,
+				65AF96AA2B0C8DAD0068A964 /* TotalNoofTravellerTVCell.xib in Resources */,
 				65DB0B252A4162FB00866714 /* FlightRelatedListCVCell.xib in Resources */,
 				654C895529630A80006BAF76 /* TravellerEconomyTVCell.xib in Resources */,
 				654C89A929630A80006BAF76 /* Lato-Medium.ttf in Resources */,
@@ -3074,6 +3104,7 @@
 				65DB0B292A416C1700866714 /* FlightRelatedSearchTVCell.swift in Sources */,
 				65EB20042A0BDEFB00CA06E7 /* CityOrHotelListModel.swift in Sources */,
 				6561B31129F92A6E00B02039 /* BookedTravelDetailsTVCell.swift in Sources */,
+				65AF96AB2B0C8DAD0068A964 /* TotalNoofTravellerTVCell.swift in Sources */,
 				65DB0B2F2A419EC300866714 /* Calvc.swift in Sources */,
 				65EB20012A0BDEFB00CA06E7 /* HotelMBViewModel.swift in Sources */,
 				654C891229630A7F006BAF76 /* BookHotelVC.swift in Sources */,
@@ -3161,6 +3192,7 @@
 				65FE7CD32A1E0DD600458B0E /* Tour_data.swift in Sources */,
 				65875A6629DD6B530065F708 /* AboutustitleTVCell.swift in Sources */,
 				6561B30229F9261A00B02039 /* Booking_itinerary_details.swift in Sources */,
+				65AF96AF2B0C8E530068A964 /* AddDeatilsOfTravellerTVCell.swift in Sources */,
 				654C891A29630A7F006BAF76 /* TwinSuperiorRoomTVCell.swift in Sources */,
 				65D7B2C629EFFD870043A6D0 /* GetCountryListViewModel.swift in Sources */,
 				656B639C2A0CD18100E2DB96 /* MyBookingsTVCells.swift in Sources */,
@@ -3440,7 +3472,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = QBBYTravelApp/QBBYTravelApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = 5TLY5PME9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = QBBYTravelApp/Info.plist;
@@ -3473,7 +3505,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = QBBYTravelApp/QBBYTravelApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 20;
 				DEVELOPMENT_TEAM = 5TLY5PME9K;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = QBBYTravelApp/Info.plist;

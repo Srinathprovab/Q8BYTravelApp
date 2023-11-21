@@ -1714,7 +1714,7 @@ stops</string>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </tableView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Modify" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uui-BR-okh">
-                                        <rect key="frame" x="100" y="85.666666666666671" width="175" height="27.333333333333329"/>
+                                        <rect key="frame" x="100" y="87.333333333333329" width="175" height="27.333333333333329"/>
                                         <fontDescription key="fontDescription" name="OpenSans-Medium" family="Open Sans" pointSize="20"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -1740,7 +1740,7 @@ stops</string>
                                     <constraint firstItem="Uui-BR-okh" firstAttribute="leading" secondItem="Ezi-zi-QYd" secondAttribute="leading" constant="100" id="7bc-Hd-0Fm"/>
                                     <constraint firstItem="apG-0m-Va2" firstAttribute="leading" secondItem="Ezi-zi-QYd" secondAttribute="leading" constant="26" id="KPQ-9M-ie3"/>
                                     <constraint firstAttribute="trailing" secondItem="apG-0m-Va2" secondAttribute="trailing" constant="26" id="Ktk-bs-aet"/>
-                                    <constraint firstItem="Uui-BR-okh" firstAttribute="baseline" secondItem="NK1-ml-C4D" secondAttribute="baseline" id="Oh6-o7-l7O"/>
+                                    <constraint firstItem="Uui-BR-okh" firstAttribute="centerY" secondItem="NK1-ml-C4D" secondAttribute="centerY" id="Ujg-Bf-bEG"/>
                                     <constraint firstItem="apG-0m-Va2" firstAttribute="top" secondItem="Ezi-zi-QYd" secondAttribute="top" constant="130" id="Ure-Hn-UiU"/>
                                     <constraint firstItem="A9p-eW-eJ0" firstAttribute="top" secondItem="apG-0m-Va2" secondAttribute="bottom" constant="5" id="W2x-WY-mLC"/>
                                     <constraint firstItem="NK1-ml-C4D" firstAttribute="leading" secondItem="Ezi-zi-QYd" secondAttribute="leading" constant="15" id="cbb-gN-5MJ"/>

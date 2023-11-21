@@ -121,8 +121,8 @@ class ViewController: UIViewController {
                 self.gotodashBoardScreen()
                 
                 
-                //                                defaults.set("Flight", forKey: UserDefaultsKeys.tabselect)
-                //                                self.gotoBookingConfirmedVC(url: "https://kuwaitways.com/mobile_webservices/index.php/voucher/flight/KWA-F-TP-0425-4745/PTBSID0000000016/show_voucher")
+                //                defaults.set("Flight", forKey: UserDefaultsKeys.tabselect)
+                //                self.gotogotoBookingConfirmedVC(urlstr: "https://kuwaitways.com/mobile_webservices/index.php/voucher/flight/KWA-F-TP-0425-4745/PTBSID0000000016/show_voucher")
             })
         }
         
@@ -142,6 +142,14 @@ class ViewController: UIViewController {
         vc.modalPresentationStyle = .fullScreen
         callapibool = true
         vc.isvcFrom = "splashscreen"
+        present(vc, animated: true)
+    }
+    
+    func gotogotoBookingConfirmedVC(urlstr:String) {
+        guard let vc = BookingConfirmedVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .fullScreen
+        callapibool = true
+        vc.urlString = urlstr
         present(vc, animated: true)
     }
     

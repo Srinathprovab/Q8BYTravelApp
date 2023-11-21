@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-class PayNowVC: BaseTableVC, PreBookingViewModelDelegate,GetCountryListViewModelDelegate, HotelMBViewModelDelegate, TimerManagerDelegate {
+class PayNowVC: BaseTableVC,HotelMBViewModelDelegate,TimerManagerDelegate, PreBookingViewModelDelegate  {
     
     
     @IBOutlet weak var holderView: UIView!
@@ -61,13 +61,12 @@ class PayNowVC: BaseTableVC, PreBookingViewModelDelegate,GetCountryListViewModel
     var leadPassengerA = [String]()
     var activepaymentoptions = String()
     var vm:PreBookingViewModel?
-    var vm1:GetCountryListViewModel?
     var vm2:HotelMBViewModel?
     var flightSummery = [Summary] ()
     var hoteldetails : HotelMBHotelDetails?
     var hcurrency = String()
     var securebooingbool = false
-    
+    var positionsCount = 0
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -77,11 +76,7 @@ class PayNowVC: BaseTableVC, PreBookingViewModelDelegate,GetCountryListViewModel
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = .WhiteColor
-        holderView.backgroundColor = .AppHolderViewColor
-        holderView.isHidden = true
         vm = PreBookingViewModel(self)
-        vm1 = GetCountryListViewModel(self)
         vm2 = HotelMBViewModel(self)
         
         setupUI()
@@ -111,16 +106,12 @@ class PayNowVC: BaseTableVC, PreBookingViewModelDelegate,GetCountryListViewModel
                                          "PromocodeTVCell",
                                          "PriceSummaryTVCell",
                                          "HotelPurchaseSummaryTVCell",
-                                         "checkOptionsTVCell",
-                                         "AddTravellersDetailsTVCell",
-                                         "PriceLabelsTVCell",
-                                         "AddAdultTravellerTVCell",
-                                         "AddChildTravellerTVCell",
                                          "ContactInformationTVCell",
                                          "AcceptTermsAndConditionTVCell",
                                          "RoundTripTVcell",
                                          "HotelSearchResultTVCell",
-                                         "AddInfantaTravellerTVCell"])
+                                         "AddDeatilsOfTravellerTVCell",
+                                         "TotalNoofTravellerTVCell"])
         
         
         
@@ -151,16 +142,40 @@ class PayNowVC: BaseTableVC, PreBookingViewModelDelegate,GetCountryListViewModel
         if defaults.bool(forKey: UserDefaultsKeys.loggedInStatus) == false {
             tablerow.append(TableRow(cellType:.TDetailsLoginTVCell))
         }
-        
-        tablerow.append(TableRow(title:"Passenger Details",subTitle: String(adultsCount),buttonTitle: String(childCount),tempText: String(infantsCount),cellType:.AddAdultTravellerTVCell))
-        if childCount != 0 {
-            tablerow.append(TableRow(cellType:.AddChildTravellerTVCell))
-        }
-        if infantsCount != 0 {
-            tablerow.append(TableRow(cellType:.AddInfantaTravellerTVCell))
-        }
-        
         tablerow.append(TableRow(cellType:.ContactInformationTVCell))
+        
+        passengertypeArray.removeAll()
+        tablerow.append(TableRow(height:20, bgColor:.AppHolderViewColor,cellType:.EmptyTVCell))
+        tablerow.append(TableRow(title:"Passenger Details",cellType:.TotalNoofTravellerTVCell))
+        for i in 1...adultsCount {
+            positionsCount += 1
+            passengertypeArray.append("Adult")
+            let travellerCell = TableRow(title: "Adult \(i)", key: "adult", headerText: "Mr",characterLimit: positionsCount, cellType: .AddDeatilsOfTravellerTVCell)
+            tablerow.append(travellerCell)
+            
+        }
+        
+        
+        if childCount != 0 {
+            for i in 1...childCount {
+                positionsCount += 1
+                passengertypeArray.append("Child")
+                tablerow.append(TableRow(title:"Child \(i)",key:"child",headerText: "Master",characterLimit: positionsCount,cellType:.AddDeatilsOfTravellerTVCell))
+            }
+        }
+        
+        if infantsCount != 0 {
+            for i in 1...infantsCount {
+                positionsCount += 1
+                passengertypeArray.append("Infant")
+                tablerow.append(TableRow(title:"Infant \(i)",key:"infant",headerText: "Master",characterLimit: positionsCount,cellType:.AddDeatilsOfTravellerTVCell))
+            }
+        }
+        
+        
+        
+        
+        
         tablerow.append(TableRow(cellType:.PromocodeTVCell))
         tablerow.append(TableRow(cellType:.PriceSummaryTVCell))
         tablerow.append(TableRow(title:"I Accept T&C and Privacy Policy",cellType:.AcceptTermsAndConditionTVCell))
@@ -170,8 +185,6 @@ class PayNowVC: BaseTableVC, PreBookingViewModelDelegate,GetCountryListViewModel
         commonTVData = tablerow
         commonTableView.reloadData()
     }
-    
-    
     
     
     func setupRoundTripTVCells() {
@@ -214,32 +227,7 @@ class PayNowVC: BaseTableVC, PreBookingViewModelDelegate,GetCountryListViewModel
         print("didTapOnRefundBtn")
     }
     
-    override func didTapOnAddAdultBtn(cell: AddAdultTravellerTVCell) {
-        ageCategory = AgeCategory.adult
-        goToSaveTravellersDetailsVC(ptitle: "Adult", keyStr: "add", id1: "")
-    }
     
-    override func didTapOnAddChildBtn(cell: AddChildTravellerTVCell) {
-        ageCategory = AgeCategory.child
-        goToSaveTravellersDetailsVC(ptitle: "Child", keyStr: "add", id1: "")
-    }
-    
-    override func didTapOnAddInfantaBtn(cell: AddInfantaTravellerTVCell) {
-        ageCategory = AgeCategory.infant
-        goToSaveTravellersDetailsVC(ptitle: "Infanta", keyStr: "add", id1: "")
-    }
-    
-    override func didTapOnEditTraveller(cell: AddAdultsOrGuestTVCell) {
-        goToSaveTravellersDetailsVC(ptitle: cell.passengerType, keyStr: "edit", id1: cell.travellerId)
-    }
-    
-    override func didTapOndeleteTravellerBtnAction(cell: AddAdultsOrGuestTVCell) {
-        //goToSaveTravellersDetailsVC(ptitle: "Infantas")
-    }
-    
-    override func didTapOnSelectAdultTraveller(Cell: AddAdultsOrGuestTVCell) {
-        
-    }
     
     override func didTapOnCountryCodeBtn(cell: ContactInformationTVCell) {
         self.billingCountryCode = cell.billingCountryCode
@@ -295,6 +283,36 @@ class PayNowVC: BaseTableVC, PreBookingViewModelDelegate,GetCountryListViewModel
     }
     
     
+    // MARK: - AddDeatilsOfGuestTVCell Delegate Functions
+    override func didTapOnExpandAdultViewbtnAction(cell: AddDeatilsOfTravellerTVCell){
+        if cell.expandViewBool == true {
+            
+            cell.expandView()
+            cell.expandViewBool = false
+        }else {
+            
+            cell.collapsView()
+            cell.expandViewBool = true
+        }
+        
+        commonTableView.beginUpdates()
+        commonTableView.endUpdates()
+    }
+    
+    
+    
+    override func donedatePicker(cell:AddDeatilsOfTravellerTVCell){
+        self.view.endEditing(true)
+    }
+    
+    
+    override func cancelDatePicker(cell:AddDeatilsOfTravellerTVCell){
+        self.view.endEditing(true)
+    }
+    
+    
+    
+    // MARK: - didTapOnBookNowBtn
     @objc func didTapOnBookNowBtn(_ sender:UIButton) {
         
         if keystr == "flight" {
@@ -305,85 +323,11 @@ class PayNowVC: BaseTableVC, PreBookingViewModelDelegate,GetCountryListViewModel
     }
     
     
-    
-    
-    
-    //MARK: - FETCHING COREDATA VALUES
-    func fetchCoreDataValues() {
-        
-        fnameA.removeAll()
-        passengertypeA.removeAll()
-        title2A.removeAll()
-        dobA.removeAll()
-        passportNoA.removeAll()
-        genderA.removeAll()
-        lnameA.removeAll()
-        passportexpiryA.removeAll()
-        passportissuingcountryA.removeAll()
-        middleNameA.removeAll()
-        leadPassengerA.removeAll()
-        
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "PassengerDetails")
-        //request.predicate = NSPredicate(format: "age = %@", "21")
-        request.returnsObjectsAsFaults = false
-        do {
-            let result = try context.fetch(request)
-            
-            
-            details = result
-            print(details)
-            
-            for data in result as! [NSManagedObject]{
-                
-                genderA.append((data.value(forKey: "gender") as? String) ?? "")
-                fnameA.append((data.value(forKey: "fname") as? String) ?? "")
-                lnameA.append((data.value(forKey: "lname") as? String) ?? "")
-                middleNameA.append("")
-                passengertypeA.append((data.value(forKey: "passengerType") as? String) ?? "")
-                title2A.append((data.value(forKey: "nameTitle") as? String) ?? "")
-                dobA.append((data.value(forKey: "dob") as? String) ?? "")
-                passportNoA.append((data.value(forKey: "passportno") as? String) ?? "")
-                passportexpiryA.append((data.value(forKey: "passportexpirydate") as? String) ?? "")
-                passportissuingcountryA.append((data.value(forKey: "issuingCountryCode") as? String) ?? "")
-                leadPassengerA.append("1")
-                
-                
-            }
-            
-            
-        } catch {
-            print("Failed")
-        }
-    }
-    
-    
-    
-    
-    
 }
 
 
 extension PayNowVC {
     
-    
-    func callGetCountryListAPI() {
-        vm1?.CALL_GET_COUNTRY_LIST_API(dictParam: [:])
-    }
-    
-    
-    func countryList(response: GetCountryListModel) {
-        countrylist = response.data?.country_list ?? []
-        
-        DispatchQueue.main.async {[self] in
-            
-            if keystr == "flight" {
-                holderView.isHidden = true
-                callAPI()
-            }else {
-                callHotelMobileBookingAPI()
-            }
-        }
-    }
     
     
     func callAPI() {
@@ -396,7 +340,9 @@ extension PayNowVC {
     
     
     func preBookingDetails(response: PreBookingModel) {
+        
         tmpFlightPreBookingId = response.form_params?.booking_id ?? ""
+        
         holderView.isHidden = false
         DispatchQueue.main.async {[self] in
             
@@ -421,10 +367,12 @@ extension PayNowVC {
         holderView.isHidden = false
         booknowHolderView.isHidden = false
         searchid = response.pre_booking_params?.search_id ?? ""
-        tokenkey = response.form_params?.token_key ?? ""
         accesskey = response.access_key_tp ?? ""
         activepaymentoptions = response.active_payment_options?[0] ?? ""
         flightSummery = response.flight_data?[0].flight_details?.summary ?? []
+        tokenkey = response.flight_data?[0].token_key ?? ""
+        
+        
         
         DispatchQueue.main.async {[self] in
             setupTVCells()
@@ -439,6 +387,10 @@ extension PayNowVC {
 extension PayNowVC {
     
     func addObserver() {
+        
+        self.view.backgroundColor = .WhiteColor
+        holderView.backgroundColor = .AppHolderViewColor
+        holderView.isHidden = true
         
         if keystr == "flight" {
             
@@ -471,7 +423,7 @@ extension PayNowVC {
             if callapibool == true {
                 DispatchQueue.main.async {[self] in
                     holderView.isHidden = true
-                    callGetCountryListAPI()
+                    callAPI()
                 }
             }
             
@@ -495,7 +447,7 @@ extension PayNowVC {
             if callapibool == true {
                 DispatchQueue.main.async {[self] in
                     holderView.isHidden = true
-                    callGetCountryListAPI()
+                    callHotelMobileBookingAPI()
                 }
             }
         }
@@ -560,10 +512,163 @@ extension PayNowVC {
         payload1.removeAll()
         
         
+        var callpaymentbool = true
+        var fnameCharBool = true
+        var lnameCharBool = true
+        
+        
+        for traveler in travelerArray {
+            
+            if traveler.firstName == nil  || traveler.firstName?.isEmpty == true{
+                callpaymentbool = false
+                
+            }
+            
+            if (traveler.firstName?.count ?? 0) <= 3 {
+                fnameCharBool = false
+            }
+            
+            if traveler.lastName == nil || traveler.firstName?.isEmpty == true{
+                callpaymentbool = false
+            }
+            
+            if (traveler.lastName?.count ?? 0) <= 3 {
+                lnameCharBool = false
+            }
+            
+            if traveler.dob == nil || traveler.dob?.isEmpty == true{
+                callpaymentbool = false
+            }
+            
+            if traveler.passportno == nil || traveler.passportno?.isEmpty == true{
+                callpaymentbool = false
+            }
+            
+            if traveler.passportIssuingCountry == nil || traveler.passportIssuingCountry?.isEmpty == true{
+                callpaymentbool = false
+            }
+            
+            if traveler.passportExpireDate == nil || traveler.passportExpireDate?.isEmpty == true{
+                callpaymentbool = false
+            }
+            
+            
+            // Continue checking other fields
+        }
+        
+        
+        
+        
+        // Create an array to store validation results for each cell
+        var validationResults: [Bool] = []
+        
+        let positionsCount = commonTableView.numberOfRows(inSection: 0)
+        for position in 0..<positionsCount {
+            
+            
+            if let cell = commonTableView.cellForRow(at: IndexPath(row: position, section: 0)) as? AddDeatilsOfTravellerTVCell {
+                
+                var cellValidationResult = true
+                
+                if cell.titleTF.text?.isEmpty == true {
+                    cell.titleView.layer.borderColor = UIColor.red.cgColor
+                    callpaymentbool = false
+                    cellValidationResult = false
+                }
+                
+                if cell.fnameTF.text?.isEmpty == true {
+                    cell.fnameView.layer.borderColor = UIColor.red.cgColor
+                    callpaymentbool = false
+                    cellValidationResult = false
+                } else if (cell.fnameTF.text?.count ?? 0) <= 3 {
+                    cell.fnameView.layer.borderColor = UIColor.red.cgColor
+                    fnameCharBool = false
+                    cellValidationResult = false
+                }
+                
+                if cell.lnameTF.text?.isEmpty == true {
+                    cell.lnameView.layer.borderColor = UIColor.red.cgColor
+                    callpaymentbool = false
+                    cellValidationResult = false
+                } else if (cell.lnameTF.text?.count ?? 0) <= 3 {
+                    cell.lnameView.layer.borderColor = UIColor.red.cgColor
+                    lnameCharBool = false
+                    cellValidationResult = false
+                    
+                }
+                
+                if cell.dobTF.text?.isEmpty == true {
+                    // Textfield is empty
+                    cell.dobView.layer.borderColor = UIColor.red.cgColor
+                    callpaymentbool = false
+                    cellValidationResult = false
+                }
+                
+                
+                if cell.passportnoTF.text?.isEmpty == true {
+                    // Textfield is empty
+                    cell.passportnoView.layer.borderColor = UIColor.red.cgColor
+                    callpaymentbool = false
+                    cellValidationResult = false
+                }
+                
+                
+                if cell.passportIssuingCountryTF.text?.isEmpty == true {
+                    // Textfield is empty
+                    cell.issuecountryView.layer.borderColor = UIColor.red.cgColor
+                    callpaymentbool = false
+                    cellValidationResult = false
+                }
+                
+                
+                if cell.passportExpireDateTF.text?.isEmpty == true {
+                    // Textfield is empty
+                    cell.passportexpireView.layer.borderColor = UIColor.red.cgColor
+                    callpaymentbool = false
+                    cellValidationResult = false
+                }
+                
+                
+                validationResults.append(cellValidationResult)
+            }
+        }
+        
+        
+        let mrtitleArray = travelerArray.compactMap({$0.mrtitle})
+        let laedpassengerArray = travelerArray.compactMap({$0.laedpassenger})
+        let middlenameArray = travelerArray.compactMap({$0.middlename})
+        let genderArray = travelerArray.compactMap({$0.gender})
+        let firstnameArray = travelerArray.compactMap({$0.firstName})
+        let lastNameArray = travelerArray.compactMap({$0.lastName})
+        let dobArray = travelerArray.compactMap({$0.dob})
+        let passportnoArray = travelerArray.compactMap({$0.passportno})
+        let passportIssuingCountryArray = travelerArray.compactMap({$0.passportIssuingCountry})
+        let passportExpireDateArray = travelerArray.compactMap({$0.passportExpireDate})
+        //        let frequentFlyrNoArray = travelerArray.compactMap({$0.frequentFlyrNo})
+        //        let mealNameArray = travelerArray.compactMap({$0.meal})
+        //        let specialAssicintenceArray = travelerArray.compactMap({$0.specialAssicintence})
+        //        let nationalityArray = travelerArray.compactMap({$0.nationality})
+        
+        
+        // Convert arrays to string representations
+        let laedpassengerString = "[\"" + laedpassengerArray.joined(separator: "\",\"") + "\"]"
+        let genderString = "[\"" + genderArray.joined(separator: "\",\"") + "\"]"
+        let mrtitleString = "[\"" + mrtitleArray.joined(separator: "\",\"") + "\"]"
+        let firstnameString = "[\"" + firstnameArray.joined(separator: "\",\"") + "\"]"
+        let middlenameString = "[\"" + middlenameArray.joined(separator: "\",\"") + "\"]"
+        let lastNameString = "[\"" + lastNameArray.joined(separator: "\",\"") + "\"]"
+        let dobString = "[\"" + dobArray.joined(separator: "\",\"") + "\"]"
+        let passportnoString = "[\"" + passportnoArray.joined(separator: "\",\"") + "\"]"
+        let passportIssuingCountryString = "[\"" + passportIssuingCountryArray.joined(separator: "\",\"") + "\"]"
+        let passportExpireDateString = "[\"" + passportExpireDateArray.joined(separator: "\",\"") + "\"]"
+        let passengertypeArrayString = "[\"" + passengertypeArray.joined(separator: "\",\"") + "\"]"
+        
+        
         payload["search_id"] = searchid
         payload["tmp_flight_pre_booking_id"] = tmpFlightPreBookingId
         payload["token_key"] = tokenkey
         payload["access_key"] =  accesskey
+        payload["access_key_tp"] =  accesskey
         payload["insurance_policy_type"] = "0"
         payload["insurance_policy_option"] = "0"
         payload["insurance_policy_cover_type"] = "0"
@@ -576,71 +681,63 @@ extension PayNowVC {
         payload["mealsAmount"] = "0"
         payload["baggageAmount"] = "0"
         
+        payload["passenger_type"] = passengertypeArrayString
+        payload["lead_passenger"] = laedpassengerString
+        payload["gender"] = genderString
+        payload["name_title"] =  mrtitleString
+        payload["first_name"] =  firstnameString
+        payload["middle_name"] =  middlenameString
+        payload["last_name"] =  lastNameString
+        payload["date_of_birth"] =  dobString
+        payload["passenger_passport_number"] =  passportnoString
+        payload["passenger_passport_issuing_country"] =  passportIssuingCountryString
+        payload["passenger_nationality"] = passportIssuingCountryString
+        payload["passenger_passport_expiry"] =  passportExpireDateString
+        payload["Frequent"] = "\([["Select"]])"
+        payload["ff_no"] = "\([[""]])"
+        payload["payment_method"] =  "PNHB1"
         
-        payload["passenger_type"] = passengertypeA
-        payload["lead_passenger"] = leadPassengerA
-        payload["gender"] = genderA
-        payload["passenger_nationality"] = passportissuingcountryA
-        payload["name_title"] = title2A
-        payload["first_name"] = fnameA
-        payload["middle_name"] = middleNameA
-        payload["last_name"] = lnameA
-        payload["date_of_birth"] = dobA
-        payload["passenger_passport_number"] = passportNoA
-        payload["passenger_passport_issuing_country"] = passportissuingcountryA
-        payload["passenger_passport_expiry"] = passportexpiryA
-        payload["Frequent"] = [["Select"]]
-        payload["ff_no"] = [[""]]
-        
-        payload["address2"] = "ecity"
-        payload["billing_address_1"] = "DA"
-        payload["billing_state"] = "ASDAS"
-        payload["billing_city"] = "sdfsd"
-        payload["billing_zipcode"] = "sdf"
-        payload["billing_email"] = self.email
-        payload["passenger_contact"] = self.mobile
-        payload["billing_country"] = self.billingCountryName
-        payload["country_mobile_code"] = self.billingCountryCode
+        payload["billing_email"] = email
+        payload["passenger_contact"] = mobile
+        payload["country_mobile_code"] = countryCode
         payload["insurance"] = "1"
         payload["tc"] = "on"
         payload["booking_step"] = "book"
-        payload["payment_method"] = activepaymentoptions
         payload["selectedCurrency"] = defaults.string(forKey: UserDefaultsKeys.selectedCurrency) ?? "KWD"
         payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
         
+        payload["address2"] = ""
+        payload["billing_address_1"] = ""
+        payload["billing_state"] = ""
+        payload["billing_city"] = ""
+        payload["billing_zipcode"] = ""
         
-        
-        if fnameA.count != Int(defaults.string(forKey: UserDefaultsKeys.totalTravellerCount) ?? "1"){
-            showToast(message: "Add Traveller Details")
-        }else {
-            CALL_PRE_PROCESS_PASSENGER_DETAIL_API()
+        // Check additional conditions
+        if email == "" {
+            showToast(message: "Enter Email Address")
+        }else if email.isValidEmail() == false {
+            showToast(message: "Enter Valid Email Addreess")
+        }else if mobile == "" {
+            showToast(message: "Enter Mobile No")
+        }else if mobile.isValidMobileNumber() == false {
+            showToast(message: "Enter Valid Mobile No")
+        }else if countryCode == "" {
+            showToast(message: "Enter Country Code")
+        }else if mobilenoMaxLengthBool == false {
+            showToast(message: "Enter Valid Mobile No")
         }
         
-        
-        
-    }
-    
-    
-    
-    //MARK:  Call mobile process passenger Details API
-    func CALL_PRE_PROCESS_PASSENGER_DETAIL_API(){
-        
-        
-        if self.email == "" {
-            showToast(message: "Enter Email Address")
-        }else if self.email.isValidEmail() == false {
-            showToast(message: "Enter Valid Email Addreess")
-        }else if self.mobile == "" {
-            showToast(message: "Enter Mobile No")
-        }else if self.mobile.isValidMobileNumber() == false {
-            showToast(message: "Enter Valid Mobile No")
-        }else if self.billingCountryCode == "" {
-            showToast(message: "Enter Country Code")
-        }else if checkTermsAndCondationStatus == false {
+        else if callpaymentbool == false {
+            showToast(message: "Add Details")
+        } else if !fnameCharBool {
+            showToast(message: "First name should have more than 3 characters")
+        } else if !lnameCharBool {
+            showToast(message: "Last name should have more than 3 characters")
+        } else if checkTermsAndCondationStatus == false {
             showToast(message: "Please Accept T&C and Privacy Policy")
-        }else {
-            vm?.CALL_PROCESS_PASSENGER_DETAIL_API(dictParam: payload, key: tmpFlightPreBookingId)
+        } else {
             
+            vm?.CALL_PROCESS_PASSENGER_DETAIL_API(dictParam: payload, key: tmpFlightPreBookingId)
         }
         
     }
@@ -677,7 +774,6 @@ extension PayNowVC {
             vm?.CALL_SENDTO_PAYMENT_API(dictParam: payload, key: "\(tmpFlightPreBookingId)/\(searchid)")
         }
     }
-    
     
     
     func sendtoPaymentDetails(response: sendToPaymentModel) {

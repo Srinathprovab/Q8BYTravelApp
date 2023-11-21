@@ -25,8 +25,7 @@ class ItineraryTVCell: TableViewCell {
     @IBOutlet weak var layoverCitylbl: UILabel!
     @IBOutlet weak var toairportname: UILabel!
     @IBOutlet weak var fromairportname: UILabel!
-    
-    
+   
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -63,8 +62,7 @@ class ItineraryTVCell: TableViewCell {
         fromairportname.numberOfLines = 2
         toairportname.numberOfLines = 2
         
-        
-        
+      
         
     }
     

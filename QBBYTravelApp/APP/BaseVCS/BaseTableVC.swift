@@ -9,7 +9,8 @@ import UIKit
 import MaterialComponents
 
 
-class BaseTableVC: UIViewController, ButtonTVCellDelegate,TextfieldTVCellDelegate, SelectGenderTVCellDelegate, RadioButtonTVCellDelegate, SignUpWithTVCellDelegate, MenuBGTVCellDelegate,LabelWithButtonTVCellDelegate, SelectTabTVCellDelegate, SearchFlightTVCellDelegate, TravellerEconomyTVCellDelegate, SearchFlightResultInfoTVCellDelegate, BookNowTVCellDelegate, TDetailsLoginTVCellDelegate,PromocodeTVCellDelegate, PriceSummaryTVCellDelegate, AddTravellersDetailsTVCellDelegate, CheckBoxTVCellDelegate,MultiCityTripTVCellDelegate, RoomsTVCellDelegate, StarRatingTVCellDelegate, ChooseProfilPpictureTVCellDelegate,checkOptionsTVCellDelegate, AboutusTVCellDelegate, HotelDealsTVCellDelegate, RoundTripTVcellDelegate, FareRulesTVCellDelegate, SaveTravellerDetailsTVCellDelegate, AddInfantaTravellerTVCellDelegate, AddChildTravellerTVCellDelegate, AddAdultTravellerTVCellDelegate, ContactInformationTVCellDelegate, SortByPriceTVCellDelegate, SliderTVCellDelegate, AcceptTermsAndConditionTVCellDelegate, MyBookingsTVCellsDelegate, SearchHolidaysTVcellDelegate, HolidaySearchResultTVCellDelegate, FlightSearchTVCellDelegate, RoundTripDetailsTVcellDelegate, LogowithMenuTVCellDelegate, AddCityTVCellDelegate, BookingConfTVCellDelegate, DownloadTicketTVCellDelegate, CreateAccountTVCellDelegate, AddFareRulesTVCellDelegate {
+class BaseTableVC: UIViewController, ButtonTVCellDelegate,TextfieldTVCellDelegate, SelectGenderTVCellDelegate, RadioButtonTVCellDelegate, SignUpWithTVCellDelegate, MenuBGTVCellDelegate,LabelWithButtonTVCellDelegate, SelectTabTVCellDelegate, SearchFlightTVCellDelegate, TravellerEconomyTVCellDelegate, SearchFlightResultInfoTVCellDelegate, BookNowTVCellDelegate, TDetailsLoginTVCellDelegate,PromocodeTVCellDelegate, PriceSummaryTVCellDelegate, AddTravellersDetailsTVCellDelegate, CheckBoxTVCellDelegate,MultiCityTripTVCellDelegate, RoomsTVCellDelegate, StarRatingTVCellDelegate, ChooseProfilPpictureTVCellDelegate,checkOptionsTVCellDelegate, AboutusTVCellDelegate, HotelDealsTVCellDelegate, RoundTripTVcellDelegate, FareRulesTVCellDelegate, SaveTravellerDetailsTVCellDelegate, AddInfantaTravellerTVCellDelegate, AddChildTravellerTVCellDelegate, AddAdultTravellerTVCellDelegate, ContactInformationTVCellDelegate, SortByPriceTVCellDelegate, SliderTVCellDelegate, AcceptTermsAndConditionTVCellDelegate, MyBookingsTVCellsDelegate, SearchHolidaysTVcellDelegate, HolidaySearchResultTVCellDelegate, FlightSearchTVCellDelegate, RoundTripDetailsTVcellDelegate, LogowithMenuTVCellDelegate, AddCityTVCellDelegate, BookingConfTVCellDelegate, DownloadTicketTVCellDelegate, CreateAccountTVCellDelegate, AddFareRulesTVCellDelegate, AddDeatilsOfTravellerTVCellDelegate {
+    
    
     
     
@@ -221,6 +222,14 @@ class BaseTableVC: UIViewController, ButtonTVCellDelegate,TextfieldTVCellDelegat
     func didTapOnFareRulesBtnAction(cell: AddFareRulesTVCell) {}
     
     
+    func didTapOnExpandAdultViewbtnAction(cell: AddDeatilsOfTravellerTVCell) {}
+    func tfeditingChanged(tf: UITextField) {}
+    func didTapOnTitleBtnAction(cell: AddDeatilsOfTravellerTVCell) {}
+    func donedatePicker(cell: AddDeatilsOfTravellerTVCell) {}
+    func cancelDatePicker(cell: AddDeatilsOfTravellerTVCell) {}
+    func didTapOnSelectIssuingCountryBtn(cell: AddDeatilsOfTravellerTVCell) {}
+    func didTapOnMealPreferenceBtn(cell: AddDeatilsOfTravellerTVCell) {}
+    func didTapOnSpecialAssicintenceBtn(cell: AddDeatilsOfTravellerTVCell) {}
     
     
     
@@ -716,7 +725,15 @@ extension BaseTableVC: UITableViewDataSource {
                 cell.delegate = self
                 commonCell = cell
                 
+            case .TotalNoofTravellerTVCell:
+                let cell: TotalNoofTravellerTVCell = commonTV.dequeTVCell(indexPath: indexPath)
+                commonCell = cell
                 
+                
+            case .AddDeatilsOfTravellerTVCell:
+                let cell: AddDeatilsOfTravellerTVCell = commonTV.dequeTVCell(indexPath: indexPath)
+                cell.delegate = self
+                commonCell = cell
                 
                 
             default:
