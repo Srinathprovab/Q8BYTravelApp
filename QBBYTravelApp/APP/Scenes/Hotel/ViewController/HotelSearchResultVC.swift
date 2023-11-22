@@ -12,14 +12,22 @@ class HotelSearchResultVC: BaseTableVC, HotelListViewModelDelegate, TimerManager
     
     
     
+    
     @IBOutlet weak var nav: NavBar!
     @IBOutlet weak var holderView: UIView!
     @IBOutlet weak var navHeight: NSLayoutConstraint!
     @IBOutlet weak var sessionlbl: UILabel!
     @IBOutlet weak var subtitlelbl: UILabel!
     
+    
+    
+    var bookingSourceDataArrayCount = Int()
+    var bookingSourceDataArray = [BookingSourceData]()
+    
+    var nationalityCode = String()
     var isSearchBool = false
     var payload = [String:Any]()
+    var payload1 = [String:Any]()
     var isVcFrom = String()
     var tablerow = [TableRow]()
     var hotelSearchResultArray = [HotelSearchResult]()
@@ -34,71 +42,8 @@ class HotelSearchResultVC: BaseTableVC, HotelListViewModelDelegate, TimerManager
     }
     
     
-    
-    @objc func offline(){
-        guard let vc = NoInternetConnectionVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .fullScreen
-        callapibool = true
-        present(vc, animated: true)
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(offline), name: NSNotification.Name("offline"), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(reload(notification:)), name: NSNotification.Name("reload"), object: nil)
-        
-        if callapibool == true {
-            holderView.isHidden = true
-            callAPI()
-        }
-        
-        
-        TimerManager.shared.delegate = self
-    }
-    
-    func timerDidFinish() {
-        guard let vc = PopupVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .overCurrentContext
-        self.present(vc, animated: false)
-    }
-    
-    func updateTimer() {
-        let totalTime = TimerManager.shared.totalTime
-        let minutes =  totalTime / 60
-        let seconds = totalTime % 60
-        let formattedTime = String(format: "%02d:%02d", minutes, seconds)
-        
-        setuplabels(lbl: sessionlbl, text: "Your Session Expires In: \(formattedTime)",
-                    textcolor: .AppLabelColor,
-                    font: .OpenSansRegular(size: 12),
-                    align: .left)
-    }
-    
-    
-    
-    func callAPI() {
-        viewModel?.CALL_GET_HOTEL_LIST_API(dictParam: payload)
-    }
-    
-    func hotelList(response: HotelListModel) {
-        
-        hsearch_id = String(response.search_id ?? 0)
-        hbooking_source = response.booking_source ?? ""
-        holderView.isHidden = false
-        hotelSearchResultArray = response.data?.hotelSearchResult ?? []
-        
-        TimerManager.shared.totalTime = response.session_expiry_details?.session_start_time ?? 0
-        TimerManager.shared.startTimer(time: 900)
-        
-        setupLabels(lbl: sessionlbl, text: "Your Session Expires In: \(response.session_expiry_details?.session_start_time ?? 0)", textcolor: .WhiteColor, font: .OpenSansRegular(size: 12))
-        setupLabels(lbl: subtitlelbl, text: "\(hotelSearchResultArray.count) Hotels Found", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12))
-        
-        
-        
-        
-        DispatchQueue.main.async {
-            self.setupTVCells(hotelList: self.hotelSearchResultArray)
-        }
+        addObserver()
     }
     
     
@@ -107,6 +52,8 @@ class HotelSearchResultVC: BaseTableVC, HotelListViewModelDelegate, TimerManager
         // Do any additional setup after loading the view.
         setupUI()
         viewModel = HotelListViewModel(self)
+        
+       
     }
     
     func setupUI() {
@@ -125,11 +72,6 @@ class HotelSearchResultVC: BaseTableVC, HotelListViewModelDelegate, TimerManager
         nav.filterImg.image = UIImage(named: "locc1")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppLabelColor)
         nav.filterBtn.addTarget(self, action: #selector(didTapOnViewMapBtnAction(_:)), for: .touchUpInside)
         
-        
-        nav.titlelbl.text = "\(defaults.string(forKey: UserDefaultsKeys.locationcity) ?? "")"
-        nav.citylbl.text = "CheckIn -\(defaults.string(forKey: UserDefaultsKeys.checkin) ?? "" ) CheckOut -\(defaults.string(forKey: UserDefaultsKeys.checkout) ?? "")"
-        
-        nav.datelbl.text = "Guests-1 \(defaults.string(forKey: UserDefaultsKeys.guestcount) ?? "")/ Room - \(defaults.string(forKey: UserDefaultsKeys.roomcount) ?? "")"
         
         
         nav.backBtn.addTarget(self, action: #selector(backbtnAction(_:)), for: .touchUpInside)
@@ -152,34 +94,8 @@ class HotelSearchResultVC: BaseTableVC, HotelListViewModelDelegate, TimerManager
     
     
     
-    
-    @objc func reload(notification: NSNotification){
-        commonTableView.reloadData()
-    }
-    
-    
-    
-    
-    
-    func setupLabels(lbl:UILabel,text:String,textcolor:UIColor,font:UIFont) {
-        lbl.text = text
-        lbl.textColor = textcolor
-        lbl.font = font
-    }
-    
-    func setupViews(v:UIView,radius:CGFloat,color:UIColor) {
-        v.backgroundColor = color
-        v.layer.cornerRadius = radius
-        v.clipsToBounds = true
-        v.layer.borderWidth = 0.2
-        v.layer.borderColor = UIColor.AppBorderColor.cgColor
-    }
-    
     @objc func modifySearchHotel(_ sender:UIButton) {
-        guard let vc = BookHotelVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .overCurrentContext
-        vc.isVcFrom = "modify"
-        self.present(vc, animated: false)
+        
     }
     
     
@@ -229,8 +145,6 @@ extension HotelSearchResultVC {
 
 
 
-
-
 extension HotelSearchResultVC:AppliedFilters {
     
     
@@ -253,9 +167,9 @@ extension HotelSearchResultVC:AppliedFilters {
             guard let netPrice = Double(hotel.price ?? "0.0") else { return false }
             
             let ratingMatches = hotel.star_rating == Int(starRating) || starRating.isEmpty
-       //     let refundableMatch = refundableTypeArray.isEmpty || refundableTypeArray.contains(hotel.refund ?? "")
+            //     let refundableMatch = refundableTypeArray.isEmpty || refundableTypeArray.contains(hotel.refund ?? "")
             let nearByLocMatch = nearByLocA.isEmpty || nearByLocA.contains(hotel.location ?? "")
-
+            
             
             let facilityMatch = aminitiesA.isEmpty || aminitiesA.allSatisfy { desiredAmenity in
                 hotel.facility?.contains { facility in
@@ -263,13 +177,13 @@ extension HotelSearchResultVC:AppliedFilters {
                     return facilityName == desiredAmenity.lowercased()
                 } ?? false
             }
-
-
+            
+            
             return ratingMatches && netPrice >= minpricerange && netPrice <= maxpricerange && facilityMatch && nearByLocMatch
             
             
         }
-
+        
         
         
         
@@ -299,7 +213,7 @@ extension HotelSearchResultVC:AppliedFilters {
             let sortedByPriceLowToHigh = hotelSearchResultArray.sorted { hotel1, hotel2 in
                 return (Double(hotel1.price ?? "") ?? 0.0) < (Double(hotel2.price ?? "") ?? 0.0)
             }
-          
+            
             setupTVCells(hotelList: sortedByPriceLowToHigh)
             break
             
@@ -346,7 +260,191 @@ extension HotelSearchResultVC:AppliedFilters {
         
     }
     
+}
+
+
+
+
+
+extension HotelSearchResultVC {
     
+    
+    func callGetActiveSourceBookingSourchAPI() {
+        viewModel?.CALL_GET_ACTIVE_BOOKINGSOURCE_API(dictParam: [:])
+    }
+    
+    func getActiveBookingSourceResponse(response: ActiveBookingSourceModel) {
+        // hbooking_source = response.data?[0].source_id ?? ""
+        bookingSourceDataArray = response.data ?? []
+        bookingSourceDataArrayCount = bookingSourceDataArray.count
+        
+        
+        DispatchQueue.main.async {
+            self.CallAPI()
+        }
+    }
+    
+    
+    func CallAPI() {
+       
+        
+        do {
+            
+            let arrJson = try JSONSerialization.data(withJSONObject: payload, options: JSONSerialization.WritingOptions.prettyPrinted)
+            let theJSONText = NSString(data: arrJson, encoding: String.Encoding.utf8.rawValue)
+            print(theJSONText ?? "")
+            payload1["search_params"] = theJSONText
+            viewModel?.CALL_HOTEL_SEARCH_API(dictParam: payload1)
+            
+        }catch let error as NSError{
+            print(error.description)
+        }
+        
+    }
+    
+    
+    func hotelSearchresponse(response: HotelSearchModel) {
+        
+        
+        // hbooking_source = response.boo ?? ""
+        hsearch_id = String(response.search_id ?? 0)
+        
+        nav.titlelbl.text = "\(defaults.string(forKey: UserDefaultsKeys.locationcity) ?? "")"
+        nav.citylbl.text = "CheckIn -\(defaults.string(forKey: UserDefaultsKeys.checkin) ?? "" ) CheckOut -\(defaults.string(forKey: UserDefaultsKeys.checkout) ?? "")"
+        
+        nav.datelbl.text = "Guests-1 \(defaults.string(forKey: UserDefaultsKeys.guestcount) ?? "")/ Room - \(defaults.string(forKey: UserDefaultsKeys.roomcount) ?? "")"
+        
+        
+        DispatchQueue.main.async {
+            self.callGetHotelListAPI()
+        }
+        
+    }
+    
+    
+    func callGetHotelListAPI() {
+        
+        
+        bookingSourceDataArray.forEach { i in
+            
+            let seconds = 1.0
+            DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {[self] in
+                callgetHotelListAPI(bs: i.source_id ?? "")
+            }
+        }
+        
+    }
+    
+    
+    func callgetHotelListAPI(bs:String) {
+        payload.removeAll()
+        payload["offset"] = "0"
+        payload["limit"] = "10"
+        payload["booking_source"] = bs
+        payload["search_id"] = hsearch_id
+        
+        viewModel?.CALL_GET_HOTEL_LIST_API(dictParam: payload)
+    }
+    
+    
+    
+    func hotelList(response: HotelListModel) {
+        
+        bookingSourceDataArrayCount -= 1
+        
+        
+        isfilterApplied = false
+        //    hotelSearchResultArray = response.data?.hotelSearchResult ?? []
+        
+        
+        // Stop the timer if it's running
+        TimerManager.shared.stopTimer()
+        TimerManager.shared.startTimer(time: 900) // Set your desired total time
+        
+        
+        
+        if let newResults = response.data?.hotelSearchResult, !newResults.isEmpty {
+            // Append the new data to the existing data
+            hotelSearchResultArray.append(contentsOf: newResults)
+            
+        } else {
+            // No more items to load, update UI accordingly
+            print("No more items to load.")
+            // You can show a message or hide a loading indicator here
+        }
+        
+        
+        if bookingSourceDataArrayCount == 0 {
+            
+            holderView.isHidden = true
+            if hotelSearchResultArray.count <= 0 {
+                gotoNoInternetScreen(keystr: "noresult")
+                // holderView.isHidden = true
+            }else {
+                DispatchQueue.main.async {
+                    self.appendValues(list: self.hotelSearchResultArray)
+                }
+            }
+        }
+        
+    }
+    
+    
+    
+    func appendValues(list:[HotelSearchResult]) {
+        
+        holderView.isHidden = false
+        prices.removeAll()
+        nearBylocationsArray.removeAll()
+        faretypeArray .removeAll()
+        facilityArray.removeAll()
+        mapModelArray.removeAll()
+        
+        
+        list.forEach { i in
+            
+            if let price = i.price, (Int(price) ?? 0) > 0 {
+                prices.append("\(price)")
+            }
+            
+            if let hotelLocation = i.location, !hotelLocation.isEmpty {
+                nearBylocationsArray.append(hotelLocation)
+            }
+            //
+            //            if let refund = i.refund, !refund.isEmpty {
+            //                faretypeArray.append(refund)
+            //            }
+            
+            
+            
+            i.facility?.forEach { j in
+                if let facilityName = j.name, !facilityName.isEmpty {
+                    facilityArray.append(facilityName)
+                }
+            }
+        }
+        
+        prices = Array(Set(prices))
+        nearBylocationsArray = Array(Set(nearBylocationsArray))
+        faretypeArray = Array(Set(faretypeArray))
+        facilityArray = Array(Set(facilityArray))
+        
+        
+        list.forEach { i in
+            let mapModel = MapModel(
+                longitude: i.longitude ?? "",
+                latitude: i.latitude ?? "",
+                hotelname: i.name ?? ""
+            )
+            mapModelArray.append(mapModel)
+        }
+        
+        
+        DispatchQueue.main.async {
+            self.setupTVCells(hotelList: list)
+        }
+        
+    }
     
     
     
@@ -382,6 +480,86 @@ extension HotelSearchResultVC:AppliedFilters {
         }
         
     }
+}
+
+
+
+
+extension HotelSearchResultVC {
     
+    func addObserver() {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(offline), name: Notification.Name("offline"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(resultnil), name: NSNotification.Name("resultnil"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reload), name: Notification.Name("reload"), object: nil)
+        
+        TimerManager.shared.delegate = self
+        
+        if callapibool == true {
+            holderView.isHidden = true
+            callGetActiveSourceBookingSourchAPI()
+        }
+    }
+    
+    
+    
+    @objc func reload(notification: NSNotification){
+        commonTableView.reloadData()
+    }
+    
+    
+    //MARK: - resultnil
+    @objc func resultnil(notification: NSNotification){
+        gotoNoInternetScreen(keystr: "noresult")
+    }
+    
+    
+    func gotoNoInternetScreen(keystr:String) {
+        callapibool = true
+        guard let vc = NoInternetConnectionVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .fullScreen
+        vc.key = keystr
+        self.present(vc, animated: false)
+    }
+    
+    
+    @objc func offline(notificatio:UNNotification) {
+        gotoNoInternetScreen(keystr: "offline")
+    }
+    
+    
+    func timerDidFinish() {
+        guard let vc = PopupVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .overCurrentContext
+        self.present(vc, animated: false)
+    }
+    
+    func updateTimer() {
+        let totalTime = TimerManager.shared.totalTime
+        let minutes =  totalTime / 60
+        let seconds = totalTime % 60
+        let formattedTime = String(format: "%02d:%02d", minutes, seconds)
+        
+        setuplabels(lbl: sessionlbl, text: "Your Session Expires In: \(formattedTime)",
+                    textcolor: .WhiteColor,
+                    font: .OpenSansRegular(size: 12),
+                    align: .left)
+    }
+    
+    
+    
+    func setupLabels(lbl:UILabel,text:String,textcolor:UIColor,font:UIFont) {
+        lbl.text = text
+        lbl.textColor = textcolor
+        lbl.font = font
+    }
+    
+    func setupViews(v:UIView,radius:CGFloat,color:UIColor) {
+        v.backgroundColor = color
+        v.layer.cornerRadius = radius
+        v.clipsToBounds = true
+        v.layer.borderWidth = 0.2
+        v.layer.borderColor = UIColor.AppBorderColor.cgColor
+    }
     
 }

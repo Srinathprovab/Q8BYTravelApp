@@ -197,7 +197,7 @@ extension LoginVC:LoginViewModelDelegate {
     func loginSucess(response: LoginModel) {
         if response.status == false {
             
-            showToast(message: response.msg ?? "")
+            showToast(message: response.data ?? "")
             defaults.set(false, forKey: UserDefaultsKeys.userLoggedIn)
             defaults.set("0", forKey: UserDefaultsKeys.userid)
             
@@ -206,6 +206,8 @@ extension LoginVC:LoginViewModelDelegate {
             showToast(message: response.msg ?? "")
             defaults.set(true, forKey: UserDefaultsKeys.userLoggedIn)
             defaults.set(response.user_id, forKey: UserDefaultsKeys.userid)
+            
+            
             let seconds = 1.0
             DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {[self] in
                 // Put your code which should be executed with a delay here

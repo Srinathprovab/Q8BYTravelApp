@@ -73,7 +73,7 @@ class EditProfileVC: BaseTableVC, ProfileUpdateViewModelDelegate {
         
         first_name = profildata?.first_name ?? ""
         last_name = profildata?.last_name ?? ""
-        date_of_birth = profildata?.date_of_birth ?? ""
+        date_of_birth = convertDateFormat(inputDate: profildata?.date_of_birth ?? "", f1: "yyyy-MM-dd", f2: "dd/MM/yyyy")
         address = profildata?.address ?? ""
         address2 = profildata?.address2 ?? ""
         city_name = profildata?.city_name ?? ""

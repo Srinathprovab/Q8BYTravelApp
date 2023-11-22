@@ -201,7 +201,7 @@ extension CreateAccountVC {
         payload["last_name"] = lname
         payload["phone"] = mobile
         payload["email"] = email
-        payload["date_of_birth"] = dob
+        payload["date_of_birth"] = convertDateFormat(inputDate: dob, f1: "dd-MM-yyyy", f2: "dd/MM/yyyy")
         payload["password"] = pass
         payload["confirm_password"] = cpass
         payload["about_us"] = "test"

@@ -165,7 +165,9 @@ var faretypeArray = [String]()
 var neighbourwoodArray = [String]()
 var amenitiesArray = [String]()
 var nearBylocationsArray = [String]()
-
+var totalRooms = 0
+var isfilterApplied = false
+var mapModelArray: [MapModel] = []
 
 
 /* URL endpoints */
@@ -201,8 +203,9 @@ struct ApiEndpoints {
     
     
     //HOTEL
-    static let gethotelcitylist = "ajax/get_hotel_city_list"
+    static let hotel_getActiveBookingSource = "general/getActiveBookingSource"
     static let mobileprehotelsearch = "general/mobile_pre_hotel_search"
+    static let gethotelcitylist = "ajax/get_hotel_city_list"
     static let hoteldetails = "hotel/mobile_details"
     static let hotelmobilebooking = "hotel/mobile_booking"
     static let mobilehotelprebooking = "hotel/mobile_hotel_pre_booking"

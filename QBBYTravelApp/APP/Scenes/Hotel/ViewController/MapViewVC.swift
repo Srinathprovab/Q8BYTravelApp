@@ -8,6 +8,14 @@
 import UIKit
 import MapKit
 
+
+struct MapModel {
+    var longitude =  String()
+    var latitude =  String()
+    var hotelname = String()
+}
+
+
 class MapViewVC: UIViewController {
     
     

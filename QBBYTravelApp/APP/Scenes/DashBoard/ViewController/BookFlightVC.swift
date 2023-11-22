@@ -316,6 +316,8 @@ class BookFlightVC: BaseTableVC {
             payload["psscarrier"] = defaults.string(forKey: UserDefaultsKeys.airlinescode) ?? "ALL"
             payload["search_flight"] = "Search"
             payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
+            payload["search_source"] = "IOS"
+            
             
             if defaults.string(forKey:UserDefaultsKeys.fromCity) == nil {
                 showToast(message: "Please Select From City")
@@ -357,6 +359,8 @@ class BookFlightVC: BaseTableVC {
             payload["psscarrier"] = defaults.string(forKey: UserDefaultsKeys.airlinescode) ?? "ALL"
             payload["search_flight"] = "Search"
             payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
+            payload["search_source"] = "IOS"
+            
             
             if defaults.string(forKey:UserDefaultsKeys.fromCity) == nil {
                 showToast(message: "Please Select From City")

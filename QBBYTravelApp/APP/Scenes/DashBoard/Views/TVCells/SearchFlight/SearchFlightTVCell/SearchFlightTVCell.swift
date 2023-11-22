@@ -64,6 +64,7 @@ class SearchFlightTVCell: TableViewCell,DualViewTVCellDelegate,ButtonTVCellDeleg
         searchFlightTV.register(UINib(nibName: "HolderViewTVCell", bundle: nil), forCellReuseIdentifier: "cell")
         searchFlightTV.register(UINib(nibName: "HolderViewTVCell", bundle: nil), forCellReuseIdentifier: "cell1")
         searchFlightTV.register(UINib(nibName: "DualViewTVCell", bundle: nil), forCellReuseIdentifier: "cell2")
+        searchFlightTV.register(UINib(nibName: "HolderViewTVCell", bundle: nil), forCellReuseIdentifier: "cell3")
         searchFlightTV.register(UINib(nibName: "DualViewTVCell", bundle: nil), forCellReuseIdentifier: "cell33")
         searchFlightTV.register(UINib(nibName: "HolderViewTVCell", bundle: nil), forCellReuseIdentifier: "cell5")
         searchFlightTV.register(UINib(nibName: "ButtonTVCell", bundle: nil), forCellReuseIdentifier: "cell4")
@@ -158,7 +159,7 @@ extension SearchFlightTVCell:UITableViewDelegate,UITableViewDataSource {
             if indexPath.row == 0 {
                 if let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? HolderViewTVCell {
                     cell.selectionStyle = .none
-                    cell.titlelbl.text = "\(defaults.string(forKey: UserDefaultsKeys.locationcity) ?? "city/location")"
+                    cell.titlelbl.text = "\(defaults.string(forKey: UserDefaultsKeys.locationcity) ?? "City/Location")"
                     cell.locImg.image = UIImage(named: "loc")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppBackgroundColor)
                     cell.dropdownimg.isHidden = true
                     cell.fromBtn.addTarget(self, action: #selector(didTapOnLocationOrCityBtn(cell:)), for: .touchUpInside)
@@ -277,25 +278,7 @@ extension SearchFlightTVCell:UITableViewDelegate,UITableViewDataSource {
                     c = cell
                 }
             }else  if indexPath.row == 2 {
-//                if let cell = tableView.dequeueReusableCell(withIdentifier: "cell3") as? HolderViewTVCell {
-//
-//                    cell.locImg.image = UIImage(named: "traveler")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppBackgroundColor)
-//                    cell.dropdownimg.isHidden = false
-//                    cell.fromBtn.addTarget(self, action: #selector(didTapOnAddTravelerEconomy(cell:)), for: .touchUpInside)
-//                    cell.tag = 3
-//
-//
-//
-//                    if let selectedJourneyType = defaults.string(forKey: UserDefaultsKeys.journeyType) {
-//                        if selectedJourneyType == "circle" {
-//                            cell.titlelbl.text = "\(defaults.string(forKey: UserDefaultsKeys.rtravellerDetails) ?? "+ Add Traveller")"
-//                        }else {
-//                            cell.titlelbl.text = "\(defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "+ Add Traveller")"
-//                        }
-//                    }
-//
-//                    c = cell
-//                }
+
                 
                 
                 if let cell = tableView.dequeueReusableCell(withIdentifier: "cell33") as? DualViewTVCell {

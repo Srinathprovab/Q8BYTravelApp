@@ -67,7 +67,7 @@ class PayNowVC: BaseTableVC,HotelMBViewModelDelegate,TimerManagerDelegate, PreBo
     var hcurrency = String()
     var securebooingbool = false
     var positionsCount = 0
-    
+    var searchidnew = String()
     
     override func viewWillAppear(_ animated: Bool) {
         addObserver()
@@ -335,13 +335,16 @@ extension PayNowVC {
         payload["booking_source"] = bookingsource
         payload["promocode_val"] = ""
         payload["access_key"] = accesskey
+        payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
+        
         vm?.CALL_MOBILE_PRE_BOOKING_API(dictParam: payload)
     }
     
     
     func preBookingDetails(response: PreBookingModel) {
         
-        tmpFlightPreBookingId = response.form_params?.booking_id ?? ""
+       tmpFlightPreBookingId = response.form_params?.booking_id ?? ""
+     // tokenkey = response.form_params?.token_key ?? ""
         
         holderView.isHidden = false
         DispatchQueue.main.async {[self] in
@@ -355,6 +358,7 @@ extension PayNowVC {
                 payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
                 payload["promocode_val"] = ""
                 payload["access_key"] = accesskey
+                payload["booking_id"] = tmpFlightPreBookingId
                 vm?.CALL_MOBILE_FLIGHT_BOOKING_API(dictParam: payload)
             }
         }
@@ -366,12 +370,12 @@ extension PayNowVC {
         
         holderView.isHidden = false
         booknowHolderView.isHidden = false
-        searchid = response.pre_booking_params?.search_id ?? ""
-        accesskey = response.access_key_tp ?? ""
-        activepaymentoptions = response.active_payment_options?[0] ?? ""
-        flightSummery = response.flight_data?[0].flight_details?.summary ?? []
+        
         tokenkey = response.flight_data?[0].token_key ?? ""
         
+        searchid = response.pre_booking_params?.search_id ?? ""
+        activepaymentoptions = response.active_payment_options?[0] ?? ""
+        flightSummery = response.flight_data?[0].flight_details?.summary ?? []
         
         
         DispatchQueue.main.async {[self] in
@@ -666,7 +670,7 @@ extension PayNowVC {
         
         payload["search_id"] = searchid
         payload["tmp_flight_pre_booking_id"] = tmpFlightPreBookingId
-        payload["token_key"] = tokenkey
+        payload["token_key"] = "\(tokenkey)"
         payload["access_key"] =  accesskey
         payload["access_key_tp"] =  accesskey
         payload["insurance_policy_type"] = "0"
@@ -693,6 +697,10 @@ extension PayNowVC {
         payload["passenger_passport_issuing_country"] =  passportIssuingCountryString
         payload["passenger_nationality"] = passportIssuingCountryString
         payload["passenger_passport_expiry"] =  passportExpireDateString
+        
+        
+    
+        
         payload["Frequent"] = "\([["Select"]])"
         payload["ff_no"] = "\([[""]])"
         payload["payment_method"] =  "PNHB1"
@@ -719,8 +727,6 @@ extension PayNowVC {
             showToast(message: "Enter Valid Email Addreess")
         }else if mobile == "" {
             showToast(message: "Enter Mobile No")
-        }else if mobile.isValidMobileNumber() == false {
-            showToast(message: "Enter Valid Mobile No")
         }else if countryCode == "" {
             showToast(message: "Enter Country Code")
         }else if mobilenoMaxLengthBool == false {
@@ -749,6 +755,7 @@ extension PayNowVC {
             payload["app_reference"] = tmpFlightPreBookingId
             payload["search_id"] = searchid
             payload["promocode_val"] = ""
+            
             vm?.CALL_PRE_FLIGHT_BOOKING_API(dictParam: payload, key: searchid)
         }
     }
@@ -771,6 +778,7 @@ extension PayNowVC {
             payload.removeAll()
             payload["extra_price"] = "0"
             payload["promocode_val"] = ""
+            
             vm?.CALL_SENDTO_PAYMENT_API(dictParam: payload, key: "\(tmpFlightPreBookingId)/\(searchid)")
         }
     }

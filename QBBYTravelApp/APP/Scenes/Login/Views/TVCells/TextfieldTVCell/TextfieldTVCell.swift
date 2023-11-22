@@ -105,7 +105,7 @@ class TextfieldTVCell: TableViewCell {
             
         case "dob":
             showPassView.isHidden = false
-            showPassImg.image = UIImage(named: "calender")
+            showPassImg.image = UIImage(named: "cal")
             datePicker.isHidden = false
             break
             

@@ -32,7 +32,7 @@ class SideMenuVC: BaseTableVC, ProfileUpdateViewModelDelegate {
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self, selector: #selector(offline), name: NSNotification.Name("offline"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(loginDone), name: NSNotification.Name("logindon"), object: nil)
-       
+        
         
         let logstatus = defaults.bool(forKey: UserDefaultsKeys.userLoggedIn)
         if logstatus == true {
@@ -87,11 +87,11 @@ class SideMenuVC: BaseTableVC, ProfileUpdateViewModelDelegate {
                                          "AboutusTVCell"])
         
         setupMenuTVCells()
-    
+        
     }
     
     
-   
+    
     
     //MARK: - setupMenuTVCells
     func setupMenuTVCells() {
@@ -113,8 +113,8 @@ class SideMenuVC: BaseTableVC, ProfileUpdateViewModelDelegate {
         tablerow.append(TableRow(title:"Legal",key: "ourproducts", image: "",cellType:.MenuTitleTVCell))
         tablerow.append(TableRow(cellType:.AboutusTVCell))
         tablerow.append(TableRow(height:50,cellType:.EmptyTVCell))
-
- 
+        
+        
         if defaults.bool(forKey: UserDefaultsKeys.userLoggedIn) == true {
             tablerow.append(TableRow(height:30,cellType:.EmptyTVCell))
             tablerow.append(TableRow(title:"Logout",key: "menu", image: "logout",cellType:.checkOptionsTVCell))
@@ -158,7 +158,7 @@ class SideMenuVC: BaseTableVC, ProfileUpdateViewModelDelegate {
             break
             
         case "Hotels":
-          //  gotoBookHotelsVC()
+            gotoBookHotelsVC()
             break
             
         case "Logout":

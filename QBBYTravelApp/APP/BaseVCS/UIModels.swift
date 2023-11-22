@@ -94,7 +94,7 @@ enum TVCellType {
     case StarRatingTVCell
     case ChooseProfilPpictureTVCell
     case HotelPurchaseSummaryTVCell
-    
+    case BookHotelTVCell
     
     //Holiday
     case SearchHolidaysTVcell

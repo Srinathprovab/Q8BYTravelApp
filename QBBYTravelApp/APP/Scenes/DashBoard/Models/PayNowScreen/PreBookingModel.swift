@@ -41,7 +41,9 @@ struct Form_params : Codable {
     let token_key : String?
     let booking_source : String?
     let booking_id : String?
-
+    let search_id : String?
+    
+    
     enum CodingKeys: String, CodingKey {
 
         case promocode_discount_val = "promocode_discount_val"
@@ -49,6 +51,7 @@ struct Form_params : Codable {
         case token_key = "token_key"
         case booking_source = "booking_source"
         case booking_id = "booking_id"
+        case search_id = "search_id"
     }
 
     init(from decoder: Decoder) throws {
@@ -58,6 +61,7 @@ struct Form_params : Codable {
         token_key = try values.decodeIfPresent(String.self, forKey: .token_key)
         booking_source = try values.decodeIfPresent(String.self, forKey: .booking_source)
         booking_id = try values.decodeIfPresent(String.self, forKey: .booking_id)
+        search_id = try values.decodeIfPresent(String.self, forKey: .search_id)
     }
 
 }

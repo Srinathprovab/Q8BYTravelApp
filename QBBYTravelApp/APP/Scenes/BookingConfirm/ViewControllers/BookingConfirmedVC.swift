@@ -14,6 +14,7 @@ class BookingConfirmedVC: BaseTableVC, VocherDetailsViewModelDelegate {
     var tablerow = [TableRow]()
     var vbookingsource = String()
     var vbookingStatus = String()
+    var pnr = String()
     var vfaretype = String()
     var vbookingReference = String()
     var titleString = String()
@@ -63,9 +64,12 @@ class BookingConfirmedVC: BaseTableVC, VocherDetailsViewModelDelegate {
         vbookingsource = response.data?.booking_details?[0].booking_source ?? ""
         vbookingReference = response.data?.booking_details?[0].app_reference ?? ""
         vbookingStatus = response.data?.booking_details?[0].booking_transaction_details?[0].status ?? ""
+        pnr = response.data?.booking_details?[0].booking_transaction_details?[0].pnr ?? ""
       //  vfaretype = response.fareType ?? ""
         customerDetails = response.data?.booking_details?[0].customer_details ?? []
         flightsDetailsSummery = response.flight_details?.summary ?? []
+        
+        
         
         DispatchQueue.main.async {[self] in
             setupTV()
@@ -107,7 +111,7 @@ class BookingConfirmedVC: BaseTableVC, VocherDetailsViewModelDelegate {
         tablerow.removeAll()
         
         tablerow.append(TableRow(title:"Booking ID : \(bookingId)",
-                                 subTitle: "PNR NO:\(pnrdetails?.airline_pnr ?? "")",
+                                 subTitle: "PNR NO:\(pnr )",
                                  cellType:.BookingConfTVCell))
         
         
