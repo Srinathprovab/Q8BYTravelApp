@@ -21,6 +21,7 @@ pod 'ReachabilitySwift', '~> 4.3.0'
   pod 'TTRangeSlider'
   pod 'MaterialComponents/TextControls+OutlinedTextFields'
   pod 'AARatingBar'
+  pod 'GoogleMaps'
 
   target 'QBBYTravelAppTests' do
     inherit! :search_paths

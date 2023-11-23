@@ -377,6 +377,7 @@
 		65EB20122A0BDEFB00CA06E7 /* Room_paxes_details.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EB1FFC2A0BDEFB00CA06E7 /* Room_paxes_details.swift */; };
 		65EB20132A0BDEFB00CA06E7 /* HotelMBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EB1FFD2A0BDEFB00CA06E7 /* HotelMBModel.swift */; };
 		65EB20142A0BDEFB00CA06E7 /* HotelMBSearchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65EB1FFE2A0BDEFB00CA06E7 /* HotelMBSearchData.swift */; };
+		65FE0C3C2B0F0918009A08A8 /* ModifyHotelSearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FE0C3B2B0F0918009A08A8 /* ModifyHotelSearchVC.swift */; };
 		65FE7C872A1DCA0B00458B0E /* Holiday.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65FE7C862A1DCA0B00458B0E /* Holiday.storyboard */; };
 		65FE7C8D2A1DCCA400458B0E /* BookHolidayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FE7C8C2A1DCCA400458B0E /* BookHolidayVC.swift */; };
 		65FE7C932A1DD2FE00458B0E /* SearchHolidaysTVcell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65FE7C912A1DD2FE00458B0E /* SearchHolidaysTVcell.swift */; };
@@ -810,6 +811,7 @@
 		65EB1FFC2A0BDEFB00CA06E7 /* Room_paxes_details.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Room_paxes_details.swift; sourceTree = "<group>"; };
 		65EB1FFD2A0BDEFB00CA06E7 /* HotelMBModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotelMBModel.swift; sourceTree = "<group>"; };
 		65EB1FFE2A0BDEFB00CA06E7 /* HotelMBSearchData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotelMBSearchData.swift; sourceTree = "<group>"; };
+		65FE0C3B2B0F0918009A08A8 /* ModifyHotelSearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifyHotelSearchVC.swift; sourceTree = "<group>"; };
 		65FE7C862A1DCA0B00458B0E /* Holiday.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Holiday.storyboard; sourceTree = "<group>"; };
 		65FE7C8C2A1DCCA400458B0E /* BookHolidayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookHolidayVC.swift; sourceTree = "<group>"; };
 		65FE7C912A1DD2FE00458B0E /* SearchHolidaysTVcell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHolidaysTVcell.swift; sourceTree = "<group>"; };
@@ -1175,8 +1177,8 @@
 			children = (
 				65EB1FE62A0BDEFB00CA06E7 /* Models */,
 				65EB1FE22A0BDEFB00CA06E7 /* ViewModel */,
-				654C880929630A7E006BAF76 /* ViewController */,
 				654C880E29630A7E006BAF76 /* Views */,
+				654C880929630A7E006BAF76 /* ViewController */,
 				654C883229630A7E006BAF76 /* Hotel.storyboard */,
 			);
 			path = Hotel;
@@ -1186,6 +1188,7 @@
 			isa = PBXGroup;
 			children = (
 				654C880C29630A7E006BAF76 /* BookHotelVC.swift */,
+				65FE0C3B2B0F0918009A08A8 /* ModifyHotelSearchVC.swift */,
 				654C880D29630A7E006BAF76 /* HotelSearchResultVC.swift */,
 				654C880B29630A7E006BAF76 /* SelectedHotelInfoVC.swift */,
 				654C880A29630A7E006BAF76 /* MapViewVC.swift */,
@@ -2700,6 +2703,7 @@
 				654C87CE296309D0006BAF76 /* Frameworks */,
 				654C87CF296309D0006BAF76 /* Resources */,
 				BBFAD3C72A6DF00C6E3DE9EC /* [CP] Embed Pods Frameworks */,
+				81F9A167A6C5AEBC6C9F7518 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2738,6 +2742,7 @@
 				654C87EE296309D2006BAF76 /* Frameworks */,
 				654C87EF296309D2006BAF76 /* Resources */,
 				35B95E5745E371A010A6D5A8 /* [CP] Embed Pods Frameworks */,
+				DC59D75CA08FCA9EC2CD25E3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2998,6 +3003,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		81F9A167A6C5AEBC6C9F7518 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-QBBYTravelApp/Pods-QBBYTravelApp-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-QBBYTravelApp/Pods-QBBYTravelApp-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QBBYTravelApp/Pods-QBBYTravelApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		BBFAD3C72A6DF00C6E3DE9EC /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3013,6 +3035,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QBBYTravelApp/Pods-QBBYTravelApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DC59D75CA08FCA9EC2CD25E3 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-QBBYTravelApp-QBBYTravelAppUITests/Pods-QBBYTravelApp-QBBYTravelAppUITests-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-QBBYTravelApp-QBBYTravelAppUITests/Pods-QBBYTravelApp-QBBYTravelAppUITests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QBBYTravelApp-QBBYTravelAppUITests/Pods-QBBYTravelApp-QBBYTravelAppUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		EF8DD4969A475A6BFC848BB4 /* [CP] Check Pods Manifest.lock */ = {
@@ -3327,6 +3366,7 @@
 				65FE7CCF2A1E0DD600458B0E /* Boarditnow_fare_rules.swift in Sources */,
 				654C89BD29630A80006BAF76 /* ProgressHUD.swift in Sources */,
 				65FE7CC52A1E0DD600458B0E /* Post_review_data.swift in Sources */,
+				65FE0C3C2B0F0918009A08A8 /* ModifyHotelSearchVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

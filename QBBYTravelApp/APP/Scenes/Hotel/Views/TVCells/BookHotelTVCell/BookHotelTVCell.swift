@@ -22,7 +22,7 @@ protocol BookHotelTVCellDelegate {
 class BookHotelTVCell: TableViewCell {
     
     
-    
+    @IBOutlet weak var titlelbl: UILabel!
     @IBOutlet weak var hotelorlocNamelbl: UILabel!
     @IBOutlet weak var checkinlbl: UILabel!
     @IBOutlet weak var checkoutlbl: UILabel!
@@ -44,6 +44,7 @@ class BookHotelTVCell: TableViewCell {
     
     
     override func updateUI() {
+        titlelbl.text = cellInfo?.title ?? ""
         hotelorlocNamelbl.text = defaults.string(forKey: UserDefaultsKeys.locationcity) ?? "City/location"
         checkinlbl.text = defaults.string(forKey: UserDefaultsKeys.checkin) ?? "Check In"
         checkoutlbl.text = defaults.string(forKey: UserDefaultsKeys.checkout) ?? "Check Out"

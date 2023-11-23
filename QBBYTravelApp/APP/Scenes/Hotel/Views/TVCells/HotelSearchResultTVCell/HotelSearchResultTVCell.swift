@@ -42,8 +42,15 @@ class HotelSearchResultTVCell: TableViewCell {
         hotelcode = cellInfo?.buttonTitle ?? ""
         ratingView.value = CGFloat(cellInfo?.characterLimit ?? 0)
         hotelImg.sd_setImage(with: URL(string: cellInfo?.image ?? ""), placeholderImage:UIImage(contentsOfFile:"placeholder.png"))
-        kwdlbl.text = cellInfo?.text
-        setupLabels(lbl: refundablelbl, text: cellInfo?.tempText ?? "", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 12))
+        kwdlbl.text = cellInfo?.kwdprice
+        
+        if cellInfo?.tempText == "refund" {
+            refundablelbl.text = "Refundable"
+            refundablelbl.textColor = .AppBtnColor
+        }else {
+            refundablelbl.text = "Non Refundable"
+            refundablelbl.textColor = .KWDColor
+        }
 
     }
     
@@ -60,6 +67,9 @@ class HotelSearchResultTVCell: TableViewCell {
         ratingView.maxValue = 5
         ratingView.color = HexColor("#FABF35")
         ratingView.isUserInteractionEnabled = false
+        
+        setupLabels(lbl: refundablelbl, text: "", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 12))
+        refundablelbl.textAlignment = .right
         
     }
     

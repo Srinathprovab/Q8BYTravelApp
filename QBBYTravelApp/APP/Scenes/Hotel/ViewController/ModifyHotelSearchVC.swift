@@ -1,14 +1,14 @@
 //
-//  BookHotelVC.swift
-//  BeeoonsApp
+//  ModifyHotelSearchVC.swift
+//  QBBYTravelApp
 //
-//  Created by MA673 on 22/08/22.
+//  Created by FCI on 23/11/23.
 //
 
 import UIKit
 
-class BookHotelVC: BaseTableVC {
-    
+class ModifyHotelSearchVC: BaseTableVC {
+
     @IBOutlet weak var holderView: UIView!
     
     var nationalityCode = String()
@@ -16,17 +16,15 @@ class BookHotelVC: BaseTableVC {
     var tablerow = [TableRow]()
     var payload = [String:Any]()
     var payload1 = [String:Any]()
-    static var newInstance: BookHotelVC? {
+    static var newInstance: ModifyHotelSearchVC? {
         let storyboard = UIStoryboard(name: Storyboard.Hotel.name,
                                       bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: self.className()) as? BookHotelVC
+        let vc = storyboard.instantiateViewController(withIdentifier: self.className()) as? ModifyHotelSearchVC
         return vc
     }
     
     
     override func viewDidAppear(_ animated: Bool) {
-        
-        
         NotificationCenter.default.addObserver(self, selector: #selector(reload(notification:)), name: NSNotification.Name("reload"), object: nil)
     }
     
@@ -84,7 +82,7 @@ class BookHotelVC: BaseTableVC {
     func appendHotelSearctTvcells(str:String) {
         tablerow.removeAll()
         
-        tablerow.append(TableRow(title:"Book Hotel",key:"hotel",cellType:.BookHotelTVCell))
+        tablerow.append(TableRow(title:"Modify",key:"hotel",cellType:.BookHotelTVCell))
         tablerow.append(TableRow(height:10,cellType:.EmptyTVCell))
         
         
@@ -93,7 +91,7 @@ class BookHotelVC: BaseTableVC {
         
     }
     
-  
+
     
     func setInitalValues() {
         
@@ -152,9 +150,6 @@ class BookHotelVC: BaseTableVC {
     
     override func didTapOnHotelSearchBtnAction(cell:BookHotelTVCell) {
         
-        
-//        {"city":"Dubai (United Arab Emirates)","hotel_destination":"240","hotel_checkin":"10-11-2023","hotel_checkout":"11-11-2023","rooms":"1","adult":["1"],"child":["0"],"childAge_1":["0"],"nationality":"IN"}
-        
         payload.removeAll()
         payload["city"] = defaults.string(forKey: UserDefaultsKeys.locationcity)
         payload["hotel_destination"] = defaults.string(forKey: UserDefaultsKeys.locationid)
@@ -165,27 +160,24 @@ class BookHotelVC: BaseTableVC {
         payload["adult"] = adtArray
         payload["child"] = chArray
         
-       
-        
         for roomIndex in 0..<totalRooms {
+            
+            
             if let numChildren = Int(chArray[roomIndex]), numChildren > 0 {
-                for childIndex in 0..<numChildren {
-                    // Retrieve existing childAges array or create a new one if it doesn't exist
-                    var childAges: [String] = payload["childAge_\(childIndex + 1)"] as? [String] ?? []
-
-                    // Add "0" to the childAges array
+                var childAges: [String] = Array(repeating: "0", count: numChildren)
+                
+                if numChildren > 2 {
                     childAges.append("0")
-
-                    // Update the payload with the modified childAges array
-                    payload["childAge_\(childIndex + 1)"] = childAges
                 }
+                
+                payload["childAge_\(roomIndex + 1)"] = childAges
             }
         }
-
+        
         
         payload["nationality"] = defaults.string(forKey: UserDefaultsKeys.hnationalitycode) ?? "KW"
-        payload["search_source"] = "IOS"
         payload["language"] = "english"
+        payload["search_source"] = "IOS"
         payload["currency"] = defaults.string(forKey: UserDefaultsKeys.selectedCurrency) ?? "KWD"
         payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
         

@@ -7,7 +7,7 @@
 
 import UIKit
 import MapKit
-
+import GoogleMaps
 
 struct MapModel {
     var longitude =  String()
@@ -16,16 +16,13 @@ struct MapModel {
 }
 
 
-class MapViewVC: UIViewController {
+class MapViewVC: UIViewController, CLLocationManagerDelegate {
     
     
     @IBOutlet weak var nav: NavBar!
-    @IBOutlet weak var holderView: UIView!
+    @IBOutlet weak var googleMapView: UIView!
     @IBOutlet weak var navHeight: NSLayoutConstraint!
-    @IBOutlet weak var textFieldHolderView: UIView!
-    @IBOutlet weak var searchImg: UIImageView!
-    @IBOutlet weak var searchTF: UITextField!
-    @IBOutlet weak var mapview: MKMapView!
+    
     
     static var newInstance: MapViewVC? {
         let storyboard = UIStoryboard(name: Storyboard.Hotel.name,
@@ -33,60 +30,75 @@ class MapViewVC: UIViewController {
         let vc = storyboard.instantiateViewController(withIdentifier: self.className()) as? MapViewVC
         return vc
     }
-    
-    
-    @objc func offline(){
-        guard let vc = NoInternetConnectionVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .fullScreen
-        callapibool = true
-        present(vc, animated: true)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(offline), name: NSNotification.Name("offline"), object: nil)
-        
-    }
+    let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
         setupUI()
+        
+        
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
     }
     
     func setupUI() {
         
-        self.view.backgroundColor = .black.withAlphaComponent(0.4)
-        self.holderView.backgroundColor = .WhiteColor
-        nav.navtitle.isHidden = false
-        setuplabels(lbl:  nav.navtitle, text: "Map View", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 20), align: .center)
-        nav.backBtn.addTarget(self, action: #selector(backbtnAction(_:)), for: .touchUpInside)
+        self.googleMapView.backgroundColor = .WhiteColor
+        nav.titlelbl.text = "Map View"
+        nav.backBtn.addTarget(self, action: #selector(backbtnAction), for: .touchUpInside)
         
-        let screenHeight = UIScreen.main.bounds.size.height
-        if screenHeight > 835 {
-            navHeight.constant = 130
-        }else {
-            navHeight.constant = 100
-        }
-        
-        textFieldHolderView.backgroundColor = HexColor("#F0F0F0")
-        textFieldHolderView.layer.cornerRadius = 6
-        textFieldHolderView.clipsToBounds = true
-        searchImg.image = UIImage(named: "search")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppBackgroundColor)
-        searchTF.font = UIFont.OpenSansMedium(size: 16)
-        searchTF.placeholder = "Search By Location"
-        searchTF.setLeftPaddingPoints(20)
-        searchTF.addTarget(self, action: #selector(editingChanged(_:)), for: .editingChanged)
     }
     
-    @objc func backbtnAction(_ sender:UIButton) {
+    
+    @objc func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if !mapModelArray.isEmpty {
+            // Calculate the average latitude and longitude from mapModelArray
+            let averageLatitude = mapModelArray.map { Double($0.latitude) ?? 0.0 }.reduce(0.0, +) / Double(mapModelArray.count)
+            let averageLongitude = mapModelArray.map { Double($0.longitude) ?? 0.0 }.reduce(0.0, +) / Double(mapModelArray.count)
+            
+            // Set the camera to center on the average coordinates
+            let camera = GMSCameraPosition.camera(withLatitude: averageLatitude, longitude: averageLongitude, zoom: 12.0)
+            
+            let gmsView = GMSMapView.map(withFrame: view.bounds, camera: camera)
+            googleMapView.addSubview(gmsView)
+            addMarkersToMap(gmsView)
+            
+            locationManager.stopUpdatingLocation() // You may want to stop updates after you have the user's location
+        }
+    }
+    
+    
+    
+    
+    
+    func addMarkersToMap(_ mapView: GMSMapView) {
+        for mapModel in mapModelArray {
+            if let latitude = Double(mapModel.latitude), let longitude = Double(mapModel.longitude) {
+                // Create and configure markers based on the mapModel data
+                let marker = GMSMarker()
+                marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                marker.title = mapModel.hotelname
+                // Customize the marker as needed
+                
+                // Add the marker to the map
+                marker.map = mapView
+            } else {
+                print("Error: Invalid latitude or longitude values in mapModel.")
+            }
+        }
+    }
+    
+    
+    
+    @objc func backbtnAction() {
         callapibool = false
         dismiss(animated: true)
     }
     
     
-    @objc func editingChanged(_ textField:UITextField) {
-        print(textField.text)
-    }
-    
 }
+
+

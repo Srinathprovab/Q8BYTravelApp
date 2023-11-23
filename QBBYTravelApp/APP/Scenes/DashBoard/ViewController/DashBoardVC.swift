@@ -104,7 +104,7 @@ class DashBoardVC: BaseTableVC, HomePageViewModelDelegate, GetCountryListViewMod
         adtArray.append("1")
         chArray.append("0")
         defaults.set("\(defaults.string(forKey: UserDefaultsKeys.roomcount) ?? "") Rooms,\(defaults.string(forKey: UserDefaultsKeys.hoteladultscount) ?? "") Adults,\(defaults.string(forKey: UserDefaultsKeys.hotelchildcount) ?? "") Childreen", forKey: UserDefaultsKeys.selectPersons)
-        defaults.set(1, forKey: UserDefaultsKeys.guestcount)
+        defaults.set(2, forKey: UserDefaultsKeys.guestcount)
         
         if callapibool == true {
             callApi()

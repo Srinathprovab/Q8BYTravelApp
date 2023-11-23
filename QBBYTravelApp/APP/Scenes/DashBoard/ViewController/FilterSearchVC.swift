@@ -293,12 +293,10 @@ class FilterSearchVC: BaseTableVC {
         //  tablerow.append(TableRow(height:10,cellType:.EmptyTVCell))
         tablerow.append(TableRow(title:"Prices",key: "hotel",cellType:.SliderTVCell))
         tablerow.append(TableRow(title:"Star Rating",cellType:.StarRatingTVCell))
-        
-        
         tablerow.append(TableRow(title:"Booking Type",data: faretypeArray,cellType:.CheckBoxTVCell))
         tablerow.append(TableRow(title:"Neighbourhood",data: neighbourwoodArray,cellType:.CheckBoxTVCell))
         tablerow.append(TableRow(title:"Near By Location's",data: nearBylocationsArray,cellType:.CheckBoxTVCell))
-        tablerow.append(TableRow(title:"Amenities",data: amenitiesArray,cellType:.CheckBoxTVCell))
+        tablerow.append(TableRow(title:"Amenities",data: facilityArray,cellType:.CheckBoxTVCell))
         
         
         tablerow.append(TableRow(height:50,cellType:.EmptyTVCell))

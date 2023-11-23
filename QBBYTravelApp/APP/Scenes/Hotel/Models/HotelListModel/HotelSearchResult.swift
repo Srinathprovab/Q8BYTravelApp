@@ -3,7 +3,7 @@
 import Foundation
 struct HotelSearchResult : Codable {
     let booking_source : String?
-    let hotel_code : Int?
+    let hotel_code : String?
     let city_code : String?
     let country_code : String?
     let city_name : String?
@@ -13,7 +13,6 @@ struct HotelSearchResult : Codable {
     let phone_number : String?
     let fax : String?
     let email : String?
-    let website : String?
     let hotel_desc : String?
     let image : String?
     let thumb_image : String?
@@ -29,6 +28,8 @@ struct HotelSearchResult : Codable {
     let xml_net : String?
     let price : String?
     let xml_price : String?
+    let no_of_nights : Int?
+    let hotel_shortdesc : String?
 
     enum CodingKeys: String, CodingKey {
 
@@ -43,7 +44,6 @@ struct HotelSearchResult : Codable {
         case phone_number = "phone_number"
         case fax = "fax"
         case email = "email"
-        case website = "website"
         case hotel_desc = "hotel_desc"
         case image = "image"
         case thumb_image = "thumb_image"
@@ -59,12 +59,14 @@ struct HotelSearchResult : Codable {
         case xml_net = "xml_net"
         case price = "price"
         case xml_price = "xml_price"
+        case no_of_nights = "no_of_nights"
+        case hotel_shortdesc = "hotel_shortdesc"
     }
 
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         booking_source = try values.decodeIfPresent(String.self, forKey: .booking_source)
-        hotel_code = try values.decodeIfPresent(Int.self, forKey: .hotel_code)
+        hotel_code = try values.decodeIfPresent(String.self, forKey: .hotel_code)
         city_code = try values.decodeIfPresent(String.self, forKey: .city_code)
         country_code = try values.decodeIfPresent(String.self, forKey: .country_code)
         city_name = try values.decodeIfPresent(String.self, forKey: .city_name)
@@ -74,7 +76,6 @@ struct HotelSearchResult : Codable {
         phone_number = try values.decodeIfPresent(String.self, forKey: .phone_number)
         fax = try values.decodeIfPresent(String.self, forKey: .fax)
         email = try values.decodeIfPresent(String.self, forKey: .email)
-        website = try values.decodeIfPresent(String.self, forKey: .website)
         hotel_desc = try values.decodeIfPresent(String.self, forKey: .hotel_desc)
         image = try values.decodeIfPresent(String.self, forKey: .image)
         thumb_image = try values.decodeIfPresent(String.self, forKey: .thumb_image)
@@ -90,6 +91,8 @@ struct HotelSearchResult : Codable {
         xml_net = try values.decodeIfPresent(String.self, forKey: .xml_net)
         price = try values.decodeIfPresent(String.self, forKey: .price)
         xml_price = try values.decodeIfPresent(String.self, forKey: .xml_price)
+        no_of_nights = try values.decodeIfPresent(Int.self, forKey: .no_of_nights)
+        hotel_shortdesc = try values.decodeIfPresent(String.self, forKey: .hotel_shortdesc)
     }
 
 }

@@ -13,6 +13,7 @@ protocol HotelListViewModelDelegate : BaseViewModelProtocol {
     func getActiveBookingSourceResponse(response:ActiveBookingSourceModel)
     func hotelSearchresponse(response:HotelSearchModel)
     func hotelList(response:HotelListModel)
+    func hotelPaginationList(response:HotelListModel)
 }
 
 class HotelListViewModel {
@@ -80,7 +81,7 @@ class HotelListViewModel {
         
         self.view?.showLoader()
         
-        ServiceManager.postOrPutApiCall(endPoint: ApiEndpoints.mobileprehotelsearch,urlParams: parms as? Dictionary<String, String>,parameters: parms, resultType: HotelListModel.self, p:dictParam) { sucess, result, errorMessage in
+        ServiceManager.postOrPutApiCall(endPoint: ApiEndpoints.general_mobileHotelSearch,urlParams: parms as? Dictionary<String, String>,parameters: parms, resultType: HotelListModel.self, p:dictParam) { sucess, result, errorMessage in
             
             DispatchQueue.main.async {
                 self.view?.hideLoader()
@@ -99,5 +100,27 @@ class HotelListViewModel {
     
     
     
+    
+    //MARK:  CALL_HOTEL_SEARCH_PAGENATION_API
+    func CALL_HOTEL_SEARCH_PAGENATION_API(dictParam: [String: Any]){
+        let parms = NSDictionary(dictionary:dictParam)
+        print("Parameters = \(parms)")
+        
+        self.view?.showLoader()
+        
+        ServiceManager.postOrPutApiCall(endPoint: ApiEndpoints.general_ajaxHotelSearch_pagination,urlParams: (parms as! Dictionary<String, String>),parameters: parms, resultType: HotelListModel.self, p:dictParam) { sucess, result, errorMessage in
+            
+            DispatchQueue.main.async {
+                self.view?.hideLoader()
+                if sucess {
+                    guard let response = result else {return}
+                    self.view.hotelPaginationList(response: response)
+                } else {
+                    // Show alert
+                    self.view.showToast(message: errorMessage ?? "")
+                }
+            }
+        }
+    }
     
 }

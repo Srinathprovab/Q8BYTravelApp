@@ -23,7 +23,7 @@ class HotelSearchResultVC: BaseTableVC, HotelListViewModelDelegate, TimerManager
     
     var bookingSourceDataArrayCount = Int()
     var bookingSourceDataArray = [BookingSourceData]()
-    
+    var isFetchingData = false
     var nationalityCode = String()
     var isSearchBool = false
     var payload = [String:Any]()
@@ -53,7 +53,7 @@ class HotelSearchResultVC: BaseTableVC, HotelListViewModelDelegate, TimerManager
         setupUI()
         viewModel = HotelListViewModel(self)
         
-       
+        
     }
     
     func setupUI() {
@@ -72,8 +72,6 @@ class HotelSearchResultVC: BaseTableVC, HotelListViewModelDelegate, TimerManager
         nav.filterImg.image = UIImage(named: "locc1")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppLabelColor)
         nav.filterBtn.addTarget(self, action: #selector(didTapOnViewMapBtnAction(_:)), for: .touchUpInside)
         
-        
-        
         nav.backBtn.addTarget(self, action: #selector(backbtnAction(_:)), for: .touchUpInside)
         nav.editBtn.addTarget(self, action: #selector(modifySearchHotel(_:)), for: .touchUpInside)
         
@@ -85,7 +83,7 @@ class HotelSearchResultVC: BaseTableVC, HotelListViewModelDelegate, TimerManager
         }else {
             navHeight.constant = 180
         }
-        
+        subtitlelbl.text = ""
         
         commonTableView.registerTVCells(["EmptyTVCell",
                                          "HotelSearchResultTVCell"])
@@ -95,7 +93,9 @@ class HotelSearchResultVC: BaseTableVC, HotelListViewModelDelegate, TimerManager
     
     
     @objc func modifySearchHotel(_ sender:UIButton) {
-        
+        guard let vc = ModifyHotelSearchVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: false)
     }
     
     
@@ -117,12 +117,15 @@ class HotelSearchResultVC: BaseTableVC, HotelListViewModelDelegate, TimerManager
         guard let vc = FilterSearchVC.newInstance.self else {return}
         vc.modalPresentationStyle = .overCurrentContext
         vc.delegate = self
+        vc.filterTapKey = "sort"
         self.present(vc, animated: false)
     }
     
     
 }
 
+
+//MARK: - gotoSelectedHotelInfoVC
 
 extension HotelSearchResultVC {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -141,131 +144,7 @@ extension HotelSearchResultVC {
     }
 }
 
-
-
-
-
-extension HotelSearchResultVC:AppliedFilters {
-    
-    
-    func hotelFilterByApplied(minpricerange: Double, maxpricerange: Double, starRating: String, refundableTypeArray: [String], nearByLocA: [String], niberhoodA: [String], aminitiesA: [String]) {
-        
-        
-        isSearchBool = true
-        
-        print("====minpricerange ==== \(minpricerange)")
-        print("====maxpricerange ==== \(maxpricerange)")
-        print(" ==== starRating === \(starRating)")
-        print(" ==== refundableTypeArray === \n\(refundableTypeArray)")
-        print(" ==== nearByLocA === \n\(nearByLocA)")
-        print(" ==== niberhoodA === \n\(niberhoodA)")
-        print(" ==== aminitiesA === \n\(aminitiesA)")
-        
-        
-        
-        let filteredArray = hotelSearchResultArray.filter { hotel in
-            guard let netPrice = Double(hotel.price ?? "0.0") else { return false }
-            
-            let ratingMatches = hotel.star_rating == Int(starRating) || starRating.isEmpty
-            //     let refundableMatch = refundableTypeArray.isEmpty || refundableTypeArray.contains(hotel.refund ?? "")
-            let nearByLocMatch = nearByLocA.isEmpty || nearByLocA.contains(hotel.location ?? "")
-            
-            
-            let facilityMatch = aminitiesA.isEmpty || aminitiesA.allSatisfy { desiredAmenity in
-                hotel.facility?.contains { facility in
-                    let facilityName = facility.name?.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() ?? ""
-                    return facilityName == desiredAmenity.lowercased()
-                } ?? false
-            }
-            
-            
-            return ratingMatches && netPrice >= minpricerange && netPrice <= maxpricerange && facilityMatch && nearByLocMatch
-            
-            
-        }
-        
-        
-        
-        
-        
-        filtered = filteredArray
-        if filtered.count == 0{
-            TableViewHelper.EmptyMessage(message: "No Data Found", tableview: commonTableView, vc: self)
-        }else {
-            TableViewHelper.EmptyMessage(message: "", tableview: commonTableView, vc: self)
-        }
-        
-        DispatchQueue.main.async {[self] in
-            setupTVCells(hotelList: filtered)
-        }
-    }
-    
-    
-    
-    func filtersSortByApplied(sortBy: SortParameter) {
-        
-        
-        
-        
-        switch sortBy {
-        case .PriceLow:
-            
-            let sortedByPriceLowToHigh = hotelSearchResultArray.sorted { hotel1, hotel2 in
-                return (Double(hotel1.price ?? "") ?? 0.0) < (Double(hotel2.price ?? "") ?? 0.0)
-            }
-            
-            setupTVCells(hotelList: sortedByPriceLowToHigh)
-            break
-            
-        case .PriceHigh:
-            
-            let sortedByPriceLowToHigh = hotelSearchResultArray.sorted { hotel1, hotel2 in
-                return (Double(hotel1.price ?? "") ?? 0.0) > (Double(hotel2.price ?? "") ?? 0.0)
-            }
-            setupTVCells(hotelList: sortedByPriceLowToHigh)
-            break
-            
-            
-            
-        case .hotelaz:
-            // Sort hotel names alphabetically
-            let sortedByNameAZ = hotelSearchResultArray.sorted { $0.name?.localizedCaseInsensitiveCompare($1.name ?? "") == .orderedAscending }
-            setupTVCells(hotelList: sortedByNameAZ)
-            break
-            
-        case .hotelza:
-            // Sort hotel names alphabetically
-            let sortedByNameAZ = hotelSearchResultArray.sorted { $0.name?.localizedCaseInsensitiveCompare($1.name ?? "") == .orderedDescending }
-            setupTVCells(hotelList: sortedByNameAZ)
-            break
-            
-            
-            
-            
-        case .nothing:
-            setupTVCells(hotelList: hotelSearchResultArray)
-            break
-            
-        default:
-            break
-        }
-        
-        DispatchQueue.main.async {[self] in
-            // commonTableView.scrollToRow(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
-        }
-        
-    }
-    
-    func filterByApplied(minpricerange: Double, maxpricerange: Double, noofstopsFA: [String], departureTimeFilter: [String], arrivalTimeFilter: [String], airlinesFA: [String], cancellationTypeFA: [String], connectingFlightsFA: [String], connectingAirportsFA: [String]) {
-        
-    }
-    
-}
-
-
-
-
-
+//MARK: - callGetActiveSourceBookingSourchAPI CALL_HOTEL_SEARCH_API CALL_GET_HOTEL_LIST_API
 extension HotelSearchResultVC {
     
     
@@ -286,7 +165,7 @@ extension HotelSearchResultVC {
     
     
     func CallAPI() {
-       
+        
         
         do {
             
@@ -312,7 +191,7 @@ extension HotelSearchResultVC {
         nav.titlelbl.text = "\(defaults.string(forKey: UserDefaultsKeys.locationcity) ?? "")"
         nav.citylbl.text = "CheckIn -\(defaults.string(forKey: UserDefaultsKeys.checkin) ?? "" ) CheckOut -\(defaults.string(forKey: UserDefaultsKeys.checkout) ?? "")"
         
-        nav.datelbl.text = "Guests-1 \(defaults.string(forKey: UserDefaultsKeys.guestcount) ?? "")/ Room - \(defaults.string(forKey: UserDefaultsKeys.roomcount) ?? "")"
+        nav.datelbl.text = "Guests- \(defaults.string(forKey: UserDefaultsKeys.guestcount) ?? "") / Room - \(defaults.string(forKey: UserDefaultsKeys.roomcount) ?? "")"
         
         
         DispatchQueue.main.async {
@@ -325,13 +204,15 @@ extension HotelSearchResultVC {
     func callGetHotelListAPI() {
         
         
-        bookingSourceDataArray.forEach { i in
-            
-            let seconds = 1.0
-            DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {[self] in
-                callgetHotelListAPI(bs: i.source_id ?? "")
-            }
-        }
+        //        bookingSourceDataArray.forEach { i in
+        //
+        //            let seconds = 1.0
+        //            DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {[self] in
+        //                callgetHotelListAPI(bs: i.source_id ?? "")
+        //            }
+        //        }
+        
+        callgetHotelListAPI(bs: "PTBSID0000000089")
         
     }
     
@@ -374,17 +255,22 @@ extension HotelSearchResultVC {
         }
         
         
-        if bookingSourceDataArrayCount == 0 {
-            
-            holderView.isHidden = true
-            if hotelSearchResultArray.count <= 0 {
-                gotoNoInternetScreen(keystr: "noresult")
-                // holderView.isHidden = true
-            }else {
-                DispatchQueue.main.async {
-                    self.appendValues(list: self.hotelSearchResultArray)
-                }
-            }
+        //        if bookingSourceDataArrayCount == 0 {
+        //
+        //            holderView.isHidden = true
+        //            if hotelSearchResultArray.count <= 0 {
+        //                gotoNoInternetScreen(keystr: "noresult")
+        //                // holderView.isHidden = true
+        //            }else {
+        //                DispatchQueue.main.async {
+        //                    self.appendValues(list: self.hotelSearchResultArray)
+        //                }
+        //            }
+        //        }
+        
+        
+        DispatchQueue.main.async {
+            self.appendValues(list: self.hotelSearchResultArray)
         }
         
     }
@@ -393,7 +279,7 @@ extension HotelSearchResultVC {
     
     func appendValues(list:[HotelSearchResult]) {
         
-        holderView.isHidden = false
+        
         prices.removeAll()
         nearBylocationsArray.removeAll()
         faretypeArray .removeAll()
@@ -403,7 +289,7 @@ extension HotelSearchResultVC {
         
         list.forEach { i in
             
-            if let price = i.price, (Int(price) ?? 0) > 0 {
+            if let price = i.price, !price.isEmpty {
                 prices.append("\(price)")
             }
             
@@ -451,21 +337,26 @@ extension HotelSearchResultVC {
     
     func setupTVCells(hotelList:[HotelSearchResult]) {
         
+        holderView.isHidden = false
         
         if hotelList.count == 0 {
             tablerow.removeAll()
+            subtitlelbl.isHidden = true
             TableViewHelper.EmptyMessage(message: "No Data Found", tableview: commonTableView, vc: self)
+            
             commonTVData = tablerow
             commonTableView.reloadData()
         }else {
             tablerow.removeAll()
-            setupLabels(lbl: subtitlelbl, text: "\(hotelList.count) Hotels Found", textcolor: .WhiteColor, font: .OpenSansRegular(size: 12))
+            subtitlelbl.isHidden = false
+            setupLabels(lbl: subtitlelbl, text: "\(hotelList.count) Hotels Found", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12))
             hotelList.forEach { i in
                 tablerow.append(TableRow(title:i.name,
                                          subTitle: "\(i.address ?? "")",
                                          kwdprice: "\(i.currency ?? "") \(i.price ?? "")",
-                                         text: "\(i.hotel_code ?? 0)",
+                                         text: "\(i.hotel_code ?? "")",
                                          image: i.image,
+                                         tempText:"refund",
                                          characterLimit: i.star_rating,
                                          cellType:.HotelSearchResultTVCell))
                 
@@ -483,8 +374,179 @@ extension HotelSearchResultVC {
 }
 
 
+//MARK: - callHotelSearchPaginationAPI
+extension HotelSearchResultVC {
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        
+        let lastRowIndex = tableView.numberOfRows(inSection: 0) - 1
+        
+        if indexPath.row == lastRowIndex && !isFetchingData && isfilterApplied == false {
+            
+            let seconds = 1.0
+            DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+                self.callHotelSearchPaginationAPI()
+            }
+        }
+        
+    }
+    
+    
+    func callHotelSearchPaginationAPI() {
+        
+        guard !isFetchingData else {
+            return // Don't make another API call if one is already in progress
+        }
+        
+        print("You've reached the last cell, trigger the API call.")
+        isFetchingData = true
+        
+        payload.removeAll()
+        payload["search_id"] = hsearch_id
+        payload["no_of_nights"] = "1"
+        payload["offset"] = "50"
+        payload["limit"] = "10"
+        
+        viewModel?.CALL_HOTEL_SEARCH_PAGENATION_API(dictParam: payload)
+        
+    }
+    
+    
+    func hotelPaginationList(response: HotelListModel) {
+        
+        isFetchingData = false // Reset the flag after API response
+        
+        if let newResults = response.data?.hotelSearchResult, !newResults.isEmpty {
+            // Append the new data to the existing data
+            hotelSearchResultArray.append(contentsOf: newResults)
+            
+            DispatchQueue.main.async {
+                self.appendValues(list: self.hotelSearchResultArray)
+            }
+        } else {
+            // No more items to load, update UI accordingly
+            print("No more items to load.")
+            // You can show a message or hide a loading indicator here
+        }
+    }
+    
+}
 
 
+
+
+//MARK: - Hotel Filters
+extension HotelSearchResultVC:AppliedFilters {
+    
+    
+    func hotelFilterByApplied(minpricerange: Double, maxpricerange: Double, starRating: String, refundableTypeArray: [String], nearByLocA: [String], niberhoodA: [String], aminitiesA: [String]) {
+        
+        
+        isSearchBool = true
+        isfilterApplied = true
+        
+        print("====minpricerange ==== \(minpricerange)")
+        print("====maxpricerange ==== \(maxpricerange)")
+        print(" ==== starRating === \(starRating)")
+        print(" ==== refundableTypeArray === \n\(refundableTypeArray)")
+        print(" ==== nearByLocA === \n\(nearByLocA)")
+        print(" ==== aminitiesA === \n\(aminitiesA)")
+        
+        
+        let filteredArray = hotelSearchResultArray.filter { hotel in
+            guard let netPrice = Double(hotel.price ?? "0.0") else { return false }
+            
+            let ratingMatches = hotel.star_rating == Int(starRating) || starRating.isEmpty
+          //  let refundableMatch = refundableTypeArray.isEmpty || refundableTypeArray.contains(hotel.refund ?? "")
+            let nearByLocMatch = nearByLocA.isEmpty || nearByLocA.contains(hotel.location ?? "")
+            
+            
+            let facilityMatch = aminitiesA.isEmpty || aminitiesA.allSatisfy { desiredAmenity in
+                hotel.facility?.contains { facility in
+                    let facilityName = facility.name?.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() ?? ""
+                    return facilityName == desiredAmenity.lowercased()
+                } ?? false
+            }
+            
+            
+            return ratingMatches && netPrice >= minpricerange && netPrice <= maxpricerange && facilityMatch && nearByLocMatch
+            
+            
+        }
+        
+        
+        filtered = filteredArray
+        if filtered.count == 0{
+            TableViewHelper.EmptyMessage(message: "No Data Found", tableview: commonTableView, vc: self)
+        }else {
+            TableViewHelper.EmptyMessage(message: "", tableview: commonTableView, vc: self)
+        }
+        
+        DispatchQueue.main.async {[self] in
+            setupTVCells(hotelList: filtered)
+        }
+    }
+    
+    
+    
+    func filtersSortByApplied(sortBy: SortParameter) {
+        
+        switch sortBy {
+        case .PriceLow:
+            
+            let sortedByPriceLowToHigh = hotelSearchResultArray.sorted { hotel1, hotel2 in
+                return (Double(hotel1.price ?? "0.0") ?? 0.0 ) < (Double(hotel2.price ?? "0.0") ?? 0.0 )
+            }
+            
+            setupTVCells(hotelList: sortedByPriceLowToHigh)
+            break
+            
+        case .PriceHigh:
+            
+            let sortedByPriceLowToHigh = hotelSearchResultArray.sorted { hotel1, hotel2 in
+                return (hotel1.price ?? "0.0") > (hotel2.price ?? "0.0")
+            }
+            setupTVCells(hotelList: sortedByPriceLowToHigh)
+            break
+            
+        case .hotelaz:
+            // Sort hotel names alphabetically
+            let sortedByNameAZ = hotelSearchResultArray.sorted { $0.name?.localizedCaseInsensitiveCompare($1.name ?? "") == .orderedAscending }
+            setupTVCells(hotelList: sortedByNameAZ)
+            break
+            
+        case .hotelza:
+            // Sort hotel names alphabetically
+            let sortedByNameAZ = hotelSearchResultArray.sorted { $0.name?.localizedCaseInsensitiveCompare($1.name ?? "") == .orderedDescending }
+            setupTVCells(hotelList: sortedByNameAZ)
+            break
+            
+            
+        case .nothing:
+            setupTVCells(hotelList: hotelSearchResultArray)
+            break
+            
+        default:
+            break
+        }
+        
+        DispatchQueue.main.async {[self] in
+            // commonTableView.scrollToRow(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+        }
+        
+    }
+    
+    func filterByApplied(minpricerange: Double, maxpricerange: Double, noofstopsFA: [String], departureTimeFilter: [String], arrivalTimeFilter: [String], airlinesFA: [String], cancellationTypeFA: [String], connectingFlightsFA: [String], connectingAirportsFA: [String]) {
+        
+    }
+    
+}
+
+
+
+
+//MARK: - addObserver reload gotoNoInternetScreen
 extension HotelSearchResultVC {
     
     func addObserver() {
@@ -541,7 +603,7 @@ extension HotelSearchResultVC {
         let formattedTime = String(format: "%02d:%02d", minutes, seconds)
         
         setuplabels(lbl: sessionlbl, text: "Your Session Expires In: \(formattedTime)",
-                    textcolor: .WhiteColor,
+                    textcolor: .AppLabelColor,
                     font: .OpenSansRegular(size: 12),
                     align: .left)
     }

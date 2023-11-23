@@ -442,6 +442,7 @@
                 <outlet property="checkoutlbl" destination="TyK-ua-9tE" id="L5m-np-Fgd"/>
                 <outlet property="hotelorlocNamelbl" destination="qRN-y8-yq3" id="AKA-hW-Rtk"/>
                 <outlet property="nationalitylbl" destination="2pn-6J-wrE" id="Osn-th-AwM"/>
+                <outlet property="titlelbl" destination="Mhb-9F-a4T" id="WyV-Dl-XAg"/>
                 <outlet property="travellereconomylbl" destination="04Q-v1-4Tn" id="lFc-oR-ysu"/>
             </connections>
             <point key="canvasLocation" x="47.328244274809158" y="233.80281690140845"/>
