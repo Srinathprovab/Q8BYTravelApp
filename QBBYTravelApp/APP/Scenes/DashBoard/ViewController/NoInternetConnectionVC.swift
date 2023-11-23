@@ -95,21 +95,24 @@ class NoInternetConnectionVC: UIViewController {
         
         if key == "noresult" {
             
-            if let tabselect = defaults.string(forKey: UserDefaultsKeys.tabselect),tabselect == "Flight" {
-                gotoBookFlightVC()
-            }else {
-                gotoBookHotelVC()
+            if let tabselect = defaults.string(forKey: UserDefaultsKeys.tabselect){
+                
+                if tabselect == "Airline"  {
+                    gotoBookFlightVC()
+                }else {
+                    gotoBookHotelVC()
+                }
+               
             }
             
         }else if key == "noseat" {
             if let tabselect = defaults.string(forKey: UserDefaultsKeys.tabselect),tabselect == "Flight" {
-                // searchFlightAgain()
                 gotoBookFlightVC()
             }else {
                 
             }
         }else {
-            NotificationCenter.default.post(name: NSNotification.Name("reloadTV"), object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name("reload"), object: nil)
             dismiss(animated: false)
         }
     }

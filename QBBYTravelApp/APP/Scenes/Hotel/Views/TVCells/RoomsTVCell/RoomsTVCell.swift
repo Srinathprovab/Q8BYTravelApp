@@ -120,6 +120,7 @@ extension RoomsTVCell:UITableViewDataSource,UITableViewDelegate {
                 
                 // Check if the indexPath is in the set of selected indexPaths
                 if selectedIndexPaths.contains(indexPath) {
+                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
                     cell.radioImg.image = UIImage(named: "radioSelected")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppBackgroundColor)
                 } else {
                     cell.radioImg.image = UIImage(named: "radioUnselected")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppBackgroundColor)

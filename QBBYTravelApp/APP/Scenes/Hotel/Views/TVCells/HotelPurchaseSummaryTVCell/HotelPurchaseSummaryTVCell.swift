@@ -8,7 +8,7 @@
 import UIKit
 
 class HotelPurchaseSummaryTVCell: TableViewCell {
-
+    
     
     @IBOutlet weak var holderview: UIView!
     @IBOutlet weak var titlelbl: UILabel!
@@ -24,8 +24,8 @@ class HotelPurchaseSummaryTVCell: TableViewCell {
     @IBOutlet weak var chockoutValuelbl: UILabel!
     @IBOutlet weak var cancellationPolicylbl: UILabel!
     @IBOutlet weak var cancellationPolicyValuelbl: UILabel!
-    @IBOutlet weak var taxlbl: UILabel!
-    @IBOutlet weak var taxValuelbl: UILabel!
+    //    @IBOutlet weak var taxlbl: UILabel!
+    //    @IBOutlet weak var taxValuelbl: UILabel!
     @IBOutlet weak var totalpricelbl: UILabel!
     @IBOutlet weak var totalpriceValuelbl: UILabel!
     @IBOutlet weak var totalamountlbl: UILabel!
@@ -39,10 +39,10 @@ class HotelPurchaseSummaryTVCell: TableViewCell {
         // Initialization code
         setupUI()
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
@@ -55,7 +55,7 @@ class HotelPurchaseSummaryTVCell: TableViewCell {
         chackinValuelbl.text = cellInfo?.buttonTitle
         chockoutValuelbl.text = cellInfo?.key
         cancellationPolicyValuelbl.text = cellInfo?.key1
-        taxValuelbl.text = cellInfo?.questionType
+        //     taxValuelbl.text = cellInfo?.questionType
         totalpriceValuelbl.text = cellInfo?.questionBase
         totalamountValuelbl.text = cellInfo?.TotalQuestions
         
@@ -77,7 +77,7 @@ class HotelPurchaseSummaryTVCell: TableViewCell {
         setuplabels(lbl: chackinlbl, text: "Chack - In", textcolor: HexColor("#999898"), font: UIFont.OpenSansRegular(size: 14), align: .left)
         setuplabels(lbl: chockoutlbl, text: "Chock - Out", textcolor: HexColor("#999898"), font: UIFont.OpenSansRegular(size: 14), align: .left)
         setuplabels(lbl: cancellationPolicylbl, text: "Cancellation Policy:", textcolor: HexColor("#999898"), font: UIFont.OpenSansRegular(size: 14), align: .left)
-        setuplabels(lbl: taxlbl, text: "Tax", textcolor: HexColor("#999898"), font: UIFont.OpenSansRegular(size: 14), align: .left)
+        //    setuplabels(lbl: taxlbl, text: "Tax", textcolor: HexColor("#999898"), font: UIFont.OpenSansRegular(size: 14), align: .left)
         setuplabels(lbl: totalpricelbl, text: "Total price", textcolor: HexColor("#999898"), font: UIFont.OpenSansRegular(size: 14), align: .left)
         setuplabels(lbl: totalamountlbl, text: "Total Amount", textcolor: .AppLabelColor, font: UIFont.OpenSansRegular(size: 14), align: .left)
         
@@ -88,15 +88,15 @@ class HotelPurchaseSummaryTVCell: TableViewCell {
         setuplabels(lbl: chackinValuelbl, text: "", textcolor: HexColor("#000000"), font: UIFont.OpenSansRegular(size: 14), align: .right)
         setuplabels(lbl: chockoutValuelbl, text: "", textcolor: HexColor("#000000"), font: UIFont.OpenSansRegular(size: 14), align: .right)
         setuplabels(lbl: cancellationPolicyValuelbl, text: "", textcolor: HexColor("#FF0808"), font: UIFont.OpenSansRegular(size: 14), align: .right)
-        setuplabels(lbl: taxValuelbl, text: "", textcolor: HexColor("#000000"), font: UIFont.OpenSansRegular(size: 14), align: .right)
+        //      setuplabels(lbl: taxValuelbl, text: "", textcolor: HexColor("#000000"), font: UIFont.OpenSansRegular(size: 14), align: .right)
         setuplabels(lbl: totalpriceValuelbl, text: "", textcolor: HexColor("#000000"), font: UIFont.OpenSansRegular(size: 14), align: .right)
         setuplabels(lbl: totalamountValuelbl, text: "", textcolor: .AppLabelColor, font: UIFont.OpenSansBold(size: 14), align: .right)
-
+        
         holderview.backgroundColor = .WhiteColor
         holderview.addCornerRadiusWithShadow(color: .clear, borderColor: .AppBorderColor, cornerRadius: 4)
         
     }
     
-  
+    
     
 }

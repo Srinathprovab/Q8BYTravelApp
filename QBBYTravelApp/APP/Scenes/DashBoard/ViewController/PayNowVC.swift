@@ -111,6 +111,7 @@ class PayNowVC: BaseTableVC,HotelMBViewModelDelegate,TimerManagerDelegate, PreBo
                                          "RoundTripTVcell",
                                          "HotelSearchResultTVCell",
                                          "AddDeatilsOfTravellerTVCell",
+                                         "AddDeatilsOfGuestTVCell",
                                          "TotalNoofTravellerTVCell"])
         
         
@@ -312,6 +313,23 @@ class PayNowVC: BaseTableVC,HotelMBViewModelDelegate,TimerManagerDelegate, PreBo
     
     
     
+    //MARK: - AddDeatilsOfGuestTVCell Delegate Methods
+    override func didTapOnExpandAdultViewbtnAction(cell: AddDeatilsOfGuestTVCell){
+        if cell.expandViewBool == true {
+            
+            cell.expandView()
+            cell.expandViewBool = false
+        }else {
+            
+            cell.collapsView()
+            cell.expandViewBool = true
+        }
+        
+        commonTableView.beginUpdates()
+        commonTableView.endUpdates()
+    }
+    
+    
     // MARK: - didTapOnBookNowBtn
     @objc func didTapOnBookNowBtn(_ sender:UIButton) {
         
@@ -343,8 +361,8 @@ extension PayNowVC {
     
     func preBookingDetails(response: PreBookingModel) {
         
-       tmpFlightPreBookingId = response.form_params?.booking_id ?? ""
-     // tokenkey = response.form_params?.token_key ?? ""
+        tmpFlightPreBookingId = response.form_params?.booking_id ?? ""
+        // tokenkey = response.form_params?.token_key ?? ""
         
         holderView.isHidden = false
         DispatchQueue.main.async {[self] in
@@ -439,13 +457,7 @@ extension PayNowVC {
                 navHeight.constant = 180
             }
             
-            nav.titlelbl.text = "\(defaults.string(forKey: UserDefaultsKeys.locationcity) ?? "")"
-            nav.citylbl.text = "CheckIn -\(defaults.string(forKey: UserDefaultsKeys.checkin) ?? "" ) CheckOut -\(defaults.string(forKey: UserDefaultsKeys.checkout) ?? "")"
             
-            nav.datelbl.text = "Guests-1 \(defaults.string(forKey: UserDefaultsKeys.guestcount) ?? "")/ Room - \(defaults.string(forKey: UserDefaultsKeys.roomcount) ?? "")"
-            
-            adultsCount = Int(defaults.string(forKey: UserDefaultsKeys.hoteladultscount) ?? "1") ?? 0
-            childCount = Int(defaults.string(forKey: UserDefaultsKeys.hotelchildcount) ?? "0") ?? 0
             
             
             if callapibool == true {
@@ -699,7 +711,7 @@ extension PayNowVC {
         payload["passenger_passport_expiry"] =  passportExpireDateString
         
         
-    
+        
         
         payload["Frequent"] = "\([["Select"]])"
         payload["ff_no"] = "\([[""]])"
@@ -815,6 +827,44 @@ extension PayNowVC {
 //MARK: - setupHotelTVCells
 extension PayNowVC {
     
+    
+    
+    //MARK: - callHotelMobileBookingAPI
+    func callHotelMobileBookingAPI() {
+        payload.removeAll()
+        payload["search_id"] = hsearch_id
+        payload["booking_source"] = hbooking_source
+        payload["token"] = htoken
+        payload["token_key"] = htokenkey
+        payload["rateKey"] = "[\"" + ratekeyArray.joined(separator: "\",\"") + "\"]"
+        payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
+        
+        vm2?.CALL_GET_HOTEL_MOBILE_BOOKING_DETAILS_API(dictParam: payload)
+    }
+    
+    
+    //MARK: - hotelMBDetails
+    func hotelMBDetails(response: HotelMBModel) {
+        hoteldetails = response.data?.hotel_details
+        holderView.isHidden = false
+        hbookingToken = response.data?.token ?? ""
+        hcurrency = response.data?.currency_obj?.to_currency ?? ""
+        
+        nav.titlelbl.text = "\(defaults.string(forKey: UserDefaultsKeys.locationcity) ?? "")"
+        nav.citylbl.text = "CheckIn -\(defaults.string(forKey: UserDefaultsKeys.checkin) ?? "" ) CheckOut -\(defaults.string(forKey: UserDefaultsKeys.checkout) ?? "")"
+        
+        nav.datelbl.text = "Guests- \(defaults.string(forKey: UserDefaultsKeys.guestcount) ?? "") / Room - \(defaults.string(forKey: UserDefaultsKeys.roomcount) ?? "")"
+        
+        adultsCount = Int(defaults.string(forKey: UserDefaultsKeys.hoteladultscount) ?? "1") ?? 0
+        childCount = Int(defaults.string(forKey: UserDefaultsKeys.hotelchildcount) ?? "0") ?? 0
+        
+        DispatchQueue.main.async {[self] in
+            setupHotelTVCells()
+        }
+    }
+    
+    
+    //MARK: - setupHotelTVCells
     func setupHotelTVCells() {
         tablerow.removeAll()
         holderView.isHidden = false
@@ -837,9 +887,23 @@ extension PayNowVC {
         
         
         
-        tablerow.append(TableRow(title:"Guests Details",subTitle: String(adultsCount),buttonTitle: String(childCount),tempText: String(infantsCount),cellType:.AddAdultTravellerTVCell))
+        tablerow.append(TableRow(title:"Guest Details",cellType:.TotalNoofTravellerTVCell))
+        
+        for i in 1...adultsCount {
+            positionsCount += 1
+            let travellerCell = TableRow(title: "Adult \(i)", key: "adult", characterLimit: positionsCount, cellType: .AddDeatilsOfGuestTVCell)
+            
+            tablerow.append(travellerCell)
+            
+        }
+        
+        
         if childCount != 0 {
-            tablerow.append(TableRow(cellType:.AddChildTravellerTVCell))
+            for i in 1...childCount {
+                positionsCount += 1
+                tablerow.append(TableRow(title:"Child \(i)",key:"child",characterLimit: positionsCount,cellType:.AddDeatilsOfGuestTVCell))
+                
+            }
         }
         
         
@@ -855,7 +919,7 @@ extension PayNowVC {
                                  questionType: "KWD:30.00",
                                  TotalQuestions:grandTotal,
                                  cellType:.HotelPurchaseSummaryTVCell,
-                                 questionBase: "KWD:150.00"))
+                                 questionBase: grandTotal))
         tablerow.append(TableRow(title:"I Accept T&C and Privacy Policy",cellType:.AcceptTermsAndConditionTVCell))
         tablerow.append(TableRow(height:30, bgColor:.AppHolderViewColor,cellType:.EmptyTVCell))
         
@@ -864,30 +928,7 @@ extension PayNowVC {
     }
     
     
-    //MARK: - callHotelMobileBookingAPI
-    func callHotelMobileBookingAPI() {
-        payload.removeAll()
-        payload["search_id"] = hsearch_id
-        payload["booking_source"] = hbooking_source
-        payload["token"] = htoken
-        payload["token_key"] = htokenkey
-        payload["rateKey"] = ratekeyArray
-        payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
-        vm2?.CALL_GET_HOTEL_MOBILE_BOOKING_DETAILS_API(dictParam: payload)
-    }
     
-    
-    //MARK: - hotelMBDetails
-    func hotelMBDetails(response: HotelMBModel) {
-        hoteldetails = response.data?.hotel_details
-        holderView.isHidden = false
-        hbookingToken = response.data?.token ?? ""
-        hcurrency = response.data?.currency_obj?.to_currency ?? ""
-        
-        DispatchQueue.main.async {[self] in
-            setupHotelTVCells()
-        }
-    }
     
     func bookHotel() {
         
@@ -895,39 +936,144 @@ extension PayNowVC {
         payload1.removeAll()
         
         
+        var callpaymenthotelbool = true
+        var fnameCharBool = true
+        var lnameCharBool = true
         
-        payload["booking_source"] = hbooking_source
-        payload["promo_code"] = ""
+        
+        for traveler in travelerArray {
+            
+            if traveler.firstName == nil  || traveler.firstName?.isEmpty == true{
+                callpaymenthotelbool = false
+                
+            }
+            
+            if (traveler.firstName?.count ?? 0) <= 3 {
+                fnameCharBool = false
+            }
+            
+            if traveler.lastName == nil || traveler.firstName?.isEmpty == true{
+                callpaymenthotelbool = false
+            }
+            
+            if (traveler.lastName?.count ?? 0) <= 3 {
+                lnameCharBool = false
+            }
+            
+            
+            // Continue checking other fields
+        }
+        
+        
+        
+        let positionsCount = commonTableView.numberOfRows(inSection: 0)
+        for position in 0..<positionsCount {
+            // Fetch the cell for the given position
+            if let cell = commonTableView.cellForRow(at: IndexPath(row: position, section: 0)) as? AddDeatilsOfGuestTVCell {
+                
+                if cell.titleTF.text?.isEmpty == true {
+                    // Textfield is empty
+                    cell.titleView.layer.borderColor = UIColor.red.cgColor
+                    callpaymenthotelbool = false
+                    
+                }
+                
+                if cell.fnameTF.text?.isEmpty == true {
+                    // Textfield is empty
+                    cell.fnameView.layer.borderColor = UIColor.red.cgColor
+                    callpaymenthotelbool = false
+                }else if (cell.fnameTF.text?.count ?? 0) <= 3{
+                    cell.fnameView.layer.borderColor = UIColor.red.cgColor
+                    fnameCharBool = false
+                }else {
+                    fnameCharBool = true
+                }
+                
+                if cell.lnameTF.text?.isEmpty == true {
+                    // Textfield is empty
+                    cell.lnameView.layer.borderColor = UIColor.red.cgColor
+                    callpaymenthotelbool = false
+                }else if (cell.lnameTF.text?.count ?? 0) <= 3{
+                    cell.lnameView.layer.borderColor = UIColor.red.cgColor
+                    lnameCharBool = false
+                } else {
+                    // Textfield is not empty
+                    lnameCharBool = true
+                }
+                
+                
+            }
+        }
+        
+        
+        let mrtitleArray = travelerArray.compactMap({$0.mrtitle})
+        let passengertypeArray = travelerArray.compactMap({$0.passengertype})
+        let firstnameArray = travelerArray.compactMap({$0.firstName})
+        let lastNameArray = travelerArray.compactMap({$0.lastName})
+        let laedpassengerArray = travelerArray.compactMap({$0.laedpassenger})
+        
+        let mrtitleString = "[\"" + mrtitleArray.joined(separator: "\",\"") + "\"]"
+        let firstnameString = "[\"" + firstnameArray.joined(separator: "\",\"") + "\"]"
+        let lastNameString = "[\"" + lastNameArray.joined(separator: "\",\"") + "\"]"
+        let passengertypeString = "[\"" + passengertypeArray.joined(separator: "\",\"") + "\"]"
+        let laedpassengerArrayString = "[\"" + laedpassengerArray.joined(separator: "\",\"") + "\"]"
+        
+        
+        payload["search_id"] = hsearch_id
         payload["token"] = hbookingToken
-        payload["redeem_points_post"] = "0"
-        payload["reducing_amount"] = "0"
-        payload["reward_usable"] = "0"
-        payload["reward_earned"] = "0"
-        payload["billing_email"] = self.email
-        payload["passenger_contact"] = self.mobile
-        payload["first_name"] = fnameA
-        payload["last_name"] = lnameA
-        payload["name_title"] = title2A
-        payload["billing_country"] = self.billingCountryCode
-        payload["country_code"] = self.countryCode
-        payload["passenger_type"] = passengertypeA
+        payload["token_key"] = hbookingToken
+        payload["booking_source"] = hbooking_source
+        payload["payment_method"] = "PNHB1"
+        payload["payment_booking_source"] = ""
+        payload["promo_code"] = ""
+        payload["promo_actual_value"] = ""
+        payload["base_en_rate"] = ""
+        payload["reward_usable"] = ""
+        payload["reward_earned"] = ""
+        payload["total_price_with_rewards"] = ""
+        payload["reducing_amount"] = ""
+        payload["passenger_type"] = passengertypeString
+        payload["lead_passenger"] = laedpassengerArrayString
+        payload["rateKey"] = ""
+        payload["mealsID"] = ""
+        payload["dob"] = "\([""])"
+        payload["nationality"] = "\([""])"
+        payload["name_title"] = mrtitleString
+        payload["first_name"] = firstnameString
+        payload["last_name"] = lastNameString
+        payload["billing_email"] = email
+        payload["passenger_contact"] = mobile
+        payload["special_req"] = "\([""])"
+        payload["payment_value"] = "payment_gateway_knet"
+        payload["users_comments"] = ""
         
-        if passengerA.count != Int(defaults.string(forKey: UserDefaultsKeys.totalTravellerCount) ?? "1"){
-            showToast(message: "Select Traveller Details")
-        }else if self.email == "" {
+        
+        // Check additional conditions
+        if email == "" {
             showToast(message: "Enter Email Address")
-        }else if self.email.isValidEmail() == false {
+        }else if email.isValidEmail() == false {
             showToast(message: "Enter Valid Email Addreess")
-        }else if self.mobile == "" {
+        }else if mobile == "" {
             showToast(message: "Enter Mobile No")
-        }else if self.mobile.isValidMobileNumber() == false {
-            showToast(message: "Enter Valid Mobile No")
-        }else if self.billingCountryCode == "" {
+        }else if countryCode == "" {
             showToast(message: "Enter Country Code")
+        }else if mobilenoMaxLengthBool == false {
+            showToast(message: "Enter Valid Mobile No")
+        }else
+        
+        if callpaymenthotelbool == false{
+            showToast(message: "Add Details")
+        }else if fnameCharBool == false{
+            showToast(message: "More Than 3 Char")
+        }else if lnameCharBool == false{
+            showToast(message: "More Than 3 Char")
         }else if checkTermsAndCondationStatus == false {
             showToast(message: "Please Accept T&C and Privacy Policy")
         }else {
-            vm2?.CALL_GET_HOTEL_MOBILE_PRE_BOOKING_DETAILS_API(dictParam: payload)
+            
+            print(payload)
+            
+            //   vm1?.CALL_GET_HOTEL_MOBILE_PRE_BOOKING_DETAILS_API(dictParam: payload)
         }
         
     }

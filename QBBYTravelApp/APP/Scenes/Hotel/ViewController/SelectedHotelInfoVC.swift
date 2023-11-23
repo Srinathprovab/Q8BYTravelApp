@@ -130,6 +130,7 @@ class SelectedHotelInfoVC: BaseTableVC, HotelDetailsViewModelDelegate, TimerMana
         if ratekeyArray.isEmpty == true {
             showToast(message: "Please Select Room To Book")
         }else {
+            callapibool = true
             guard let vc = PayNowVC.newInstance.self else {return}
             vc.modalPresentationStyle = .fullScreen
             vc.keystr = "hotel"

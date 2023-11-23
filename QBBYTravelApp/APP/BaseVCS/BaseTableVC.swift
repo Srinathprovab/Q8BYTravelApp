@@ -9,7 +9,8 @@ import UIKit
 import MaterialComponents
 
 
-class BaseTableVC: UIViewController, ButtonTVCellDelegate,TextfieldTVCellDelegate, SelectGenderTVCellDelegate, RadioButtonTVCellDelegate, SignUpWithTVCellDelegate, MenuBGTVCellDelegate,LabelWithButtonTVCellDelegate, SelectTabTVCellDelegate, SearchFlightTVCellDelegate, TravellerEconomyTVCellDelegate, SearchFlightResultInfoTVCellDelegate, BookNowTVCellDelegate, TDetailsLoginTVCellDelegate,PromocodeTVCellDelegate, PriceSummaryTVCellDelegate, AddTravellersDetailsTVCellDelegate, CheckBoxTVCellDelegate,MultiCityTripTVCellDelegate, RoomsTVCellDelegate, StarRatingTVCellDelegate, ChooseProfilPpictureTVCellDelegate,checkOptionsTVCellDelegate, AboutusTVCellDelegate, HotelDealsTVCellDelegate, RoundTripTVcellDelegate, FareRulesTVCellDelegate, SaveTravellerDetailsTVCellDelegate, AddInfantaTravellerTVCellDelegate, AddChildTravellerTVCellDelegate, AddAdultTravellerTVCellDelegate, ContactInformationTVCellDelegate, SortByPriceTVCellDelegate, SliderTVCellDelegate, AcceptTermsAndConditionTVCellDelegate, MyBookingsTVCellsDelegate, SearchHolidaysTVcellDelegate, HolidaySearchResultTVCellDelegate, FlightSearchTVCellDelegate, RoundTripDetailsTVcellDelegate, LogowithMenuTVCellDelegate, AddCityTVCellDelegate, BookingConfTVCellDelegate, DownloadTicketTVCellDelegate, CreateAccountTVCellDelegate, AddFareRulesTVCellDelegate, AddDeatilsOfTravellerTVCellDelegate, BookHotelTVCellDelegate {
+class BaseTableVC: UIViewController, ButtonTVCellDelegate,TextfieldTVCellDelegate, SelectGenderTVCellDelegate, RadioButtonTVCellDelegate, SignUpWithTVCellDelegate, MenuBGTVCellDelegate,LabelWithButtonTVCellDelegate, SelectTabTVCellDelegate, SearchFlightTVCellDelegate, TravellerEconomyTVCellDelegate, SearchFlightResultInfoTVCellDelegate, BookNowTVCellDelegate, TDetailsLoginTVCellDelegate,PromocodeTVCellDelegate, PriceSummaryTVCellDelegate, AddTravellersDetailsTVCellDelegate, CheckBoxTVCellDelegate,MultiCityTripTVCellDelegate, RoomsTVCellDelegate, StarRatingTVCellDelegate, ChooseProfilPpictureTVCellDelegate,checkOptionsTVCellDelegate, AboutusTVCellDelegate, HotelDealsTVCellDelegate, RoundTripTVcellDelegate, FareRulesTVCellDelegate, SaveTravellerDetailsTVCellDelegate, AddInfantaTravellerTVCellDelegate, AddChildTravellerTVCellDelegate, AddAdultTravellerTVCellDelegate, ContactInformationTVCellDelegate, SortByPriceTVCellDelegate, SliderTVCellDelegate, AcceptTermsAndConditionTVCellDelegate, MyBookingsTVCellsDelegate, SearchHolidaysTVcellDelegate, HolidaySearchResultTVCellDelegate, FlightSearchTVCellDelegate, RoundTripDetailsTVcellDelegate, LogowithMenuTVCellDelegate, AddCityTVCellDelegate, BookingConfTVCellDelegate, DownloadTicketTVCellDelegate, CreateAccountTVCellDelegate, AddFareRulesTVCellDelegate, AddDeatilsOfTravellerTVCellDelegate, BookHotelTVCellDelegate, AddDeatilsOfGuestTVCellDelegate {
+    
     
     
     
@@ -245,7 +246,11 @@ class BaseTableVC: UIViewController, ButtonTVCellDelegate,TextfieldTVCellDelegat
     func didTapOnHotelSearchBtnAction(cell:BookHotelTVCell) {}
     
     
-   
+    func didTapOnExpandAdultViewbtnAction(cell: AddDeatilsOfGuestTVCell) {}
+    func didTapOnTitleBtnAction(cell: AddDeatilsOfGuestTVCell) {}
+    func didTapOnMrBtnAction(cell: AddDeatilsOfGuestTVCell) {}
+    func didTapOnMrsBtnAction(cell: AddDeatilsOfGuestTVCell) {}
+    
     
     
 }
@@ -750,6 +755,11 @@ extension BaseTableVC: UITableViewDataSource {
                 cell.delegate = self
                 commonCell = cell
                 
+                
+            case .AddDeatilsOfGuestTVCell:
+                let cell:  AddDeatilsOfGuestTVCell = commonTV.dequeTVCell(indexPath: indexPath)
+                cell.delegate = self
+                commonCell = cell
                 
             default:
                 print("handle this case in getCurrentCellAt")
