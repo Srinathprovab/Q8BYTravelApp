@@ -30,9 +30,11 @@ struct HotelSearchResult : Codable {
     let xml_price : String?
     let no_of_nights : Int?
     let hotel_shortdesc : String?
-
+    let refund : String?
+    
+    
     enum CodingKeys: String, CodingKey {
-
+        
         case booking_source = "booking_source"
         case hotel_code = "hotel_code"
         case city_code = "city_code"
@@ -61,8 +63,9 @@ struct HotelSearchResult : Codable {
         case xml_price = "xml_price"
         case no_of_nights = "no_of_nights"
         case hotel_shortdesc = "hotel_shortdesc"
+        case refund = "refund"
     }
-
+    
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         booking_source = try values.decodeIfPresent(String.self, forKey: .booking_source)
@@ -93,6 +96,7 @@ struct HotelSearchResult : Codable {
         xml_price = try values.decodeIfPresent(String.self, forKey: .xml_price)
         no_of_nights = try values.decodeIfPresent(Int.self, forKey: .no_of_nights)
         hotel_shortdesc = try values.decodeIfPresent(String.self, forKey: .hotel_shortdesc)
+        refund = try values.decodeIfPresent(String.self, forKey: .refund)
     }
-
+    
 }

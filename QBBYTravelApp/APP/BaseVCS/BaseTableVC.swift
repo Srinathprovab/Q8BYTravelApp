@@ -143,6 +143,7 @@ class BaseTableVC: UIViewController, ButtonTVCellDelegate,TextfieldTVCellDelegat
     func didtapOnCheckOutBtn(cell:DualViewTVCell){}
     func didTapOnSearchHotelsBtn(cell:ButtonTVCell){}
     func didTapOnCancellationPolicyBtn(cell: TwinSuperiorRoomTVCell) {}
+    func didTapOnRoom(cell:TwinSuperiorRoomTVCell){}
     func didTapOnMenuBtn(cell:SelectTabTVCell){}
     func didTapOnLaungageBtn(cell:SelectTabTVCell){}
     func didTapOnStarRatingCell(cell: StarRatingCVCell) {}
@@ -244,7 +245,7 @@ class BaseTableVC: UIViewController, ButtonTVCellDelegate,TextfieldTVCellDelegat
     func didTapOnHotelSearchBtnAction(cell:BookHotelTVCell) {}
     
     
-    
+   
     
     
 }

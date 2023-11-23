@@ -21,7 +21,7 @@ class HotelSearchResultTVCell: TableViewCell {
     @IBOutlet weak var subtitlelbl: UILabel!
     @IBOutlet weak var ratingView: AARatingBar!
     
-    
+    var bs = String()
     var hotelcode = String()
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -39,18 +39,19 @@ class HotelSearchResultTVCell: TableViewCell {
         
         titlelbl.text = cellInfo?.title
         subtitlelbl.text = cellInfo?.subTitle
-        hotelcode = cellInfo?.buttonTitle ?? ""
         ratingView.value = CGFloat(cellInfo?.characterLimit ?? 0)
         hotelImg.sd_setImage(with: URL(string: cellInfo?.image ?? ""), placeholderImage:UIImage(contentsOfFile:"placeholder.png"))
         kwdlbl.text = cellInfo?.kwdprice
         
-        if cellInfo?.tempText == "refund" {
+        if cellInfo?.tempText == "Refundable" {
             refundablelbl.text = "Refundable"
             refundablelbl.textColor = .AppBtnColor
         }else {
             refundablelbl.text = "Non Refundable"
             refundablelbl.textColor = .KWDColor
         }
+        bs = cellInfo?.buttonTitle ?? ""
+        hotelcode = cellInfo?.headerText ?? ""
 
     }
     

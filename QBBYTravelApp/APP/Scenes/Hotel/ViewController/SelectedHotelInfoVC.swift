@@ -35,59 +35,9 @@ class SelectedHotelInfoVC: BaseTableVC, HotelDetailsViewModelDelegate, TimerMana
     }
     
     
-    @objc func offline(){
-        guard let vc = NoInternetConnectionVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .fullScreen
-        callapibool = true
-        present(vc, animated: true)
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(offline), name: NSNotification.Name("offline"), object: nil)
-        if callapibool == true {
-            holderView.isHidden = true
-            callAPI()
-        }
-        
-        TimerManager.shared.delegate = self
+        addObserver()
     }
-    
-    func timerDidFinish() {
-        guard let vc = PopupVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .overCurrentContext
-        self.present(vc, animated: false)
-    }
-    
-    func updateTimer() {
-        
-    }
-    
-    
-    func callAPI() {
-        payload.removeAll()
-        payload["booking_source"] = hbooking_source
-        payload["hotel_id"] = hotelid
-        payload["search_id"] = hsearch_id
-        vm?.CALL_GET_HOTEL_DETAILS_API(dictParam: payload)
-    }
-    
-    
-    func hotelDetails(response: HotelDetailsModel) {
-        
-        holderView.isHidden = false
-        hotelDetalsinfo = response.hotel_details
-        roomsInfo = response.hotel_details?.rooms ?? [[]]
-        facilityesInfo = response.hotel_details?.facility ?? []
-        hotelImages = response.hotel_details?.images ?? []
-        hotelimg = response.hotel_details?.image ?? ""
-        htoken = response.hotel_details?.token ?? ""
-        htokenkey = response.hotel_details?.tokenKey ?? ""
-        
-        DispatchQueue.main.async {
-            self.appendHotelSearctTvcells()
-        }
-    }
-    
     
     
     override func viewDidLoad() {
@@ -96,6 +46,7 @@ class SelectedHotelInfoVC: BaseTableVC, HotelDetailsViewModelDelegate, TimerMana
         setupUI()
         vm = HotelDetailsViewModel(self)
     }
+    
     
     func setupUI() {
         
@@ -107,12 +58,6 @@ class SelectedHotelInfoVC: BaseTableVC, HotelDetailsViewModelDelegate, TimerMana
         nav.datelbl.isHidden = false
         
         
-        nav.titlelbl.text = "\(defaults.string(forKey: UserDefaultsKeys.locationcity) ?? "")"
-        nav.citylbl.text = "CheckIn -\(defaults.string(forKey: UserDefaultsKeys.checkin) ?? "" ) CheckOut -\(defaults.string(forKey: UserDefaultsKeys.checkout) ?? "")"
-        
-        nav.datelbl.text = "Guests-1 \(defaults.string(forKey: UserDefaultsKeys.guestcount) ?? "")/ Room - \(defaults.string(forKey: UserDefaultsKeys.roomcount) ?? "")"
-        
-        
         if screenHeight > 835 {
             navHeight.constant = 200
         }else {
@@ -122,6 +67,7 @@ class SelectedHotelInfoVC: BaseTableVC, HotelDetailsViewModelDelegate, TimerMana
         setupViews(v: bookNowHolderView, radius: 0, color: .AppBackgroundColor)
         setupViews(v: bookNowView, radius: 20, color: .layoverColor)
         setupLabels(lbl: kwdpricelbl, text: grandTotal, textcolor: .WhiteColor, font: .oswaldRegular(size: 20))
+        kwdpricelbl.isHidden = true
         setupLabels(lbl: bookNowlbl, text: "CONTINUE", textcolor: .AppLabelColor, font: .oswaldRegular(size: 16))
         bookNowBtn.setTitle("", for: .normal)
         bookNowBtn.addTarget(self, action: #selector(didTapOnBookNowBtn(_:)), for: .touchUpInside)
@@ -140,28 +86,10 @@ class SelectedHotelInfoVC: BaseTableVC, HotelDetailsViewModelDelegate, TimerMana
         dismiss(animated: true)
     }
     
-    func appendHotelSearctTvcells() {
-        tablerow.removeAll()
-        
-        tablerow.append(TableRow(title:hotelDetalsinfo?.name,
-                                 subTitle: hotelDetalsinfo?.address,
-                                 key:"rating",
-                                 characterLimit: hotelDetalsinfo?.star_rating,
-                                 cellType:.RatingWithLabelsTVCell))
-        tablerow.append(TableRow(height:20,bgColor: .WhiteColor,cellType:.EmptyTVCell))
-        tablerow.append(TableRow(image:hotelimg,moreData:hotelImages,cellType:.HotelImagesTVCell))
-        tablerow.append(TableRow(title:"Description",
-                                 subTitle: hotelDetalsinfo?.hotel_desc,
-                                 cellType:.RatingWithLabelsTVCell))
-        tablerow.append(TableRow(title:"Rooms", moreData:roomsInfo,cellType:.RoomsTVCell))
-        tablerow.append(TableRow(title:"Facilities",moreData: facilityesInfo,cellType:.FacilitiesTVCell))
-        tablerow.append(TableRow(height:50,bgColor: .WhiteColor,cellType:.EmptyTVCell))
-        
-        commonTVData = tablerow
-        commonTableView.reloadData()
-        
-    }
+   
     
+    
+    //MARK: - setupLabels setupViews
     func setupLabels(lbl:UILabel,text:String,textcolor:UIColor,font:UIFont) {
         lbl.text = text
         lbl.textColor = textcolor
@@ -176,7 +104,7 @@ class SelectedHotelInfoVC: BaseTableVC, HotelDetailsViewModelDelegate, TimerMana
         v.layer.borderColor = UIColor.AppBorderColor.cgColor
     }
     
-    
+    //MARK: - didTapOnCancellationPolicyBtn
     override func didTapOnCancellationPolicyBtn(cell: TwinSuperiorRoomTVCell) {
         guard let vc = CancellationPolicyPopupVC.newInstance.self else {return}
         vc.modalPresentationStyle = .overCurrentContext
@@ -185,6 +113,19 @@ class SelectedHotelInfoVC: BaseTableVC, HotelDetailsViewModelDelegate, TimerMana
         self.present(vc, animated: false)
     }
     
+    
+    
+    //MARK: - didTapOnRoom
+    override func didTapOnRoom(cell:TwinSuperiorRoomTVCell){
+        
+        kwdpricelbl.isHidden = false
+        kwdpricelbl.text = cell.kwdPricelbl.text ?? ""
+        grandTotal = cell.kwdPricelbl.text ?? ""
+    
+    }
+    
+    
+    //MARK: - didTapOnBookNowBtn
     @objc func didTapOnBookNowBtn(_ sender:UIButton) {
         if ratekeyArray.isEmpty == true {
             showToast(message: "Please Select Room To Book")
@@ -196,7 +137,107 @@ class SelectedHotelInfoVC: BaseTableVC, HotelDetailsViewModelDelegate, TimerMana
         }
         
     }
+}
+
+
+
+extension SelectedHotelInfoVC {
     
+    
+    
+    func addObserver() {
+        TimerManager.shared.delegate = self
+        
+        
+        if callapibool == true {
+            holderView.isHidden = true
+            callAPI()
+        }
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(offline), name: NSNotification.Name("offline"), object: nil)
+        
+    }
+    
+    @objc func offline(){
+        guard let vc = NoInternetConnectionVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .fullScreen
+        callapibool = true
+        present(vc, animated: true)
+    }
+    
+    
+    func timerDidFinish() {
+        guard let vc = PopupVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .overCurrentContext
+        self.present(vc, animated: false)
+    }
+    
+    func updateTimer() {
+        
+    }
     
 }
 
+
+extension SelectedHotelInfoVC {
+    func callAPI() {
+        payload.removeAll()
+        payload["booking_source"] = hbooking_source
+        payload["hotel_id"] = hotelid
+        payload["search_id"] = hsearch_id
+        
+        vm?.CALL_GET_HOTEL_DETAILS_API(dictParam: payload)
+    }
+    
+    
+    func hotelDetails(response: HotelDetailsModel) {
+        
+        holderView.isHidden = false
+        hotelDetalsinfo = response.hotel_details
+        roomsInfo = response.hotel_details?.rooms ?? [[]]
+        facilityesInfo = response.hotel_details?.facility ?? []
+        hotelImages = response.hotel_details?.images ?? []
+        hotelimg = response.hotel_details?.image ?? ""
+        htoken = response.hotel_details?.token ?? ""
+        htokenkey = response.hotel_details?.tokenKey ?? ""
+        
+        nav.titlelbl.text = "\(defaults.string(forKey: UserDefaultsKeys.locationcity) ?? "")"
+        nav.citylbl.text = "CheckIn -\(defaults.string(forKey: UserDefaultsKeys.checkin) ?? "" ) CheckOut -\(defaults.string(forKey: UserDefaultsKeys.checkout) ?? "")"
+        
+        nav.datelbl.text = "Guests- \(defaults.string(forKey: UserDefaultsKeys.guestcount) ?? "") / Room - \(defaults.string(forKey: UserDefaultsKeys.roomcount) ?? "")"
+        
+        
+        DispatchQueue.main.async {
+            self.appendHotelSearctTvcells()
+        }
+    }
+    
+    
+    func appendHotelSearctTvcells() {
+        tablerow.removeAll()
+        
+        tablerow.append(TableRow(title:hotelDetalsinfo?.name,
+                                 subTitle: hotelDetalsinfo?.address,
+                                 key:"rating",
+                                 characterLimit: hotelDetalsinfo?.star_rating,
+                                 cellType:.RatingWithLabelsTVCell))
+        
+        tablerow.append(TableRow(height:20,bgColor: .WhiteColor,cellType:.EmptyTVCell))
+        tablerow.append(TableRow(image:hotelimg,moreData:hotelImages,cellType:.HotelImagesTVCell))
+        tablerow.append(TableRow(title:"Description",
+                                 subTitle: hotelDetalsinfo?.hotel_desc,
+                                 cellType:.RatingWithLabelsTVCell))
+        tablerow.append(TableRow(title:"Rooms", moreData:roomsInfo,cellType:.RoomsTVCell))
+        
+        if facilityesInfo.count > 0 {
+            tablerow.append(TableRow(title:"Facilities",moreData: facilityesInfo,cellType:.FacilitiesTVCell))
+        }
+        
+        tablerow.append(TableRow(height:50,bgColor: .WhiteColor,cellType:.EmptyTVCell))
+        
+        commonTVData = tablerow
+        commonTableView.reloadData()
+        
+    }
+}

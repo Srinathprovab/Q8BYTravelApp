@@ -125,24 +125,6 @@ class HotelSearchResultVC: BaseTableVC, HotelListViewModelDelegate, TimerManager
 }
 
 
-//MARK: - gotoSelectedHotelInfoVC
-
-extension HotelSearchResultVC {
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) as? HotelSearchResultTVCell {
-            hotelid = cell.hotelcode
-            grandTotal = cell.kwdlbl.text ?? ""
-            gotoSelectedHotelInfoVC()
-        }
-    }
-    
-    func gotoSelectedHotelInfoVC(){
-        guard let vc = SelectedHotelInfoVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .fullScreen
-        callapibool = true
-        self.present(vc, animated: false)
-    }
-}
 
 //MARK: - callGetActiveSourceBookingSourchAPI CALL_HOTEL_SEARCH_API CALL_GET_HOTEL_LIST_API
 extension HotelSearchResultVC {
@@ -296,10 +278,10 @@ extension HotelSearchResultVC {
             if let hotelLocation = i.location, !hotelLocation.isEmpty {
                 nearBylocationsArray.append(hotelLocation)
             }
-            //
-            //            if let refund = i.refund, !refund.isEmpty {
-            //                faretypeArray.append(refund)
-            //            }
+            
+            if let refund = i.refund, !refund.isEmpty {
+                faretypeArray.append(refund)
+            }
             
             
             
@@ -355,8 +337,10 @@ extension HotelSearchResultVC {
                                          subTitle: "\(i.address ?? "")",
                                          kwdprice: "\(i.currency ?? "") \(i.price ?? "")",
                                          text: "\(i.hotel_code ?? "")",
+                                         headerText: i.hotel_code,
+                                         buttonTitle: i.booking_source,
                                          image: i.image,
-                                         tempText:"refund",
+                                         tempText:i.refund,
                                          characterLimit: i.star_rating,
                                          cellType:.HotelSearchResultTVCell))
                 
@@ -458,7 +442,7 @@ extension HotelSearchResultVC:AppliedFilters {
             guard let netPrice = Double(hotel.price ?? "0.0") else { return false }
             
             let ratingMatches = hotel.star_rating == Int(starRating) || starRating.isEmpty
-          //  let refundableMatch = refundableTypeArray.isEmpty || refundableTypeArray.contains(hotel.refund ?? "")
+            let refundableMatch = refundableTypeArray.isEmpty || refundableTypeArray.contains(hotel.refund ?? "")
             let nearByLocMatch = nearByLocA.isEmpty || nearByLocA.contains(hotel.location ?? "")
             
             
@@ -470,7 +454,7 @@ extension HotelSearchResultVC:AppliedFilters {
             }
             
             
-            return ratingMatches && netPrice >= minpricerange && netPrice <= maxpricerange && facilityMatch && nearByLocMatch
+            return ratingMatches && netPrice >= minpricerange && netPrice <= maxpricerange && facilityMatch && nearByLocMatch && refundableMatch
             
             
         }
@@ -543,6 +527,28 @@ extension HotelSearchResultVC:AppliedFilters {
     
 }
 
+
+
+
+//MARK: - gotoSelectedHotelInfoVC
+
+extension HotelSearchResultVC {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) as? HotelSearchResultTVCell {
+            hotelid = cell.hotelcode
+            grandTotal = cell.kwdlbl.text ?? ""
+            hbooking_source = cell.bs
+            gotoSelectedHotelInfoVC()
+        }
+    }
+    
+    func gotoSelectedHotelInfoVC(){
+        guard let vc = SelectedHotelInfoVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .fullScreen
+        callapibool = true
+        self.present(vc, animated: false)
+    }
+}
 
 
 

@@ -8,12 +8,16 @@
 import UIKit
 protocol RoomsTVCellDelegate {
     func didTapOnCancellationPolicyBtn(cell:TwinSuperiorRoomTVCell)
+    func didTapOnRoom(cell:TwinSuperiorRoomTVCell)
 }
 
 class RoomsTVCell: TableViewCell, TwinSuperiorRoomTVCellDelegate {
     
     @IBOutlet weak var titlelbl: UILabel!
     @IBOutlet weak var roomsTV: UITableView!
+    
+    
+    var selectedIndexPaths = Set<IndexPath>()
     
     var rooms = [[Rooms]]()
     var delegate:RoomsTVCellDelegate?
@@ -67,6 +71,8 @@ extension RoomsTVCell:UITableViewDataSource,UITableViewDelegate {
         return rooms.count
     }
     
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return rooms[section].count
     }
@@ -74,15 +80,20 @@ extension RoomsTVCell:UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var c = UITableViewCell()
         if let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? TwinSuperiorRoomTVCell {
-            
+            cell.selectionStyle = .none
+            cell.delegate = self
             
             if indexPath.section < rooms.count && indexPath.row < rooms[indexPath.section].count {
-                cell.selectionStyle = .none
-                cell.delegate = self
-                let data = rooms[indexPath.section][indexPath.row]
+                
+                
+                let section = indexPath.section
+                let row = indexPath.row
+                let data = rooms[section][row]
+                
+                
                 cell.titlelbl.text = data.name
-                cell.subtitlelbl.text = "\(data.adults ?? 0) Adults"
-                cell.kwdPricelbl.text = "\(data.currency ?? "")\(data.net ?? "")"
+                cell.subtitlelbl.text = "BED AND BREAKFAST"
+                cell.kwdPricelbl.text = "\(data.currency ?? "") : \(data.net ?? "")"
                 cell.ratekey = data.rateKey ?? ""
                 
                 
@@ -103,8 +114,18 @@ extension RoomsTVCell:UITableViewDataSource,UITableViewDelegate {
                 if data.refund == true {
                     setuplabels(lbl: cell.nonRefundablelbl, text: "Refundabel", textcolor: .AppBackgroundColor, font: .OpenSansRegular(size: 10), align: .left)
                 }else {
-                    setuplabels(lbl: cell.nonRefundablelbl, text: "Non Refundabel", textcolor: .red, font: .OpenSansRegular(size: 10), align: .left)
+                    setuplabels(lbl: cell.nonRefundablelbl, text: "Non Refundabel", textcolor: .KWDColor, font: .OpenSansRegular(size: 10), align: .left)
                 }
+                
+                
+                // Check if the indexPath is in the set of selected indexPaths
+                if selectedIndexPaths.contains(indexPath) {
+                    cell.radioImg.image = UIImage(named: "radioSelected")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppBackgroundColor)
+                } else {
+                    cell.radioImg.image = UIImage(named: "radioUnselected")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppBackgroundColor)
+                }
+                
+                
                 
             }
             
@@ -119,10 +140,15 @@ extension RoomsTVCell:UITableViewDataSource,UITableViewDelegate {
         if let cell = tableView.cellForRow(at: indexPath) as? TwinSuperiorRoomTVCell {
             ratekeyArray.removeAll()
             cell.radioImg.image = UIImage(named: "radioSelected")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppBackgroundColor)
+            
+            selectedIndexPaths.insert(indexPath)
+            
             defaults.set(cell.titlelbl.text, forKey: UserDefaultsKeys.roomType)
             defaults.set(cell.nonRefundablelbl.text, forKey: UserDefaultsKeys.refundtype)
             defaults.set(cell.ratekey, forKey: UserDefaultsKeys.rateKey)
             ratekeyArray.append(cell.ratekey)
+            
+            delegate?.didTapOnRoom(cell: cell)
         }
     }
     
@@ -130,6 +156,8 @@ extension RoomsTVCell:UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) as? TwinSuperiorRoomTVCell {
             cell.radioImg.image = UIImage(named: "radioUnselected")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppBackgroundColor)
+            
+            selectedIndexPaths.remove(indexPath)
         }
     }
 }

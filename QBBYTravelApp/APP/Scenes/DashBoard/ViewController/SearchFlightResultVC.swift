@@ -841,7 +841,7 @@ extension SearchFlightResultVC {
         guard let vc = NoInternetConnectionVC.newInstance.self else {return}
         vc.modalPresentationStyle = .overCurrentContext
         vc.key = key
-        vc.titleStr = titleStr
+        vc.key = titleStr
         self.present(vc, animated: false)
     }
     

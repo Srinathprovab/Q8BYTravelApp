@@ -20,8 +20,7 @@ class NoInternetConnectionVC: UIViewController {
     
     
     
-    var key = String()
-    var titleStr = String()
+    var key = ""
     static var newInstance: NoInternetConnectionVC? {
         let storyboard = UIStoryboard(name: Storyboard.Main.name,
                                       bundle: nil)
@@ -31,17 +30,31 @@ class NoInternetConnectionVC: UIViewController {
     
     
     override func viewWillAppear(_ animated: Bool) {
-        if key == "noresult" {
+        if key == "noseat" {
+            noseatsSetup()
+        }else if key == "noresult" {
             noresultSetup()
+        }else {
+            setupUI()
         }
     }
     
     func noresultSetup(){
         wifiImg.image = UIImage(named: "oops")
-        setupLabels(lbl: titlelbl, text: titleStr, textcolor: .AppLabelColor, font: .LatoMedium(size: 18))
+        setupLabels(lbl: titlelbl, text: "NO AVAILABILITY FOR THIS REQUEST", textcolor: .AppLabelColor, font: .LatoMedium(size: 18))
         setupLabels(lbl: subTitlelbl, text: "Please Search Again", textcolor: .AppLabelColor, font: .LatoLight(size: 14))
-        setupLabels(lbl: btnlbl, text: "Search Again", textcolor: .WhiteColor, font: .LatoSemibold(size: 18))
+        setupLabels(lbl: btnlbl, text: "Search Again", textcolor: .WhiteColor, font: .LatoSemibold(size: 20))
     }
+    
+    
+    func noseatsSetup(){
+        wifiImg.image = UIImage(named: "oops")
+        setupLabels(lbl: titlelbl, text: "Booking Failed Please Contact Kuwatways Customer Service", textcolor: .AppLabelColor, font: .LatoMedium(size: 18))
+        setupLabels(lbl: subTitlelbl, text: "Please Search Again", textcolor: .AppLabelColor, font: .LatoLight(size: 14))
+        setupLabels(lbl: btnlbl, text: "Search Again", textcolor: .WhiteColor, font: .LatoSemibold(size: 20))
+    }
+    
+    
     
     
     override func viewDidLoad() {
@@ -52,12 +65,12 @@ class NoInternetConnectionVC: UIViewController {
     }
     
     func setupUI() {
-       // wifiImg.image = UIImage(named: "wifi")
+        wifiImg.image = UIImage(named: "wifi")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppBtnColor)
         closeImg.image = UIImage(named: "close1")
         
         setupLabels(lbl: titlelbl, text: "No Internet Connection", textcolor: .AppLabelColor, font: .LatoMedium(size: 18))
         setupLabels(lbl: subTitlelbl, text: "Please Check Your Internet Connection", textcolor: .AppLabelColor, font: .LatoLight(size: 14))
-        setupLabels(lbl: btnlbl, text: "Try Again", textcolor: .WhiteColor, font: .LatoSemibold(size: 18))
+        setupLabels(lbl: btnlbl, text: "Try Again", textcolor: .WhiteColor, font: .LatoSemibold(size: 20))
         tryAgainBtn.setTitle("", for: .normal)
         setupViews(v: btnView, radius: 4, color: .AppBackgroundColor)
     }
@@ -78,22 +91,45 @@ class NoInternetConnectionVC: UIViewController {
     
     @IBAction func didTapOnTryAgainBtn(_ sender: Any) {
         
+        TimerManager.shared.stopTimer()
+        
         if key == "noresult" {
             
-            if let tabselect = defaults.string(forKey: UserDefaultsKeys.tabselect),tabselect == "Airline" {
-                guard let vc = BookFlightVC.newInstance.self else {return}
-                vc.modalPresentationStyle = .fullScreen
-                self.present(vc, animated: true)
+            if let tabselect = defaults.string(forKey: UserDefaultsKeys.tabselect),tabselect == "Flight" {
+                gotoBookFlightVC()
             }else {
-                guard let vc = BookHotelVC.newInstance.self else {return}
-                vc.modalPresentationStyle = .fullScreen
-                self.present(vc, animated: true)
+                gotoBookHotelVC()
             }
-           
+            
+        }else if key == "noseat" {
+            if let tabselect = defaults.string(forKey: UserDefaultsKeys.tabselect),tabselect == "Flight" {
+                // searchFlightAgain()
+                gotoBookFlightVC()
+            }else {
+                
+            }
         }else {
             NotificationCenter.default.post(name: NSNotification.Name("reloadTV"), object: nil)
             dismiss(animated: false)
         }
     }
     
+    
+    
+    func gotoBookFlightVC() {
+        guard let vc = BookFlightVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .overCurrentContext
+        self.present(vc, animated: false)
+    }
+    
+    
+    func gotoBookHotelVC() {
+        guard let vc = BookHotelVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .overCurrentContext
+        self.present(vc, animated: false)
+    }
+    
+    
 }
+
+

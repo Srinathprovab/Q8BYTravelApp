@@ -16,6 +16,7 @@ class ModifyHotelSearchVC: BaseTableVC {
     var tablerow = [TableRow]()
     var payload = [String:Any]()
     var payload1 = [String:Any]()
+    
     static var newInstance: ModifyHotelSearchVC? {
         let storyboard = UIStoryboard(name: Storyboard.Hotel.name,
                                       bundle: nil)
@@ -23,35 +24,12 @@ class ModifyHotelSearchVC: BaseTableVC {
         return vc
     }
     
-    
-    override func viewDidAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(reload(notification:)), name: NSNotification.Name("reload"), object: nil)
-    }
-    
-    
-    @objc func offline(){
-        guard let vc = NoInternetConnectionVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .fullScreen
-        callapibool = true
-        present(vc, animated: true)
-    }
-    
+   
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(offline), name: NSNotification.Name("offline"), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(reload(notification:)), name: NSNotification.Name("reload"), object: nil)
-        
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(nationalityCode(notification:)), name: NSNotification.Name("nationalityCode"), object: nil)
-        
+       addObserver()
     }
     
-    @objc func nationalityCode(notification: NSNotification){
-        nationalityCode = notification.object as? String ?? ""
-    }
-    
-    
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -75,9 +53,7 @@ class ModifyHotelSearchVC: BaseTableVC {
         
     }
     
-    @objc func reload(notification: NSNotification){
-        commonTableView.reloadData()
-    }
+ 
     
     func appendHotelSearctTvcells(str:String) {
         tablerow.removeAll()
@@ -113,10 +89,7 @@ class ModifyHotelSearchVC: BaseTableVC {
     //MARK: - BookHotelTVCell Delegate Functions
     override func didTapOnHotelBackBtnAction(cell: BookHotelTVCell) {
         callapibool = true
-        guard let vc = DBTabbarController.newInstance.self else {return}
-        vc.modalPresentationStyle = .fullScreen
-        vc.selectedIndex = 0
-        self.present(vc, animated: false)
+        dismiss(animated: true)
     }
     override func didTapOnSelectCityBtnAction(cell: BookHotelTVCell) {
         guard let vc = SelectFromCityVC.newInstance.self else {return}
@@ -227,4 +200,39 @@ class ModifyHotelSearchVC: BaseTableVC {
     }
     
     
+}
+
+
+extension ModifyHotelSearchVC {
+    
+    
+    
+    func addObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(reload(notification:)), name: NSNotification.Name("reload"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(offline), name: NSNotification.Name("offline"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reload(notification:)), name: NSNotification.Name("reload"), object: nil)
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(nationalityCode(notification:)), name: NSNotification.Name("nationalityCode"), object: nil)
+        
+    }
+    
+    @objc func offline(){
+        guard let vc = NoInternetConnectionVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .fullScreen
+        callapibool = true
+        present(vc, animated: true)
+    }
+    
+    
+    @objc func nationalityCode(notification: NSNotification){
+        nationalityCode = notification.object as? String ?? ""
+    }
+    
+    
+    @objc func reload(notification: NSNotification){
+        commonTableView.reloadData()
+    }
 }

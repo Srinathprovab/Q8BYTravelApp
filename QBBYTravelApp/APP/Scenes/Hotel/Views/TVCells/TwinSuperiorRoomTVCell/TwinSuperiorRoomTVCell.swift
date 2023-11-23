@@ -54,7 +54,7 @@ class TwinSuperiorRoomTVCell: UITableViewCell {
         adultsImg.image = UIImage(named: "adult")
         
         setupLabels(lbl: titlelbl, text: "1 x Double Or Twin Superior", textcolor: .AppLabelColor, font: .OpenSansBold(size: 14))
-        setupLabels(lbl: subtitlelbl, text: "2 Adults", textcolor: .AppSubtitleColor, font: .OpenSansRegular(size: 10))
+        setupLabels(lbl: subtitlelbl, text: "2 Adults", textcolor: .AppBtnColor, font: .OpenSansMedium(size: 12))
         setupLabels(lbl: nonRefundablelbl, text: "Non-Refundable", textcolor: .red, font: .OpenSansRegular(size: 10))
         setupLabels(lbl: kwdPricelbl, text: "180.00", textcolor: .AppBtnColor, font: .poppinsSemiBold(size: 12))
     
@@ -65,6 +65,8 @@ class TwinSuperiorRoomTVCell: UITableViewCell {
         
         
         cancelationBtn.addTarget(self, action: #selector(cancelationBtnAction(_:)), for: .touchUpInside)
+        nonRefundablelbl.textAlignment = .right
+        kwdPricelbl.textAlignment = .right
     }
     
     func setupLabels(lbl:UILabel,text:String,textcolor:UIColor,font:UIFont) {
