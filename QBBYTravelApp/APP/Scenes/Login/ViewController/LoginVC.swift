@@ -208,12 +208,22 @@ extension LoginVC:LoginViewModelDelegate {
             defaults.set(response.user_id, forKey: UserDefaultsKeys.userid)
             
             
-            let seconds = 1.0
-            DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {[self] in
-                // Put your code which should be executed with a delay here
-                NotificationCenter.default.post(name: NSNotification.Name("logindon"), object: nil)
-                dismiss(animated: true)
+            
+            if isvcFrom == "vc" {
+                let seconds = 1.0
+                DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {[self] in
+                    // Put your code which should be executed with a delay here
+                    gotodashBoardScreen()
+                }
+            }else {
+                let seconds = 1.0
+                DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {[self] in
+                    // Put your code which should be executed with a delay here
+                    NotificationCenter.default.post(name: NSNotification.Name("logindon"), object: nil)
+                    dismiss(animated: true)
+                }
             }
+            
         }
     }
     

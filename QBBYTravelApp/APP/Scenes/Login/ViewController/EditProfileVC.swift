@@ -85,7 +85,7 @@ class EditProfileVC: BaseTableVC, ProfileUpdateViewModelDelegate {
         phone = profildata?.phone ?? ""
         email = profildata?.email ?? ""
         
-        self.profilePic.sd_setImage(with: URL(string: profildata?.image ?? ""), placeholderImage:UIImage(contentsOfFile:"placeholder.png"))
+      //  self.profilePic.sd_setImage(with: URL(string: profildata?.image ?? ""), placeholderImage:UIImage(contentsOfFile:"placeholder.png"))
         
         DispatchQueue.main.async {[self] in
             appendLoginTvcells()

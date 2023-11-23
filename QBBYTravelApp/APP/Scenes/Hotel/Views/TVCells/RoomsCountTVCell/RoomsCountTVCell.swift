@@ -154,7 +154,7 @@ class RoomsCountTVCell: UITableViewCell {
     @IBOutlet weak var room4childageTapBtn2: UIButton!
     
     
-    var adultcount = 1
+    var adultcount = 2
     var childCount = Int()
     var adultcount2 = 1
     var childCount2 = Int()
@@ -464,7 +464,7 @@ class RoomsCountTVCell: UITableViewCell {
         setuplabels(lbl: titlelbl1, text: "Room 1", textcolor: .SubTitleColor, font: .LatoRegular(size: 16), align: .left)
         setuplabels(lbl: adultslbl1, text: "Adults", textcolor: .AppLabelColor, font: .LatoRegular(size: 18), align: .left)
         setuplabels(lbl: adultsSubtitlelbl1, text: "+12 yrs", textcolor: .SubTitleColor, font: .LatoRegular(size: 14), align: .left)
-        setuplabels(lbl: adultsCountlbl1, text: "1", textcolor: HexColor("#27272A"), font: .LatoRegular(size: 18), align: .center)
+        setuplabels(lbl: adultsCountlbl1, text: "2", textcolor: HexColor("#27272A"), font: .LatoRegular(size: 18), align: .center)
         aIncrementBtn1.setTitle("", for: .normal)
         aDecrementBtn1.setTitle("", for: .normal)
         

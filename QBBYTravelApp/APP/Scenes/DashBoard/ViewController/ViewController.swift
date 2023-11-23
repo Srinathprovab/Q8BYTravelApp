@@ -121,8 +121,8 @@ class ViewController: UIViewController {
                 self.gotodashBoardScreen()
                 
                 
-//                                                defaults.set("Flight", forKey: UserDefaultsKeys.tabselect)
-//                                                self.gotogotoBookingConfirmedVC(urlstr: "https://www.q8by.com/mobile_webservices/index.php/voucher/flight/ALM-F-TP-1122-6017/PTBSID0000000016/BOOKING_CONFIRMED/show_voucher")
+                //                                                defaults.set("Flight", forKey: UserDefaultsKeys.tabselect)
+                //                                                self.gotogotoBookingConfirmedVC(urlstr: "https://www.q8by.com/mobile_webservices/index.php/voucher/flight/ALM-F-TP-1122-6017/PTBSID0000000016/BOOKING_CONFIRMED/show_voucher")
             })
         }
         
@@ -141,7 +141,7 @@ class ViewController: UIViewController {
         guard let vc = LoginVC.newInstance.self else {return}
         vc.modalPresentationStyle = .fullScreen
         callapibool = true
-        vc.isvcFrom = "splashscreen"
+        vc.isvcFrom = "vc"
         present(vc, animated: true)
     }
     
