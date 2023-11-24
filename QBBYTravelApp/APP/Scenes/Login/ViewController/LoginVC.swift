@@ -198,13 +198,13 @@ extension LoginVC:LoginViewModelDelegate {
         if response.status == false {
             
             showToast(message: response.data ?? "")
-            defaults.set(false, forKey: UserDefaultsKeys.userLoggedIn)
+            defaults.set(false, forKey: UserDefaultsKeys.loggedInStatus)
             defaults.set("0", forKey: UserDefaultsKeys.userid)
             
         }else {
             
             showToast(message: response.msg ?? "")
-            defaults.set(true, forKey: UserDefaultsKeys.userLoggedIn)
+            defaults.set(true, forKey: UserDefaultsKeys.loggedInStatus)
             defaults.set(response.user_id, forKey: UserDefaultsKeys.userid)
             
             
@@ -220,6 +220,7 @@ extension LoginVC:LoginViewModelDelegate {
                 DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {[self] in
                     // Put your code which should be executed with a delay here
                     NotificationCenter.default.post(name: NSNotification.Name("logindon"), object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name("reload"), object: nil)
                     dismiss(animated: true)
                 }
             }

@@ -215,6 +215,7 @@ class PayNowVC: BaseTableVC,HotelMBViewModelDelegate,TimerManagerDelegate, PreBo
     override func didTapOnLoginBtn(cell: TDetailsLoginTVCell) {
         guard let vc = LoginVC.newInstance.self else {return}
         vc.modalPresentationStyle = .fullScreen
+        vc.isvcFrom = "paynowvc"
         self.present(vc, animated: true)
     }
     
@@ -414,6 +415,15 @@ extension PayNowVC {
         holderView.backgroundColor = .AppHolderViewColor
         holderView.isHidden = true
         
+        
+        let logstatus = defaults.bool(forKey: UserDefaultsKeys.loggedInStatus)
+        if logstatus == true  {
+//            email = defaults.string(forKey: UserDefaultsKeys.useremail) ?? ""
+//            mobile = defaults.string(forKey: UserDefaultsKeys.usermobile) ?? ""
+//            countryCode = defaults.string(forKey: UserDefaultsKeys.usermobilecode) ?? ""
+            mobilenoMaxLengthBool = true
+        }
+        
         if keystr == "flight" {
             
             
@@ -458,8 +468,6 @@ extension PayNowVC {
             }
             
             
-            
-            
             if callapibool == true {
                 DispatchQueue.main.async {[self] in
                     holderView.isHidden = true
@@ -474,6 +482,7 @@ extension PayNowVC {
         NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name("reload"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(resultnil), name: NSNotification.Name("resultnil"), object: nil)
         
+       
     }
     
     
@@ -1073,7 +1082,7 @@ extension PayNowVC {
             
             print(payload)
             
-            //   vm1?.CALL_GET_HOTEL_MOBILE_PRE_BOOKING_DETAILS_API(dictParam: payload)
+            vm2?.CALL_GET_HOTEL_MOBILE_PRE_BOOKING_DETAILS_API(dictParam: payload)
         }
         
     }

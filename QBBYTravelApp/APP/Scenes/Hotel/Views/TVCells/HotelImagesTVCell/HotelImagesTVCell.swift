@@ -32,7 +32,11 @@ class HotelImagesTVCell: TableViewCell {
     
     override func updateUI() {
         self.hotelImg.sd_setImage(with: URL(string: cellInfo?.image ?? ""), placeholderImage:UIImage(contentsOfFile:"placeholder.png"))
-        hotelImages = cellInfo?.moreData as! [Images]
+       
+        if let imges = cellInfo?.moreData as? [Images] {
+            hotelImages = imges
+        }
+        
         hotelImagesCV.reloadData()
     }
     

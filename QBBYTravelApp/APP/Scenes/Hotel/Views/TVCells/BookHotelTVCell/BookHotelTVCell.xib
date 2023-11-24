@@ -101,7 +101,7 @@
                                                 </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.65100002288818359" green="0.76099997758865356" blue="0.98000001907348633" alpha="0.51976659913726198" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" red="0.95294117647058818" green="0.96862745098039216" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="65" id="0HW-dO-B9E"/>
                                             <constraint firstItem="BrH-vs-zQ9" firstAttribute="centerY" secondItem="kx4-v7-LAV" secondAttribute="centerY" id="0Ih-6y-6Jt"/>
@@ -121,7 +121,7 @@
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                <color key="value" name="AppBorderColor"/>
+                                                <color key="value" name="FromcityBorderColor"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
                                                 <real key="value" value="1"/>
@@ -159,7 +159,7 @@
                                                         </connections>
                                                     </button>
                                                 </subviews>
-                                                <color key="backgroundColor" red="0.65100002290000003" green="0.76099997760000004" blue="0.98000001910000001" alpha="0.5197665991" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" red="0.95294117647058818" green="0.96862745098039216" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstItem="gom-M8-1HF" firstAttribute="centerY" secondItem="tFY-fJ-7AC" secondAttribute="centerY" id="24f-f8-w1R"/>
                                                     <constraint firstAttribute="trailing" secondItem="Nh6-W4-x00" secondAttribute="trailing" id="AED-PP-B9S"/>
@@ -174,7 +174,7 @@
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                        <color key="value" name="AppBorderColor"/>
+                                                        <color key="value" name="FromcityBorderColor"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
                                                         <real key="value" value="1"/>
@@ -209,7 +209,7 @@
                                                         </connections>
                                                     </button>
                                                 </subviews>
-                                                <color key="backgroundColor" red="0.65100002290000003" green="0.76099997760000004" blue="0.98000001910000001" alpha="0.5197665991" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="backgroundColor" red="0.95294117647058818" green="0.96862745098039216" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="65" id="GEc-EZ-2OO"/>
                                                     <constraint firstItem="TyK-ua-9tE" firstAttribute="leading" secondItem="pUN-DJ-wpN" secondAttribute="trailing" constant="10" id="Gs5-c6-kHf"/>
@@ -224,7 +224,7 @@
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                        <color key="value" name="AppBorderColor"/>
+                                                        <color key="value" name="FromcityBorderColor"/>
                                                     </userDefinedRuntimeAttribute>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
                                                         <real key="value" value="1"/>
@@ -268,7 +268,7 @@
                                                 </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.65100002290000003" green="0.76099997760000004" blue="0.98000001910000001" alpha="0.5197665991" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" red="0.95294117647058818" green="0.96862745098039216" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstItem="04Q-v1-4Tn" firstAttribute="centerY" secondItem="k2q-Qs-jW7" secondAttribute="centerY" id="0ux-zy-zzQ"/>
                                             <constraint firstAttribute="trailing" secondItem="04Q-v1-4Tn" secondAttribute="trailing" constant="12" id="5Qz-9g-M1h"/>
@@ -285,7 +285,7 @@
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                <color key="value" name="AppBorderColor"/>
+                                                <color key="value" name="FromcityBorderColor"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
                                                 <real key="value" value="1"/>
@@ -327,7 +327,7 @@
                                                 </connections>
                                             </button>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.65100002290000003" green="0.76099997760000004" blue="0.98000001910000001" alpha="0.5197665991" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" red="0.95294117647058818" green="0.96862745098039216" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstItem="2pn-6J-wrE" firstAttribute="leading" secondItem="rPu-Xq-uJ7" secondAttribute="trailing" constant="10" id="5N2-VD-CDS"/>
                                             <constraint firstItem="gpt-8q-SIx" firstAttribute="centerY" secondItem="74K-yF-GvD" secondAttribute="centerY" id="L63-4F-3hC"/>
@@ -344,7 +344,7 @@
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                <color key="value" name="AppBorderColor"/>
+                                                <color key="value" name="FromcityBorderColor"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
                                                 <real key="value" value="1"/>
@@ -461,7 +461,7 @@
         <namedColor name="AppBackgroundColor">
             <color red="0.016000000759959221" green="0.28999999165534973" blue="0.68599998950958252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <namedColor name="AppBorderColor">
+        <namedColor name="FromcityBorderColor">
             <color red="0.65100002288818359" green="0.76099997758865356" blue="0.98000001907348633" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">

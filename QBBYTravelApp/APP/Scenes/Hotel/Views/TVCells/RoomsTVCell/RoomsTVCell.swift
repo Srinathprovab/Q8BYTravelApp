@@ -112,9 +112,9 @@ extension RoomsTVCell:UITableViewDataSource,UITableViewDelegate {
                 
                 
                 if data.refund == true {
-                    setuplabels(lbl: cell.nonRefundablelbl, text: "Refundabel", textcolor: .AppBackgroundColor, font: .OpenSansRegular(size: 10), align: .left)
+                    setuplabels(lbl: cell.nonRefundablelbl, text: "Refundable", textcolor: .AppBackgroundColor, font: .OpenSansRegular(size: 10), align: .left)
                 }else {
-                    setuplabels(lbl: cell.nonRefundablelbl, text: "Non Refundabel", textcolor: .KWDColor, font: .OpenSansRegular(size: 10), align: .left)
+                    setuplabels(lbl: cell.nonRefundablelbl, text: "Non Refundable", textcolor: .KWDColor, font: .OpenSansRegular(size: 10), align: .left)
                 }
                 
                 

@@ -50,6 +50,7 @@ class SelectedHotelInfoVC: BaseTableVC, HotelDetailsViewModelDelegate, TimerMana
     
     func setupUI() {
         
+        ratekeyArray.removeAll()
         self.view.backgroundColor = .WhiteColor
         self.holderView.backgroundColor = .WhiteColor
         
@@ -229,6 +230,8 @@ extension SelectedHotelInfoVC {
         tablerow.append(TableRow(title:"Description",
                                  subTitle: hotelDetalsinfo?.hotel_desc,
                                  cellType:.RatingWithLabelsTVCell))
+        
+        
         tablerow.append(TableRow(title:"Rooms", moreData:roomsInfo,cellType:.RoomsTVCell))
         
         if facilityesInfo.count > 0 {

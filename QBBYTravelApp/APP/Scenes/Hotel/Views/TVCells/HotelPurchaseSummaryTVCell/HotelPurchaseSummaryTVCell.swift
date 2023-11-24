@@ -60,9 +60,9 @@ class HotelPurchaseSummaryTVCell: TableViewCell {
         totalamountValuelbl.text = cellInfo?.TotalQuestions
         
         if cancellationPolicyValuelbl.text == "Refundable" {
-            setuplabels(lbl: cancellationPolicyValuelbl, text: cellInfo?.key1 ?? "", textcolor: HexColor("#35CB00"), font: UIFont.OpenSansRegular(size: 14), align: .left)
+            setuplabels(lbl: cancellationPolicyValuelbl, text: cellInfo?.key1 ?? "", textcolor: .AppBtnColor, font: UIFont.OpenSansRegular(size: 14), align: .left)
         }else {
-            setuplabels(lbl: cancellationPolicyValuelbl, text: cellInfo?.key1 ?? "", textcolor: HexColor("#FF0808"), font: UIFont.OpenSansRegular(size: 14), align: .left)
+            setuplabels(lbl: cancellationPolicyValuelbl, text: cellInfo?.key1 ?? "", textcolor: .KWDColor, font: UIFont.OpenSansRegular(size: 14), align: .left)
         }
     }
     

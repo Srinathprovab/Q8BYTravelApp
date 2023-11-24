@@ -88,9 +88,11 @@ class ModifyHotelSearchVC: BaseTableVC {
     
     //MARK: - BookHotelTVCell Delegate Functions
     override func didTapOnHotelBackBtnAction(cell: BookHotelTVCell) {
-        callapibool = true
+        callapibool = false
         dismiss(animated: true)
     }
+    
+    
     override func didTapOnSelectCityBtnAction(cell: BookHotelTVCell) {
         guard let vc = SelectFromCityVC.newInstance.self else {return}
         vc.modalPresentationStyle = .fullScreen

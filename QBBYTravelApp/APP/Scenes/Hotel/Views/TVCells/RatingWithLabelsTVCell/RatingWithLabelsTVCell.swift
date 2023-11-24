@@ -35,6 +35,17 @@ class RatingWithLabelsTVCell: TableViewCell {
         if cellInfo?.key == "rating" {
             ratingBar.isHidden = false
         }
+        
+        if cellInfo?.characterLimit == 0 {
+            ratingBar.isHidden = true
+        }else {
+            ratingBar.isHidden = false
+        }
+        
+        if cellInfo?.title == "Description" {
+            ratingBar.isHidden = true
+        }
+
     }
     
     func setupUI() {

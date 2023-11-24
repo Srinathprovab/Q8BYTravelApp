@@ -130,7 +130,7 @@ class AddDeatilsOfGuestTVCell: TableViewCell {
     
     
     func setupUI() {
-        contentView.backgroundColor = .AppBackgroundColor
+        contentView.backgroundColor = .WhiteColor
         setuplabels(lbl: titlelbl, text: "", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 14), align: .left)
         dropdownimg.image = UIImage(named: "down")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppLabelColor)
         
@@ -141,9 +141,9 @@ class AddDeatilsOfGuestTVCell: TableViewCell {
         
         collapsView()
         setupTextField(txtField: titleTF, tag1: 1, label: "Title*", placeholder: "Mr")
-        setupTextField(txtField: fnameTF, tag1: 1, label: "First Name*", placeholder: "First Name")
+        setupTextField(txtField: fnameTF, tag1: 1, label: "First Name*", placeholder: "First Name*")
         setupTextField(txtField: mnameTF, tag1: 1, label: "Middle Name(Optional)", placeholder: "Middle Name(Optional)")
-        setupTextField(txtField: lnameTF, tag1: 2, label: "Last Name*", placeholder: "Last Name")
+        setupTextField(txtField: lnameTF, tag1: 2, label: "Last Name*", placeholder: "Last Name*")
         
         
         

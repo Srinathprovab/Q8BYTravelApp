@@ -324,7 +324,10 @@ extension HotelSearchResultVC {
         if hotelList.count == 0 {
             tablerow.removeAll()
             subtitlelbl.isHidden = true
+            
             TableViewHelper.EmptyMessage(message: "No Data Found", tableview: commonTableView, vc: self)
+            
+            gotoNoInternetScreen(keystr: "noresult")
             
             commonTVData = tablerow
             commonTableView.reloadData()
@@ -389,7 +392,7 @@ extension HotelSearchResultVC {
         payload.removeAll()
         payload["search_id"] = hsearch_id
         payload["no_of_nights"] = "1"
-        payload["offset"] = "50"
+        payload["offset"] = "\((hotelSearchResultArray.count + 10))"
         payload["limit"] = "10"
         
         viewModel?.CALL_HOTEL_SEARCH_PAGENATION_API(dictParam: payload)

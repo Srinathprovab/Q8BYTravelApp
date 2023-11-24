@@ -52,6 +52,13 @@ class HotelSearchResultTVCell: TableViewCell {
         }
         bs = cellInfo?.buttonTitle ?? ""
         hotelcode = cellInfo?.headerText ?? ""
+        
+        
+        if cellInfo?.characterLimit == 0 {
+            ratingView.isHidden = true
+        }else {
+            ratingView.isHidden = false
+        }
 
     }
     
