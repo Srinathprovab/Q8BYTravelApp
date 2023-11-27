@@ -279,14 +279,16 @@ class ModifyFlightSearchVC: BaseTableVC {
             payload["psscarrier"] = defaults.string(forKey: UserDefaultsKeys.airlinescode) ?? "ALL"
             payload["search_flight"] = "Search"
             payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
+            payload["search_source"] = "IOS"
             
-            if defaults.string(forKey:UserDefaultsKeys.fromCity) == "" {
+            
+            if defaults.string(forKey:UserDefaultsKeys.fromCity) == nil {
                 showToast(message: "Please Select From City")
-            }else if defaults.string(forKey:UserDefaultsKeys.toCity) == "" {
+            }else if defaults.string(forKey:UserDefaultsKeys.toCity) == nil {
                 showToast(message: "Please Select To City")
             }else if defaults.string(forKey:UserDefaultsKeys.toCity) == defaults.string(forKey:UserDefaultsKeys.fromCity) {
                 showToast(message: "Please Select Different Citys")
-            }else if defaults.string(forKey:UserDefaultsKeys.calDepDate) == "Add Date" {
+            }else if defaults.string(forKey:UserDefaultsKeys.calDepDate) == "Add Date" ||  defaults.string(forKey:UserDefaultsKeys.calDepDate) == nil{
                 showToast(message: "Please Select Departure Date")
             }else if defaults.string(forKey:UserDefaultsKeys.travellerDetails) == "Add Details" {
                 showToast(message: "Add Traveller")
@@ -320,16 +322,18 @@ class ModifyFlightSearchVC: BaseTableVC {
             payload["psscarrier"] = defaults.string(forKey: UserDefaultsKeys.airlinescode) ?? "ALL"
             payload["search_flight"] = "Search"
             payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
+            payload["search_source"] = "IOS"
             
-            if defaults.string(forKey:UserDefaultsKeys.fromCity) == "" {
+            
+            if defaults.string(forKey:UserDefaultsKeys.fromCity) == nil {
                 showToast(message: "Please Select From City")
-            }else if defaults.string(forKey:UserDefaultsKeys.toCity) == "" {
+            }else if defaults.string(forKey:UserDefaultsKeys.toCity) == nil {
                 showToast(message: "Please Select To City")
             }else if defaults.string(forKey:UserDefaultsKeys.toCity) == defaults.string(forKey:UserDefaultsKeys.fromCity) {
                 showToast(message: "Please Select Different Citys")
-            }else if defaults.string(forKey:UserDefaultsKeys.calDepDate) == "Add Date" {
+            }else if defaults.string(forKey:UserDefaultsKeys.calDepDate) == "Add Date" ||  defaults.string(forKey:UserDefaultsKeys.calDepDate) == nil{
                 showToast(message: "Please Select Departure Date")
-            }else if defaults.string(forKey:UserDefaultsKeys.calRetDate) == "Add Return" {
+            }else if defaults.string(forKey:UserDefaultsKeys.calRetDate) == "Add Return" ||  defaults.string(forKey:UserDefaultsKeys.calRetDate) == nil{
                 showToast(message: "Please Select Return Date")
             }else if defaults.string(forKey:UserDefaultsKeys.rtravellerDetails) == "Add Details" {
                 showToast(message: "Add Traveller")
@@ -457,6 +461,7 @@ class ModifyFlightSearchVC: BaseTableVC {
     
     
     func gotoSearchFlightResultVC(payload33:[String:Any]) {
+        defaults.set(false, forKey: "flightfilteronce")
         guard let vc = SearchFlightResultVC.newInstance.self else {return}
         vc.modalPresentationStyle = .fullScreen
         vc.isvcfrom = "bookflightvc"

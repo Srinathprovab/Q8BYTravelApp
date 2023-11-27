@@ -500,6 +500,7 @@ class BookFlightVC: BaseTableVC {
     
     
     func gotoSearchFlightResultVC(payload33:[String:Any]) {
+        defaults.set(false, forKey: "flightfilteronce")
         guard let vc = SearchFlightResultVC.newInstance.self else {return}
         vc.modalPresentationStyle = .fullScreen
         vc.isvcfrom = "bookflightvc"
