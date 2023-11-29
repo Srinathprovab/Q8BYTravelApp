@@ -410,7 +410,11 @@ class AddDeatilsOfTravellerTVCell: TableViewCell {
     
     
     func showdobDatePicker() {
-        // Formate Date
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd-MM-yyyy"
+        
+        // Format Date
         dobDatePicker.datePickerMode = .date
         dobDatePicker.maximumDate = Date()
         dobDatePicker.preferredDatePickerStyle = .wheels
@@ -418,28 +422,103 @@ class AddDeatilsOfTravellerTVCell: TableViewCell {
         // Set date restrictions based on age category
         let calendar = Calendar.current
         var components = DateComponents()
+        var components1 = DateComponents()
         
         
-        components.year = -12 // Allow selecting a date at least 12 years in the past
-        let twelveYearsAgo = calendar.date(byAdding: components, to: Date())
+        
+        
         
         switch ageCategory {
         case .adult:
             
-            //  components.year = -12
-            //  dobDatePicker.maximumDate = calendar.date(byAdding: components, to: Date())
-            dobDatePicker.maximumDate = twelveYearsAgo
+            
+            let journyType = defaults.string(forKey: UserDefaultsKeys.journeyType)
+            if journyType == "oneway" {
+                if let newdate = formatter.date(from: defaults.string(forKey: UserDefaultsKeys.calDepDate) ?? "") {
+                    components.year = -12 // Allow selecting a date at least 12 years in the past
+                    let twelveYearsLater = calendar.date(byAdding: components, to: newdate)
+                    
+                    if let adultcount = defaults.string(forKey: UserDefaultsKeys.adultCount) {
+                        if (Int(adultcount) ?? 0) >= 1 {
+                            self.dobDatePicker.maximumDate = twelveYearsLater
+                        }
+                    }
+                }
+                
+            }else {
+                if let newdate = formatter.date(from: defaults.string(forKey: UserDefaultsKeys.rcalRetDate) ?? "") {
+                    components.year = -12 // Allow selecting a date at least 12 years in the past
+                    let twelveYearsLater = calendar.date(byAdding: components, to: newdate)
+                    if let adultcount = defaults.string(forKey: UserDefaultsKeys.adultCount) {
+                        if (Int(adultcount) ?? 0) >= 1 {
+                            self.dobDatePicker.maximumDate = twelveYearsLater
+                        }
+                    }
+                    
+                }
+            }
+            
+            
             
         case .child:
-            components.year = -12
-            dobDatePicker.minimumDate = calendar.date(byAdding: components, to: Date())
             
-            components.year = -2 // Allow selecting a date up to 2 years in the past
-            dobDatePicker.maximumDate = calendar.date(byAdding: components, to: Date())
+            let journyType = defaults.string(forKey: UserDefaultsKeys.journeyType)
+            if journyType == "oneway" {
+                
+                if let newdate = formatter.date(from: defaults.string(forKey: UserDefaultsKeys.calDepDate) ?? "") {
+                    
+                    components.year = -2 // Allow selecting a date at least 2 years in the past
+                    dobDatePicker.maximumDate = calendar.date(byAdding: components, to: newdate)
+                    
+                    
+                    components1.day = +1
+                    components1.year = -12 // Allow selecting a date at most 11 years in the past
+                    dobDatePicker.minimumDate = calendar.date(byAdding: components1, to: newdate)
+                }
+                
+                
+                
+            }else {
+                if let newdate = formatter.date(from: defaults.string(forKey: UserDefaultsKeys.rcalRetDate) ?? "") {
+                    
+                    components.year = -2 // Allow selecting a date at least 2 years in the past
+                    dobDatePicker.maximumDate = calendar.date(byAdding: components, to: newdate)
+                    
+                    
+                    components1.day = +1
+                    components1.year = -12 // Allow selecting a date at most 11 years in the past
+                    dobDatePicker.minimumDate = calendar.date(byAdding: components1, to: newdate)
+                }
+            }
+            
+            
+            
             
         case .infant:
-            components.year = -2
-            dobDatePicker.minimumDate = calendar.date(byAdding: components, to: Date())
+            
+            
+            let journyType = defaults.string(forKey: UserDefaultsKeys.journeyType)
+            if journyType == "oneway" {
+                
+                if let newdate = formatter.date(from: defaults.string(forKey: UserDefaultsKeys.calDepDate) ?? "") {
+                    
+                    components1.day = +1
+                    components1.year = -2 // Allow selecting a date at most 11 years in the past
+                    dobDatePicker.minimumDate = calendar.date(byAdding: components1, to: newdate)
+                }
+                
+                
+                
+            }else {
+                if let newdate = formatter.date(from: defaults.string(forKey: UserDefaultsKeys.rcalRetDate) ?? "") {
+                    
+                    
+                    components1.day = +1
+                    components1.year = -2 // Allow selecting a date at most 11 years in the past
+                    dobDatePicker.minimumDate = calendar.date(byAdding: components1, to: newdate)
+                }
+            }
+            
         }
         
         // ToolBar
@@ -498,7 +577,17 @@ class AddDeatilsOfTravellerTVCell: TableViewCell {
             self.passportnoTF.becomeFirstResponder()
             
         } else if passportExpireDateTF.isFirstResponder {
+            
+            let calendar = Calendar.current
+            var components = DateComponents()
+            
+            
+            let newdate = Date()
+            components.day = +1
+            passportDatePicker.minimumDate = calendar.date(byAdding: components, to: newdate)
             passportExpireDateTF.text = formatter.string(from: passportDatePicker.date)
+            
+            
             
             if travelerArray.count <= indexposition {
                 travelerArray += Array(repeating: Traveler(), count: indexposition - travelerArray.count + 1)
@@ -508,6 +597,51 @@ class AddDeatilsOfTravellerTVCell: TableViewCell {
             travelerArray[indexposition].passportExpireDate = passportExpireDateTF.text
             self.passportexpireView.layer.borderColor = UIColor.AppBorderColor.cgColor
             self.passportExpireDateTF.resignFirstResponder()
+            
+            
+            // Assuming passportExpireDateTF.text contains the passport expiration date as a string
+            if let passportExpireDate = formatter.date(from: (passportExpireDateTF.text ?? "")) {
+                
+                
+                let currentDate = Date()
+                
+                // Calculate the date 3 months from now
+                if let threeMonthsLater = calendar.date(byAdding: .month, value: 3, to: currentDate) {
+                    
+                    if passportExpireDate == Date()  {
+                        // Passport expires within the next 3 months, print invalid expiry
+                        print("Invalid expiry. Passport expires within the next 3 months.")
+                        passportExpireDateBool = false
+                        passportexpireView.layer.borderColor = UIColor.red.cgColor
+                        NotificationCenter.default.post(name: NSNotification.Name("passportexpiry"), object: "Invalid expiry. Passport expires within the next 3 months.")
+
+                        
+                    } else if passportExpireDate > currentDate && passportExpireDate <= threeMonthsLater {
+                        // Passport expires within the next 3 months, print invalid expiry
+                        print("Invalid expiry. Passport expires within the next 3 months.")
+                        passportExpireDateBool = false
+                        passportexpireView.layer.borderColor = UIColor.red.cgColor
+                        NotificationCenter.default.post(name: NSNotification.Name("passportexpiry"), object: "Invalid expiry. Passport expires within the next 3 months.")
+
+                        
+                    } else{
+                        // Passport is valid
+                        print("Valid expiry. Passport expires after 3 months.")
+                        passportExpireDateBool = true
+                        passportexpireView.layer.borderColor = UIColor.AppBorderColor.cgColor
+                        
+                    }
+                }
+                
+                
+                
+            } else {
+                // Handle invalid date format in passportExpireDateTF.text
+                print("Invalid date format in passport expiration date.")
+            }
+            
+            
+            
         }
         
         delegate?.donedatePicker(cell: self)

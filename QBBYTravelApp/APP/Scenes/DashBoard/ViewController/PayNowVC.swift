@@ -20,6 +20,10 @@ class PayNowVC: BaseTableVC,HotelMBViewModelDelegate,TimerManagerDelegate, PreBo
     @IBOutlet weak var booknowHolderView: UIView!
     @IBOutlet weak var titlelbl: UILabel!
     
+    var payemail = String()
+    var paymobile = String()
+    var paycountryCode = String()
+    
     
     static var newInstance: PayNowVC? {
         let storyboard = UIStoryboard(name: Storyboard.Main.name,
@@ -234,24 +238,24 @@ class PayNowVC: BaseTableVC,HotelMBViewModelDelegate,TimerManagerDelegate, PreBo
     override func didTapOnCountryCodeBtn(cell: ContactInformationTVCell) {
         self.billingCountryCode = cell.billingCountryCode
         self.billingCountryName = cell.billingCountryName
-        self.countryCode = cell.countryCodeLbl.text ?? ""
+        self.paycountryCode = cell.countryCodeLbl.text ?? ""
     }
     
     
     override func didTapOnDropDownBtn(cell: ContactInformationTVCell) {
         self.billingCountryCode = cell.billingCountryCode
         self.billingCountryName = cell.billingCountryName
-        self.countryCode = cell.countryCodeLbl.text ?? ""
+        self.paycountryCode = cell.countryCodeLbl.text ?? ""
     }
     
     override func editingTextField(tf:UITextField){
         switch tf.tag {
         case 111:
-            self.email = tf.text ?? ""
+            self.payemail = tf.text ?? ""
             break
             
         case 222:
-            self.mobile = tf.text ?? ""
+            self.paymobile = tf.text ?? ""
             break
             
             
@@ -418,10 +422,12 @@ extension PayNowVC {
         
         let logstatus = defaults.bool(forKey: UserDefaultsKeys.loggedInStatus)
         if logstatus == true  {
-//            email = defaults.string(forKey: UserDefaultsKeys.useremail) ?? ""
-//            mobile = defaults.string(forKey: UserDefaultsKeys.usermobile) ?? ""
-//            countryCode = defaults.string(forKey: UserDefaultsKeys.usermobilecode) ?? ""
+            //            payemail = defaults.string(forKey: UserDefaultsKeys.useremail) ?? ""
+            //            paymobile = defaults.string(forKey: UserDefaultsKeys.usermobile) ?? ""
+            //            paycountryCode = defaults.string(forKey: UserDefaultsKeys.usermobilecode) ?? ""
             mobilenoMaxLengthBool = true
+        }else {
+            paycountryCode = "+965"
         }
         
         if keystr == "flight" {
@@ -482,7 +488,7 @@ extension PayNowVC {
         NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name("reload"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(resultnil), name: NSNotification.Name("resultnil"), object: nil)
         
-       
+        
     }
     
     
@@ -742,28 +748,27 @@ extension PayNowVC {
         payload["billing_zipcode"] = ""
         
         // Check additional conditions
-        if email == "" {
+        if callpaymentbool == false {
+            showToast(message: "Add Details")
+        }else if passportExpireDateBool == false {
+            showToast(message: "Invalid expiry. Passport expires within the next 3 months.")
+        }else if !fnameCharBool {
+            showToast(message: "First name should have more than 3 characters")
+        }else if !lnameCharBool {
+            showToast(message: "Last name should have more than 3 characters")
+        }else if payemail == "" {
             showToast(message: "Enter Email Address")
-        }else if email.isValidEmail() == false {
+        }else if payemail.isValidEmail() == false {
             showToast(message: "Enter Valid Email Addreess")
-        }else if mobile == "" {
+        }else if paymobile == "" {
             showToast(message: "Enter Mobile No")
-        }else if countryCode == "" {
+        }else if paycountryCode == "" {
             showToast(message: "Enter Country Code")
         }else if mobilenoMaxLengthBool == false {
             showToast(message: "Enter Valid Mobile No")
-        }
-        
-        else if callpaymentbool == false {
-            showToast(message: "Add Details")
-        } else if !fnameCharBool {
-            showToast(message: "First name should have more than 3 characters")
-        } else if !lnameCharBool {
-            showToast(message: "Last name should have more than 3 characters")
-        } else if checkTermsAndCondationStatus == false {
+        }else if checkTermsAndCondationStatus == false {
             showToast(message: "Please Accept T&C and Privacy Policy")
-        } else {
-            
+        }else {
             vm?.CALL_PROCESS_PASSENGER_DETAIL_API(dictParam: payload, key: tmpFlightPreBookingId)
         }
         

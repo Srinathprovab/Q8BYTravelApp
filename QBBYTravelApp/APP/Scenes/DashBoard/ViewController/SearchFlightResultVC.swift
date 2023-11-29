@@ -505,10 +505,10 @@ extension SearchFlightResultVC:AppliedFilters {
         guard let departureDate = dateFormatter.date(from: time) else {
             return false
         }
-        
+
         let calendar = Calendar.current
         let hour = calendar.component(.hour, from: departureDate)
-        
+
         switch range {
         case "12 am - 6 am":
             return hour >= 0 && hour < 6
@@ -528,15 +528,15 @@ extension SearchFlightResultVC:AppliedFilters {
     func filterByApplied(minpricerange: Double, maxpricerange: Double, noofstopsFA: [String], departureTimeFilter: [String], arrivalTimeFilter: [String], airlinesFA: [String], cancellationTypeFA: [String], connectingFlightsFA: [String], connectingAirportsFA: [String]) {
         
         
-        print("====minpricerange ==== \(minpricerange)")
-        print("====maxpricerange ==== \(maxpricerange)")
-        print("==== noofstopsFA ==== \(noofstopsFA)")
-        print("==== departureTimeFilter ==== \(departureTimeFilter)")
-        print("==== arrivalTimeFilter ==== \(arrivalTimeFilter)")
-        print("==== airlinesFA ==== \(airlinesFA)")
-        print("==== cancellationTypeFA ==== \(cancellationTypeFA)")
-        print("==== connectingFlightsFA ==== \(connectingFlightsFA)")
-        print("==== connectingAirportsFA ==== \(connectingAirportsFA)")
+//        print("====minpricerange ==== \(minpricerange)")
+//        print("====maxpricerange ==== \(maxpricerange)")
+//        print("==== noofstopsFA ==== \(noofstopsFA)")
+//        print("==== departureTimeFilter ==== \(departureTimeFilter)")
+//        print("==== arrivalTimeFilter ==== \(arrivalTimeFilter)")
+//        print("==== airlinesFA ==== \(airlinesFA)")
+//        print("==== cancellationTypeFA ==== \(cancellationTypeFA)")
+//        print("==== connectingFlightsFA ==== \(connectingFlightsFA)")
+//        print("==== connectingAirportsFA ==== \(connectingAirportsFA)")
         
         
         if let journyType = defaults.string(forKey: UserDefaultsKeys.journeyType) {
@@ -610,7 +610,7 @@ extension SearchFlightResultVC:AppliedFilters {
                 
                 
                 let depMatch = departureTimeFilter.isEmpty || flightList.contains { flight in
-                    if let departureDateTime = flight.flight_details?.summary?.first?.origin?.datetime {
+                    if let departureDateTime = flight.flight_details?.summary?.first?.origin?.time {
                         return departureTimeFilter.contains { departureTime in
                             return isTimeInRange(time: departureDateTime, range: departureTime)
                         }
@@ -619,7 +619,7 @@ extension SearchFlightResultVC:AppliedFilters {
                 }
                 
                 let arrMatch = arrivalTimeFilter.isEmpty || flightList.contains { flight in
-                    if let arrivalDateTime = flight.flight_details?.summary?.first?.destination?.datetime {
+                    if let arrivalDateTime = flight.flight_details?.summary?.first?.destination?.time {
                         return arrivalTimeFilter.contains { arrivalTime in
                             return isTimeInRange(time: arrivalDateTime, range: arrivalTime)
                         }
@@ -800,7 +800,7 @@ extension SearchFlightResultVC {
     func addObserver() {
         
         TimerManager.shared.delegate = self
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
+        dateFormatter.dateFormat = "HH:mm"
         if callapibool == true {
             DispatchQueue.main.async {[self] in
                 holderView.isHidden = true

@@ -74,7 +74,7 @@ var booking_source = String()
 var fareRulesData = [FareRulehtml]()
 var fd = [[FlightDetails]]()
 var ageCategory: AgeCategory = .adult
-
+var passportExpireDateBool = false
 
 
 //MARK: - Multicity
