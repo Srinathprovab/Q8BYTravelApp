@@ -77,6 +77,7 @@ var ageCategory: AgeCategory = .adult
 var passportExpireDateBool = false
 
 
+
 //MARK: - Multicity
 var fromCityCodeArray = ["Origen","Origen"]
 var fromlocidArray = ["",""]
@@ -122,7 +123,6 @@ var InfantTotalPrice = String()
 var sub_total_adult : String?
 var sub_total_child : String?
 var sub_total_infant : String?
-
 var Adults_Base_Price = String()
 var Adults_Tax_Price = String()
 var Childs_Base_Price = String()
@@ -132,7 +132,10 @@ var Infants_Tax_Price = String()
 var TotalPrice_API = String()
 var grandTotal = String()
 var subtotal = String()
-
+var promocodeDiscountValue = String()
+var newGrandTotal = String()
+var promoinfoArray = [Promo_info]()
+var newpriceDetails : PriceDetails?
 
 //MARK: - Travellers Details
 
@@ -200,7 +203,7 @@ struct ApiEndpoints {
     static let cancelledbookingmobile = "flight/cancelled_booking_mobile"
     static let getSpecialAssistancelist = "general/getSpecialAssistance_list"
     static let getMeals_list = "general/getMeals_list"
-    
+    static let applypromocode = "management/promocode"
     
     //HOTEL
     static let hotel_getActiveBookingSource = "general/getActiveBookingSource"

@@ -1,26 +1,30 @@
 //
 //  PriceSummaryTVCell.swift
-//  BabSafar
+//  KuwaitWays
 //
-//  Created by MA673 on 25/07/22.
+//  Created by FCI on 27/06/23.
 //
 
 import UIKit
 
 protocol PriceSummaryTVCellDelegate {
-    func didTapOnRemoveTravelInsuranceBtn(cell:PriceSummaryTVCell)
+    func didTapOnRefundBtn(cell:PriceSummaryTVCell)
 }
 
 class PriceSummaryTVCell: TableViewCell {
+
     
     @IBOutlet weak var holderView: UIView!
     @IBOutlet weak var titlelbl: UILabel!
-    @IBOutlet weak var tvHolderView: UIView!
+    @IBOutlet weak var promocodeView: UIView!
     @IBOutlet weak var ulView: UIView!
     @IBOutlet weak var totalPaymentlbl: UILabel!
     @IBOutlet weak var totalPaymentValuelbl: UILabel!
     @IBOutlet weak var tvheight: NSLayoutConstraint!
     @IBOutlet weak var travellerAdultTV: UITableView!
+    @IBOutlet weak var discountValuelbl: UILabel!
+    
+    
     
     var delegate:PriceSummaryTVCellDelegate?
     var key = String()
@@ -44,13 +48,16 @@ class PriceSummaryTVCell: TableViewCell {
     override func updateUI() {
         self.key =  cellInfo?.key ?? ""
         
-        
+        totalPaymentValuelbl.text = grandTotal
+       
         
         if let journeyType = defaults.string(forKey: UserDefaultsKeys.journeyType) {
             if journeyType == "oneway" {
                 adultsCount = Int(defaults.string(forKey: UserDefaultsKeys.adultCount) ?? "1") ?? 0
                 childCount = Int(defaults.string(forKey: UserDefaultsKeys.childCount) ?? "0") ?? 0
                 infantsCount = Int(defaults.string(forKey: UserDefaultsKeys.infantsCount) ?? "0") ?? 0
+                
+                
                 
             }else if journeyType == "circle"{
                 adultsCount = Int(defaults.string(forKey: UserDefaultsKeys.radultCount) ?? "1") ?? 0
@@ -66,31 +73,36 @@ class PriceSummaryTVCell: TableViewCell {
         }
         
         if adultsCount > 0 && childCount == 0 && infantsCount == 0{
-            tvheight.constant = 115
+            tvheight.constant = 100
         }else if adultsCount > 0 && childCount > 0 && infantsCount == 0{
-            tvheight.constant = 115 * 2
+            tvheight.constant = 100 * 2
         }else if adultsCount > 0 && childCount == 0 && infantsCount > 0{
-            tvheight.constant = 115 * 2
+            tvheight.constant = 100 * 2
         }else {
-            tvheight.constant = 115 * 3
+            tvheight.constant = 100 * 3
         }
         
+        NotificationCenter.default.addObserver(self, selector: #selector(promocodeapply), name: Notification.Name("promocodeapply"), object: nil)
+
+    }
+    
+    @objc func promocodeapply() {
+        promocodeView.isHidden = false
         
+        totalPaymentValuelbl.text = grandTotal
+        discountValuelbl.text = promocodeDiscountValue
     }
     
     func setupUI(){
         
-        
+        contentView.backgroundColor = .AppHolderViewColor
         setupViews(v: holderView, radius: 4, color: .WhiteColor)
         setupViews(v: ulView, radius: 0, color: .clear)
         
         setupLabels(lbl: titlelbl, text: "Price Summary", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 16))
         setupLabels(lbl: totalPaymentlbl, text: "Total Trip Cost", textcolor: .AppLabelColor, font: .LatoSemibold(size: 16))
-        setupLabels(lbl: totalPaymentValuelbl, text: grandTotal, textcolor: .AppLabelColor, font: .LatoSemibold(size: 16))
+        setupLabels(lbl: totalPaymentValuelbl, text: "", textcolor: .AppLabelColor, font: .LatoSemibold(size: 16))
         
-        
-        holderView.layer.borderWidth = 1
-        holderView.layer.borderColor = UIColor.AppBorderColor.cgColor
     }
     
     func setupTV() {
@@ -119,6 +131,14 @@ class PriceSummaryTVCell: TableViewCell {
         lbl.textColor = textcolor
         lbl.font = font
     }
+    
+    
+    @IBAction func didTapOnCancelPromocodeBtnAction(_ sender: Any) {
+        promocodeView.isHidden = true
+        NotificationCenter.default.post(name: NSNotification.Name("cancelpromo"), object: nil)
+    }
+    
+    
     
     
 }

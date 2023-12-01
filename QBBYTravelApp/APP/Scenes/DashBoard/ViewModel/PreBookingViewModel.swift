@@ -16,6 +16,7 @@ protocol PreBookingViewModelDelegate : BaseViewModelProtocol {
     func flightPrePaymentDetails(response : sendToPaymentModel)
     func sendtoPaymentDetails(response : sendToPaymentModel)
     func secureBookingDetails(response : sendToPaymentModel)
+    func promocodeResult(response : ApplyPromocodeModel)
 }
 
 class PreBookingViewModel {
@@ -186,5 +187,25 @@ class PreBookingViewModel {
     
     
     
+    
+    func CALL_APPLY_PROMOCODE_API(dictParam: [String: Any]){
+        let parms = NSDictionary(dictionary:dictParam)
+        print("Parameters = \(parms)")
+        
+       // self.view?.showLoader()
+        
+        ServiceManager.postOrPutApiCall(endPoint: ApiEndpoints.applypromocode, parameters: parms, resultType: ApplyPromocodeModel.self, p:dictParam) { sucess, result, errorMessage in
+            
+            DispatchQueue.main.async {
+                self.view?.hideLoader()
+                if sucess {
+                    guard let response = result else {return}
+                    self.view.promocodeResult(response: response)
+                } else {
+                    self.view.showToast(message: errorMessage ?? "")
+                }
+            }
+        }
+    }
     
 }

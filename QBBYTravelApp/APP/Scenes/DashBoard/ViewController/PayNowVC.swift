@@ -73,6 +73,10 @@ class PayNowVC: BaseTableVC,HotelMBViewModelDelegate,TimerManagerDelegate, PreBo
     var positionsCount = 0
     var searchidnew = String()
     
+    var promocodeBool = false
+    var promocodeValue = String()
+    var promocodeString = ""
+    
     override func viewWillAppear(_ animated: Bool) {
         addObserver()
     }
@@ -147,7 +151,7 @@ class PayNowVC: BaseTableVC,HotelMBViewModelDelegate,TimerManagerDelegate, PreBo
         if defaults.bool(forKey: UserDefaultsKeys.loggedInStatus) == false {
             tablerow.append(TableRow(cellType:.TDetailsLoginTVCell))
         }
-        tablerow.append(TableRow(cellType:.ContactInformationTVCell))
+        
         
         passengertypeArray.removeAll()
         tablerow.append(TableRow(height:20, bgColor:.AppHolderViewColor,cellType:.EmptyTVCell))
@@ -179,7 +183,7 @@ class PayNowVC: BaseTableVC,HotelMBViewModelDelegate,TimerManagerDelegate, PreBo
         
         
         
-        
+        tablerow.append(TableRow(cellType:.ContactInformationTVCell))
         
         tablerow.append(TableRow(cellType:.PromocodeTVCell))
         tablerow.append(TableRow(cellType:.PriceSummaryTVCell))
@@ -223,9 +227,64 @@ class PayNowVC: BaseTableVC,HotelMBViewModelDelegate,TimerManagerDelegate, PreBo
         self.present(vc, animated: true)
     }
     
+    //MARK: - didTapOnApplyBtn
     override func didTapOnApplyBtn(cell:PromocodeTVCell){
-        print("didTapOnApplyBtn")
+        
+        
+        if cell.promocodeTF.text?.isEmpty == false {
+            promoinfoArray.forEach { i in
+                if i.promo_code == cell.promocodeTF.text {
+                    callPromocodeAPI(promocodeStr: i.promo_code ?? "")
+                }else {
+                    promocodeBool = false
+                    //callPromocodeAPI(promocodeStr: i.promo_code ?? "")
+                }
+            }
+            
+            
+        }else {
+            showToast(message: "Enter PromoCode To Apply")
+        }
+        
+        
     }
+    
+    
+    func callPromocodeAPI(promocodeStr:String) {
+        payload.removeAll()
+        payload["moduletype"] = "flight"
+        payload["promocode"] = promocodeStr
+        payload["total_amount_val"] = newpriceDetails?.grand_total ?? ""
+        payload["convenience_fee"] = "0"
+        payload["email"] = payemail
+        payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
+        
+        vm?.CALL_APPLY_PROMOCODE_API(dictParam: payload)
+    }
+    
+    
+    
+    func promocodeResult(response: ApplyPromocodeModel) {
+        
+        if response.status == 1 {
+            promocodeBool = true
+            promocodeValue = response.total_amount_val ?? ""
+            promocodeDiscountValue = response.value ?? ""
+            promocodeString = response.promocode ?? ""
+            grandTotal = "KWD:\(response.total_amount_val ?? "")"
+            setuplabels(lbl: titlelbl, text: grandTotal, textcolor: .WhiteColor, font: .OpenSansMedium(size: 20), align: .left)
+            NotificationCenter.default.post(name: NSNotification.Name("promocodeapply"), object: nil)
+            
+            DispatchQueue.main.async {[self] in
+                commonTableView.reloadData()
+            }
+        }else {
+            showToast(message: "Invalid Promo Code")
+          //  promocodeBool = false
+        }
+        
+    }
+    
     
     
     
@@ -366,6 +425,7 @@ extension PayNowVC {
     
     func preBookingDetails(response: PreBookingModel) {
         
+        promoinfoArray = response.promo_info ?? []
         tmpFlightPreBookingId = response.form_params?.booking_id ?? ""
         // tokenkey = response.form_params?.token_key ?? ""
         
@@ -487,11 +547,23 @@ extension PayNowVC {
         NotificationCenter.default.addObserver(self, selector: #selector(nointernet), name: Notification.Name("offline"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name("reload"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(resultnil), name: NSNotification.Name("resultnil"), object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(cancelpromo), name: Notification.Name("cancelpromo"), object: nil)
         
     }
     
     
+    
+    @objc func cancelpromo() {
+        promocodeBool = false
+        promocodeValue = ""
+        promocodeString = ""
+        grandTotal = newGrandTotal
+        setuplabels(lbl: titlelbl, text: grandTotal, textcolor: .WhiteColor, font: .oswaldRegular(size: 20), align: .left)
+
+        DispatchQueue.main.async {[self] in
+            commonTableView.reloadData()
+        }
+    }
     
     
     @objc func reload(){

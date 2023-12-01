@@ -66,7 +66,7 @@ class ModifyFlightSearchVC: BaseTableVC {
     }
     
     func setupUI() {
-       // self.view.backgroundColor = .clear
+        // self.view.backgroundColor = .clear
         self.holderView.backgroundColor = .WhiteColor
         
         
@@ -87,6 +87,7 @@ class ModifyFlightSearchVC: BaseTableVC {
         roundTripBtn.setTitle("", for: .normal)
         multicityBtn.setTitle("", for: .normal)
         
+        commonTableView.isScrollEnabled = false
         commonTableView.backgroundColor = .WhiteColor
         commonTableView.registerTVCells(["EmptyTVCell",
                                          "SearchFlightTVCell",
@@ -115,8 +116,9 @@ class ModifyFlightSearchVC: BaseTableVC {
         
         tablerow.append(TableRow(key:str,cellType:.FlightSearchTVCell))
         tablerow.append(TableRow(height:20,bgColor: .AppHolderViewColor,cellType:.EmptyTVCell))
-        tablerow.append(TableRow(cellType:.FlightRelatedSearchTVCell))
-        tablerow.append(TableRow(height:30,bgColor: .AppHolderViewColor,cellType:.EmptyTVCell))
+        
+//        tablerow.append(TableRow(cellType:.FlightRelatedSearchTVCell))
+//        tablerow.append(TableRow(height:30,bgColor: .AppHolderViewColor,cellType:.EmptyTVCell))
         
         commonTVData = tablerow
         commonTableView.reloadData()
@@ -352,6 +354,9 @@ class ModifyFlightSearchVC: BaseTableVC {
         
     }
     
+    
+    
+    
     override func didTapOnFromBtn(cell:MulticityFromToTVCell){
         gotoSelectCityVC(str: "From", celltag1: cell.fromBtn.tag)
     }
@@ -370,7 +375,8 @@ class ModifyFlightSearchVC: BaseTableVC {
         gotoAddTravelerVC()
     }
     
-    override func didTapOnMultiCityTripSearchFlight(cell:ButtonTVCell){
+    //MARK: -CALL MULTICITY TRIP API
+    func CALLMULTICITYAPI() {
         
         payload.removeAll()
         payload2.removeAll()
@@ -450,13 +456,11 @@ class ModifyFlightSearchVC: BaseTableVC {
             gotoSearchFlightResultVC(payload33: payload)
         }
         
-        
-        
     }
     
     
-    @IBAction func didTapOnCloseBtn(_ sender: Any) {
-        dismiss(animated: true)
+    override func didTapOnMultiCityTripSearchFlight(cell:AddCityTVCell){
+        CALLMULTICITYAPI()
     }
     
     
@@ -471,43 +475,29 @@ class ModifyFlightSearchVC: BaseTableVC {
     }
     
     
-    
-    override func didTapOnAirlineBtnAction(cell:FlightSearchTVCell) {
-        gotoNationalityVC()
-    }
-    
-    func gotoNationalityVC(){
-        guard let vc = NationalityVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
-    }
-    
-    
     //MARK: - donedatePicker cancelDatePicker
+    override func donedatePicker(cell:FlightSearchTVCell){
+        
+        let journyType = defaults.string(forKey: UserDefaultsKeys.journeyType)
+        if journyType == "oneway" {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd-MM-yyyy"
+            defaults.set(formatter.string(from: cell.depDatePicker.date), forKey: UserDefaultsKeys.calDepDate)
+            
+        }else {
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd-MM-yyyy"
+            defaults.set(formatter.string(from: cell.retdepDatePicker.date), forKey: UserDefaultsKeys.calDepDate)
+            defaults.set(formatter.string(from: cell.retDatePicker.date), forKey: UserDefaultsKeys.calRetDate)
+        }
+        
+        commonTableView.reloadData()
+        self.view.endEditing(true)
+    }
     
-//    override func donedatePicker(cell:SearchFlightTVCell){
-//        
-//
-//        let journyType = defaults.string(forKey: UserDefaultsKeys.journeyType)
-//        if journyType == "oneway" {
-//            let formatter = DateFormatter()
-//            formatter.dateFormat = "dd-MM-yyyy"
-//            defaults.set(formatter.string(from: cell.depDatePicker.date), forKey: UserDefaultsKeys.calDepDate)
-//
-//        }else {
-//
-//            let formatter = DateFormatter()
-//            formatter.dateFormat = "dd-MM-yyyy"
-//            defaults.set(formatter.string(from: cell.retdepDatePicker.date), forKey: UserDefaultsKeys.rcalDepDate)
-//            defaults.set(formatter.string(from: cell.retDatePicker.date), forKey: UserDefaultsKeys.rcalRetDate)
-//        }
-//
-//        commonTableView.reloadData()
-//        self.view.endEditing(true)
-//    }
-//
-//    override func cancelDatePicker(cell:SearchFlightTVCell){
-//        self.view.endEditing(true)
-//    }
+    override func cancelDatePicker(cell:FlightSearchTVCell){
+        self.view.endEditing(true)
+    }
     
 }

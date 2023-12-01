@@ -251,7 +251,8 @@ class BaseTableVC: UIViewController, ButtonTVCellDelegate,TextfieldTVCellDelegat
     func didTapOnMrBtnAction(cell: AddDeatilsOfGuestTVCell) {}
     func didTapOnMrsBtnAction(cell: AddDeatilsOfGuestTVCell) {}
     
-    
+    func donedatePicker(cell:FlightSearchTVCell){}
+    func cancelDatePicker(cell:FlightSearchTVCell){}
     
 }
 

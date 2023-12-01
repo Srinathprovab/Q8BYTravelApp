@@ -39,7 +39,7 @@ class PromocodeTVCell: TableViewCell {
         
         holderView.backgroundColor = .WhiteColor
         holderView.addCornerRadiusWithShadow(color: .clear, borderColor: .AppBorderColor, cornerRadius: 4)
-
+        
         img.image = UIImage(named: "coupon")
         setupLabels(lbl: titlelbl, text: "Offers & Promocode", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 18))
         setupLabels(lbl: subtitlelbl, text: "Have An E-coupon or Promo Codo ?", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12))
@@ -82,6 +82,23 @@ class PromocodeTVCell: TableViewCell {
     }
     
     
+    override func updateUI() {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(promocodeapply), name: Notification.Name("promocodeapply"), object: nil)
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(cancelpromo), name: Notification.Name("cancelpromo"), object: nil)
+        
+    }
+    
+    @objc func promocodeapply() {
+        holderView.isHidden = true
+    }
+    
+    @objc func cancelpromo() {
+        holderView.isHidden = false
+    }
+    
 }
 
 
@@ -90,13 +107,13 @@ class PromocodeTVCell: TableViewCell {
 extension PromocodeTVCell {
     
     //MARK - UITextField Delegates
-//    override func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        //For mobile numer validation
-//        if textField == mobileTF {
-//            let allowedCharacters = CharacterSet(charactersIn:"+0123456789 ")//Here change this characters based on your requirement
-//            let characterSet = CharacterSet(charactersIn: string)
-//            return allowedCharacters.isSuperset(of: characterSet)
-//        }
-//        return true
-//    }
+    //    override func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    //        //For mobile numer validation
+    //        if textField == mobileTF {
+    //            let allowedCharacters = CharacterSet(charactersIn:"+0123456789 ")//Here change this characters based on your requirement
+    //            let characterSet = CharacterSet(charactersIn: string)
+    //            return allowedCharacters.isSuperset(of: characterSet)
+    //        }
+    //        return true
+    //    }
 }

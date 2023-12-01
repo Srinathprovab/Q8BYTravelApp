@@ -171,7 +171,7 @@ extension SelectedFlightInfoVC {
         fd = response.flightDetails ?? [[]]
         fareRulesData = response.fareRulehtml ?? []
         farepricedetails = response.priceDetails
-        
+        newpriceDetails = response.priceDetails
         Adults_Base_Price = String(response.priceDetails?.adultsBasePrice ?? "0")
         Adults_Tax_Price = String(response.priceDetails?.adultsTaxPrice ?? "0")
         Childs_Base_Price = String(response.priceDetails?.childBasePrice ?? "0")

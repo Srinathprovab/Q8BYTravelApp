@@ -101,6 +101,7 @@ class BookFlightVC: BaseTableVC {
         roundTripBtn.setTitle("", for: .normal)
         multicityBtn.setTitle("", for: .normal)
         
+        commonTableView.isScrollEnabled = false
         commonTableView.registerTVCells(["EmptyTVCell",
                                          "DashboardDealsTitleTVCell",
                                          "FlightRelatedSearchTVCell",
@@ -510,5 +511,29 @@ class BookFlightVC: BaseTableVC {
     }
     
     
+    //MARK: - donedatePicker cancelDatePicker
+    override func donedatePicker(cell:FlightSearchTVCell){
+        
+        let journyType = defaults.string(forKey: UserDefaultsKeys.journeyType)
+        if journyType == "oneway" {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd-MM-yyyy"
+            defaults.set(formatter.string(from: cell.depDatePicker.date), forKey: UserDefaultsKeys.calDepDate)
+            
+        }else {
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "dd-MM-yyyy"
+            defaults.set(formatter.string(from: cell.retdepDatePicker.date), forKey: UserDefaultsKeys.calDepDate)
+            defaults.set(formatter.string(from: cell.retDatePicker.date), forKey: UserDefaultsKeys.calRetDate)
+        }
+        
+        commonTableView.reloadData()
+        self.view.endEditing(true)
+    }
+    
+    override func cancelDatePicker(cell:FlightSearchTVCell){
+        self.view.endEditing(true)
+    }
     
 }

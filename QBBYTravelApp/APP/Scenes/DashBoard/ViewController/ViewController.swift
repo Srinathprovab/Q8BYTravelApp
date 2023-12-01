@@ -174,8 +174,6 @@ class TimerManager {
     private init() {}
     
     
-    
-    
     func startTimer(time:Int) {
         endBackgroundTask() // End any existing background task (if any)
         backgroundTask = UIApplication.shared.beginBackgroundTask { [weak self] in

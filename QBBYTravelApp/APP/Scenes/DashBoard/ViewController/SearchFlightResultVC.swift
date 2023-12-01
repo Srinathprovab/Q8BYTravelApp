@@ -273,7 +273,8 @@ extension SearchFlightResultVC:OnewayViewModelDelegate {
         searchid = "\(response.data?.search_id ?? 0)"
         bookingsource = response.data?.booking_source ?? ""
         bookingsourcekey = response.data?.booking_source_key ?? ""
-        TimerManager.shared.totalTime = response.session_expiry_details?.session_start_time ?? 0
+        
+        TimerManager.shared.stopTimer()
         TimerManager.shared.startTimer(time: 900)
         
         setuplabels(lbl: flightsFoundlbl, text: "\(response.data?.j_flight_list?.count ?? 0) Flights found", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12), align: .right)
@@ -377,7 +378,7 @@ extension SearchFlightResultVC:OnewayViewModelDelegate {
         connectingFlightsA = Array(Set(connectingFlightsA))
         connectingAirportA = Array(Set(connectingAirportA))
         
-        TimerManager.shared.totalTime = response.session_expiry_details?.session_start_time ?? 0
+        TimerManager.shared.stopTimer()
         TimerManager.shared.startTimer(time: 900)
         
         setuplabels(lbl: sessonlbl, text: "Your Session Expires In: 14:15", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12), align: .left)
@@ -394,7 +395,7 @@ extension SearchFlightResultVC:OnewayViewModelDelegate {
             defaults.set("\(response.data?.search_params?.from_loc ?? "") - \(response.data?.search_params?.to_loc ?? "")", forKey: UserDefaultsKeys.journyCitys)
             
             
-            defaults.set(defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "", forKey: UserDefaultsKeys.travellerDetails)
+       //     defaults.set(defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "", forKey: UserDefaultsKeys.travellerDetails)
             
             
             
@@ -409,7 +410,7 @@ extension SearchFlightResultVC:OnewayViewModelDelegate {
             defaults.set("\(response.data?.search_params?.from_loc ?? "") - \(response.data?.search_params?.to_loc ?? "") & \(response.data?.search_params?.to_loc ?? "") - \(response.data?.search_params?.from_loc ?? "")", forKey: UserDefaultsKeys.journyCitys)
             
             
-            defaults.set(response.data?.search_params?.from_loc ?? "", forKey: UserDefaultsKeys.travellerDetails)
+         //   defaults.set(response.data?.search_params?.from_loc ?? "", forKey: UserDefaultsKeys.travellerDetails)
             setupRoundTripTVCells(jfl: response.data?.j_flight_list ?? [[]])
             
             
@@ -803,6 +804,7 @@ extension SearchFlightResultVC {
         dateFormatter.dateFormat = "HH:mm"
         if callapibool == true {
             DispatchQueue.main.async {[self] in
+                TimerManager.shared.sessionStop()
                 holderView.isHidden = true
                 callAPI()
             }

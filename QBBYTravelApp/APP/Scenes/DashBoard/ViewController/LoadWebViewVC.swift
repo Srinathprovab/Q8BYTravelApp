@@ -9,7 +9,15 @@ import UIKit
 import WebKit
 import SwiftyJSON
 
-class LoadWebViewVC: UIViewController, ConfirmTicketViewmodelDelegate {
+class LoadWebViewVC: UIViewController, ConfirmTicketViewmodelDelegate, TimerManagerDelegate {
+    func timerDidFinish() {
+        
+    }
+    
+    func updateTimer() {
+        
+    }
+    
     
     
     @IBOutlet weak var holderView: UIView!
@@ -72,9 +80,10 @@ class LoadWebViewVC: UIViewController, ConfirmTicketViewmodelDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
         setupUI()
         vm = ConfirmTicketViewmodel(self)
-        
+        TimerManager.shared.delegate = self
     }
     
     
@@ -116,6 +125,7 @@ class LoadWebViewVC: UIViewController, ConfirmTicketViewmodelDelegate {
     }
     
     func cfdetails(response: ConformTicketModel) {
+        TimerManager.shared.stopTimer()
         BASE_URL = BASE_URL1
         guard let vc = BookingConfirmedVC.newInstance.self else {return}
         vc.modalPresentationStyle = .fullScreen
@@ -129,6 +139,7 @@ class LoadWebViewVC: UIViewController, ConfirmTicketViewmodelDelegate {
     
     
     func gotoDashBoardTabbarVC() {
+        TimerManager.shared.stopTimer()
         guard let vc = DBTabbarController.newInstance.self else {return}
         vc.modalPresentationStyle = .fullScreen
         vc.selectedIndex = 0

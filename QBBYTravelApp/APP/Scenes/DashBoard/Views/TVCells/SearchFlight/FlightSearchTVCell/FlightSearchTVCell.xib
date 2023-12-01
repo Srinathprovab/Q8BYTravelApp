@@ -161,19 +161,29 @@
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
                                             </button>
+                                            <textField hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZPk-hz-Mg0">
+                                                <rect key="frame" x="49.999999999999986" y="0.0" width="170.66666666666663" height="65"/>
+                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
                                         </subviews>
                                         <color key="backgroundColor" red="0.95294117647058818" green="0.96862745098039216" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstItem="qTK-N9-RWh" firstAttribute="top" secondItem="yYo-xV-khr" secondAttribute="top" id="2fh-N5-1U8"/>
                                             <constraint firstItem="VQH-WO-QsY" firstAttribute="centerY" secondItem="yYo-xV-khr" secondAttribute="centerY" id="30r-mf-DL1"/>
                                             <constraint firstAttribute="bottom" secondItem="qTK-N9-RWh" secondAttribute="bottom" id="8yC-70-J8p"/>
+                                            <constraint firstItem="ZPk-hz-Mg0" firstAttribute="leading" secondItem="VQH-WO-QsY" secondAttribute="trailing" constant="12" id="Fcl-nS-QeJ"/>
+                                            <constraint firstAttribute="bottom" secondItem="ZPk-hz-Mg0" secondAttribute="bottom" id="Hnj-6K-d1Z"/>
                                             <constraint firstItem="VQH-WO-QsY" firstAttribute="leading" secondItem="yYo-xV-khr" secondAttribute="leading" constant="20" id="IQj-xY-aJ5"/>
+                                            <constraint firstItem="ZPk-hz-Mg0" firstAttribute="top" secondItem="yYo-xV-khr" secondAttribute="top" id="JYq-wn-Lnb"/>
                                             <constraint firstItem="2xP-UB-AbP" firstAttribute="leading" secondItem="VQH-WO-QsY" secondAttribute="trailing" constant="12" id="Ro5-Qy-B9h"/>
                                             <constraint firstAttribute="trailing" secondItem="qTK-N9-RWh" secondAttribute="trailing" id="Sna-DJ-EQW"/>
                                             <constraint firstAttribute="height" constant="65" id="X0A-pa-jOU"/>
                                             <constraint firstItem="qTK-N9-RWh" firstAttribute="leading" secondItem="yYo-xV-khr" secondAttribute="leading" id="YqE-1B-j6X"/>
                                             <constraint firstItem="2xP-UB-AbP" firstAttribute="centerY" secondItem="VQH-WO-QsY" secondAttribute="centerY" id="bZS-vW-DG8"/>
                                             <constraint firstAttribute="trailing" secondItem="2xP-UB-AbP" secondAttribute="trailing" constant="12" id="fS5-Kz-m6N"/>
+                                            <constraint firstAttribute="trailing" secondItem="ZPk-hz-Mg0" secondAttribute="trailing" id="mc4-5R-ld4"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nbq-8a-fRk">
@@ -197,19 +207,29 @@
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain"/>
                                             </button>
+                                            <textField hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7QF-4X-p0b">
+                                                <rect key="frame" x="52.000000000000014" y="0.0" width="168.33333333333337" height="65"/>
+                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
                                         </subviews>
                                         <color key="backgroundColor" red="0.95294117649999999" green="0.96862745100000003" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstItem="kcU-u7-kqg" firstAttribute="leading" secondItem="hUl-V4-dX9" secondAttribute="trailing" constant="12" id="1e1-ik-ACk"/>
                                             <constraint firstAttribute="bottom" secondItem="gHS-MP-xG9" secondAttribute="bottom" id="AHQ-Sv-AQo"/>
                                             <constraint firstItem="hUl-V4-dX9" firstAttribute="leading" secondItem="Nbq-8a-fRk" secondAttribute="leading" constant="22" id="BuZ-I2-z3P"/>
+                                            <constraint firstItem="7QF-4X-p0b" firstAttribute="top" secondItem="Nbq-8a-fRk" secondAttribute="top" id="KGa-pT-ARa"/>
+                                            <constraint firstAttribute="bottom" secondItem="7QF-4X-p0b" secondAttribute="bottom" id="XZT-lJ-Hi7"/>
                                             <constraint firstItem="gHS-MP-xG9" firstAttribute="leading" secondItem="Nbq-8a-fRk" secondAttribute="leading" id="Zw4-xU-jge"/>
                                             <constraint firstAttribute="trailing" secondItem="gHS-MP-xG9" secondAttribute="trailing" id="atZ-wj-aUU"/>
                                             <constraint firstItem="hUl-V4-dX9" firstAttribute="centerY" secondItem="Nbq-8a-fRk" secondAttribute="centerY" id="bBC-WZ-bJB"/>
                                             <constraint firstAttribute="height" constant="65" id="bVk-Nc-wSl"/>
                                             <constraint firstItem="kcU-u7-kqg" firstAttribute="centerY" secondItem="hUl-V4-dX9" secondAttribute="centerY" id="cat-xJ-h3Y"/>
                                             <constraint firstAttribute="trailing" secondItem="kcU-u7-kqg" secondAttribute="trailing" constant="12" id="hk1-dM-ati"/>
+                                            <constraint firstAttribute="trailing" secondItem="7QF-4X-p0b" secondAttribute="trailing" id="iRi-it-rwH"/>
                                             <constraint firstItem="gHS-MP-xG9" firstAttribute="top" secondItem="Nbq-8a-fRk" secondAttribute="top" id="xKV-aq-dVf"/>
+                                            <constraint firstItem="7QF-4X-p0b" firstAttribute="leading" secondItem="hUl-V4-dX9" secondAttribute="trailing" constant="12" id="yiL-ES-wGQ"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -391,12 +411,14 @@
                 <outlet property="airlinesView" destination="egM-x0-C1F" id="iWV-Hk-d1h"/>
                 <outlet property="airlinesimg" destination="6yK-14-POj" id="xaK-ox-UZv"/>
                 <outlet property="depBtn" destination="qTK-N9-RWh" id="NhB-GF-lqj"/>
+                <outlet property="depTF" destination="ZPk-hz-Mg0" id="3lR-mm-IqA"/>
                 <outlet property="deplbl" destination="2xP-UB-AbP" id="Pk4-xA-fxc"/>
                 <outlet property="dipView" destination="yYo-xV-khr" id="Utw-1a-XhI"/>
                 <outlet property="fromcityBtn" destination="1Sb-Wj-0g3" id="XlZ-Kj-edg"/>
                 <outlet property="fromcitylbl" destination="MTG-XT-97A" id="2ss-ng-xgd"/>
                 <outlet property="fromview" destination="Xyy-wY-3OC" id="tCK-0t-Cqg"/>
                 <outlet property="retBtn" destination="gHS-MP-xG9" id="GW4-wW-slg"/>
+                <outlet property="retTF" destination="7QF-4X-p0b" id="jgy-dt-iyi"/>
                 <outlet property="retView" destination="Nbq-8a-fRk" id="Blp-iZ-u2U"/>
                 <outlet property="retlbl" destination="kcU-u7-kqg" id="Hc7-vQ-cRp"/>
                 <outlet property="searchFlightBtn" destination="SrH-Km-3fj" id="jZr-KR-iUy"/>
