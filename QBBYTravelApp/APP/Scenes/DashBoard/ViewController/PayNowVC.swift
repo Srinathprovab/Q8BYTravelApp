@@ -232,14 +232,18 @@ class PayNowVC: BaseTableVC,HotelMBViewModelDelegate,TimerManagerDelegate, PreBo
         
         
         if cell.promocodeTF.text?.isEmpty == false {
-            promoinfoArray.forEach { i in
-                if i.promo_code == cell.promocodeTF.text {
-                    callPromocodeAPI(promocodeStr: i.promo_code ?? "")
-                }else {
-                    promocodeBool = false
-                    //callPromocodeAPI(promocodeStr: i.promo_code ?? "")
-                }
-            }
+//            promoinfoArray.forEach { i in
+//                if i.promo_code == cell.promocodeTF.text {
+//                    callPromocodeAPI(promocodeStr: i.promo_code ?? "")
+//                }else {
+//                    promocodeBool = false
+//                    //callPromocodeAPI(promocodeStr: i.promo_code ?? "")
+//                }
+//
+//
+//            }
+            
+            callPromocodeAPI(promocodeStr: cell.promocodeTF.text ?? "")
             
             
         }else {
@@ -278,9 +282,10 @@ class PayNowVC: BaseTableVC,HotelMBViewModelDelegate,TimerManagerDelegate, PreBo
             DispatchQueue.main.async {[self] in
                 commonTableView.reloadData()
             }
+    
         }else {
             showToast(message: "Invalid Promo Code")
-          //  promocodeBool = false
+            promocodeBool = false
         }
         
     }
@@ -779,7 +784,7 @@ extension PayNowVC {
         payload["isInsurance"] = "0"
         payload["redeem_points_post"] = "1"
         payload["booking_source"] = bookingsourcekey
-        payload["promocode_val"] = ""
+        payload["promocode_val"] = promocodeString
         payload["promocode_code"] = ""
         payload["mealsAmount"] = "0"
         payload["baggageAmount"] = "0"
@@ -852,7 +857,7 @@ extension PayNowVC {
             payload.removeAll()
             payload["app_reference"] = tmpFlightPreBookingId
             payload["search_id"] = searchid
-            payload["promocode_val"] = ""
+            payload["promocode_val"] = promocodeString
             
             vm?.CALL_PRE_FLIGHT_BOOKING_API(dictParam: payload, key: searchid)
         }
@@ -875,7 +880,7 @@ extension PayNowVC {
         DispatchQueue.main.async {[self] in
             payload.removeAll()
             payload["extra_price"] = "0"
-            payload["promocode_val"] = ""
+            payload["promocode_val"] = promocodeString
             
             vm?.CALL_SENDTO_PAYMENT_API(dictParam: payload, key: "\(tmpFlightPreBookingId)/\(searchid)")
         }
