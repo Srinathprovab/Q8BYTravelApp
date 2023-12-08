@@ -46,7 +46,7 @@ class HotelDealsTVCell: TableViewCell {
     
     func setupCV() {
         
-        
+        dealsCV.backgroundColor = .AppHolderViewColor
         let nib = UINib(nibName: "HotelDealsCVCell", bundle: nil)
         dealsCV.register(nib, forCellWithReuseIdentifier: "cell")
         dealsCV.delegate = self

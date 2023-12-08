@@ -39,8 +39,8 @@
                                     <constraint firstAttribute="height" constant="25" id="gob-HL-IYv"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a5g-zO-CbJ">
-                                <rect key="frame" x="78" y="29" width="31" height="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a5g-zO-CbJ">
+                                <rect key="frame" x="78" y="29.333333333333336" width="210" height="16.666666666666664"/>
                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="12"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -112,6 +112,7 @@
                             <constraint firstItem="DVp-Ir-f4N" firstAttribute="top" secondItem="HtU-Lx-19a" secondAttribute="bottom" constant="3" id="HGl-5a-3Xd"/>
                             <constraint firstItem="oHt-Rc-isQ" firstAttribute="leading" secondItem="eDM-f0-O4g" secondAttribute="leading" constant="20" id="Y0Y-G2-pZN"/>
                             <constraint firstAttribute="trailing" secondItem="eMJ-Jm-yc6" secondAttribute="trailing" constant="20" id="dGY-4K-xrX"/>
+                            <constraint firstItem="EeS-YF-7to" firstAttribute="leading" secondItem="a5g-zO-CbJ" secondAttribute="trailing" constant="10" id="emj-xo-pMc"/>
                             <constraint firstItem="a5g-zO-CbJ" firstAttribute="centerY" secondItem="oHt-Rc-isQ" secondAttribute="centerY" id="ihU-B9-nfI"/>
                             <constraint firstItem="HtU-Lx-19a" firstAttribute="leading" secondItem="DVp-Ir-f4N" secondAttribute="leading" id="jp4-K1-Znq"/>
                             <constraint firstItem="eMJ-Jm-yc6" firstAttribute="leading" secondItem="eDM-f0-O4g" secondAttribute="leading" constant="20" id="l7p-jm-pVw"/>

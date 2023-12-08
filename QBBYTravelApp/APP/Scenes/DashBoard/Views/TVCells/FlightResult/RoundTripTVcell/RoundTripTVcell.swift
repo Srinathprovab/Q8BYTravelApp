@@ -109,7 +109,7 @@ extension RoundTripTVcell:UITableViewDelegate,UITableViewDataSource {
             cell.hourslbl.text = data.duration
             cell.noOfStopslbl.text = "\(data.no_of_stops ?? 0) Stops"
             
-            self.airlinecode.text = "(\(data.operator_code ?? "")-\(data.operator_name ?? ""))"
+            self.airlinecode.text = "\(data.operator_name ?? "") (\(data.operator_code ?? "")-\(data.flight_number ?? ""))"
             self.airlinelogo.sd_setImage(with: URL(string: data.operator_image ?? ""), placeholderImage:UIImage(contentsOfFile:"placeholder.png"))
             
             

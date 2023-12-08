@@ -108,7 +108,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" name="WhiteColor"/>
+                        <color key="backgroundColor" name="AppHolderViewColor"/>
                         <constraints>
                             <constraint firstItem="C3w-r3-8HU" firstAttribute="centerY" secondItem="dag-3S-YVA" secondAttribute="centerY" id="2Yj-WH-Dew"/>
                             <constraint firstItem="2UM-bL-Dfe" firstAttribute="leading" secondItem="dag-3S-YVA" secondAttribute="leading" constant="10" id="7LE-qF-tjp"/>
@@ -143,6 +143,9 @@
         <image name="arrow.right" catalog="system" width="128" height="95"/>
         <namedColor name="AppBackgroundColor">
             <color red="0.016000000759959221" green="0.28999999165534973" blue="0.68599998950958252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="AppHolderViewColor">
+            <color red="0.94900000095367432" green="0.94900000095367432" blue="0.94900000095367432" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="WhiteColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

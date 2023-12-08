@@ -81,71 +81,50 @@ class HolderViewTVCell: UITableViewCell {
     
     @objc func swapCity(_ sender:UIButton) {
         
-        if let tabselect = defaults.string(forKey: UserDefaultsKeys.journeyType) {
-            if tabselect == "oneway" {
-                let a = self.titlelbl.text
-                let b = self.tolabel.text
-                let c = defaults.string(forKey: UserDefaultsKeys.fromlocid)
-                let d = defaults.string(forKey: UserDefaultsKeys.tolocid)
-                let e = defaults.string(forKey: UserDefaultsKeys.fromcityname)
-                let f = defaults.string(forKey: UserDefaultsKeys.tocityname)
-                
-                self.titlelbl.text = b
-                self.tolabel.text = a
-                
-                defaults.set(self.titlelbl.text, forKey: UserDefaultsKeys.fromCity)
-                defaults.set(self.tolabel.text, forKey: UserDefaultsKeys.toCity)
-                defaults.set(d, forKey: UserDefaultsKeys.fromlocid)
-                defaults.set(c, forKey: UserDefaultsKeys.tolocid)
-                defaults.set(f, forKey: UserDefaultsKeys.fromcityname)
-                defaults.set(e, forKey: UserDefaultsKeys.tocityname)
-                
-            }else {
-                let a = self.titlelbl.text
-                let b = self.tolabel.text
-                let c = defaults.string(forKey: UserDefaultsKeys.rfromlocid)
-                let d = defaults.string(forKey: UserDefaultsKeys.rtolocid)
-                let e = defaults.string(forKey: UserDefaultsKeys.rfromcityname)
-                let f = defaults.string(forKey: UserDefaultsKeys.rtocityname)
-                
-                self.titlelbl.text = b
-                self.tolabel.text = a
-                
-                defaults.set(self.titlelbl.text, forKey: UserDefaultsKeys.rfromCity)
-                defaults.set(self.tolabel.text, forKey: UserDefaultsKeys.rtoCity)
-                defaults.set(d, forKey: UserDefaultsKeys.rfromlocid)
-                defaults.set(c, forKey: UserDefaultsKeys.rtolocid)
-                defaults.set(f, forKey: UserDefaultsKeys.rfromcityname)
-                defaults.set(e, forKey: UserDefaultsKeys.rtocityname)
-                
-            }
-        }
+        let a = self.titlelbl.text
+        let b = self.tolabel.text
+        let c = defaults.string(forKey: UserDefaultsKeys.fromlocid)
+        let d = defaults.string(forKey: UserDefaultsKeys.tolocid)
+        let e = defaults.string(forKey: UserDefaultsKeys.fromcityname)
+        let f = defaults.string(forKey: UserDefaultsKeys.tocityname)
         
+        self.titlelbl.text = b
+        self.tolabel.text = a
+        
+        defaults.set(self.titlelbl.text, forKey: UserDefaultsKeys.fromCity)
+        defaults.set(self.tolabel.text, forKey: UserDefaultsKeys.toCity)
+        defaults.set(d, forKey: UserDefaultsKeys.fromlocid)
+        defaults.set(c, forKey: UserDefaultsKeys.tolocid)
+        defaults.set(f, forKey: UserDefaultsKeys.fromcityname)
+        defaults.set(e, forKey: UserDefaultsKeys.tocityname)
+        
+    
+    
+}
+
+func setupDropDown() {
+    
+    dropDown.direction = .any
+    dropDown.backgroundColor = .WhiteColor
+    dropDown.anchorView = self.fromBtn
+    dropDown.bottomOffset = CGPoint(x: 0, y: fromBtn.frame.size.height + 10)
+    dropDown.selectionAction = { [weak self] (index: Int, item: String) in
+        self?.titlelbl.text = item
+        self?.titlelbl.textColor = .AppLabelColor
+        self?.nationalityCode = countrylist[index].iso_country_code ?? ""
+        NotificationCenter.default.post(name: NSNotification.Name("nationalityCode"), object: self?.nationalityCode)
     }
     
-    func setupDropDown() {
-        
-        dropDown.direction = .any
-        dropDown.backgroundColor = .WhiteColor
-        dropDown.anchorView = self.fromBtn
-        dropDown.bottomOffset = CGPoint(x: 0, y: fromBtn.frame.size.height + 10)
-        dropDown.selectionAction = { [weak self] (index: Int, item: String) in
-            self?.titlelbl.text = item
-            self?.titlelbl.textColor = .AppLabelColor
-            self?.nationalityCode = countrylist[index].iso_country_code ?? ""
-            NotificationCenter.default.post(name: NSNotification.Name("nationalityCode"), object: self?.nationalityCode)
-        }
-        
-    }
+}
+
+
+@IBAction func didTapONFromBtn(_ sender: Any) {
+    dropDown.show()
+}
+
+
+@IBAction func didTapONToBtn(_ sender: Any) {
     
-    
-    @IBAction func didTapONFromBtn(_ sender: Any) {
-        dropDown.show()
-    }
-    
-    
-    @IBAction func didTapONToBtn(_ sender: Any) {
-        
-    }
-    
+}
+
 }

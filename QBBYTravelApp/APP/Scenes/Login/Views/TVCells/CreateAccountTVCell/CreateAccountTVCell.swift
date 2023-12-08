@@ -141,6 +141,7 @@ class CreateAccountTVCell: TableViewCell {
         formatter.dateFormat = "dd-MM-yyyy"
         
         dobTF.text = formatter.string(from: dobDatePicker.date)
+        dobTF.setOutlineColor(.black, for: .normal)
         
         delegate?.donedatePicker(cell: self)
     }

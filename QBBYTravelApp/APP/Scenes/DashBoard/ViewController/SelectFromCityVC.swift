@@ -380,13 +380,13 @@ extension SelectFromCityVC {
                             }
                         }else if selectedJourneyType == "circle" {
                             if titleStr == "From" {
-                                defaults.set(cell.label, forKey: UserDefaultsKeys.rfromCity)
-                                defaults.set(cell.id , forKey: UserDefaultsKeys.rfromlocid)
-                                defaults.set(cell.cityname , forKey: UserDefaultsKeys.rfromcityname)
+                                defaults.set(cell.label, forKey: UserDefaultsKeys.fromCity)
+                                defaults.set(cell.id , forKey: UserDefaultsKeys.fromlocid)
+                                defaults.set(cell.cityname , forKey: UserDefaultsKeys.fromcityname)
                             }else {
-                                defaults.set(cell.label, forKey: UserDefaultsKeys.rtoCity)
-                                defaults.set(cell.id , forKey: UserDefaultsKeys.rtolocid)
-                                defaults.set(cell.cityname , forKey: UserDefaultsKeys.rtocityname)
+                                defaults.set(cell.label, forKey: UserDefaultsKeys.toCity)
+                                defaults.set(cell.id , forKey: UserDefaultsKeys.tolocid)
+                                defaults.set(cell.cityname , forKey: UserDefaultsKeys.tocityname)
                             }
                         }else {
                             if titleStr == "From" {

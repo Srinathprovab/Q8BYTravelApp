@@ -87,7 +87,7 @@ class FlightSearchTVCell: TableViewCell {
         }else {
             retView.alpha = 1
             retView.isUserInteractionEnabled = true
-            tralbl.text = defaults.string(forKey: UserDefaultsKeys.rtravellerDetails) ?? "Add Traveller"
+            tralbl.text = defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "Add Traveller"
             
             self.depTF.isHidden = false
             self.retTF.isHidden = false
@@ -153,48 +153,25 @@ class FlightSearchTVCell: TableViewCell {
     
     @objc func didTapOnSwapCityBtnAction(_ sender:UIButton) {
         
-        let journeyType = defaults.string(forKey: UserDefaultsKeys.journeyType)
-        if journeyType == "oneway" {
-            
-            let x = fromcitylbl.text
-            let y = tocitylbl.text
-            fromcitylbl.text = y
-            tocitylbl.text = x
-            
-            
-            let a = defaults.string(forKey: UserDefaultsKeys.fromCity)
-            let b = defaults.string(forKey: UserDefaultsKeys.fromlocid)
-            let c = defaults.string(forKey: UserDefaultsKeys.fromcityname)
-            let d = defaults.string(forKey: UserDefaultsKeys.toCity)
-            let e = defaults.string(forKey: UserDefaultsKeys.tolocid)
-            let f = defaults.string(forKey: UserDefaultsKeys.tocityname)
-            
-            defaults.set(d , forKey: UserDefaultsKeys.fromCity)
-            defaults.set(e , forKey: UserDefaultsKeys.fromlocid)
-            defaults.set(f, forKey: UserDefaultsKeys.fromcityname)
-            defaults.set(a , forKey: UserDefaultsKeys.toCity)
-            defaults.set(b, forKey: UserDefaultsKeys.tolocid)
-            defaults.set(c , forKey: UserDefaultsKeys.tocityname)
-        }else{
-            let x = fromcitylbl.text
-            let y = tocitylbl.text
-            fromcitylbl.text = y
-            tocitylbl.text = x
-            
-            let a = defaults.string(forKey: UserDefaultsKeys.rfromCity)
-            let b = defaults.string(forKey: UserDefaultsKeys.rfromlocid)
-            let c = defaults.string(forKey: UserDefaultsKeys.rfromcityname)
-            let d = defaults.string(forKey: UserDefaultsKeys.rtoCity)
-            let e = defaults.string(forKey: UserDefaultsKeys.rtolocid)
-            let f = defaults.string(forKey: UserDefaultsKeys.rtocityname)
-            
-            defaults.set(d , forKey: UserDefaultsKeys.rfromCity)
-            defaults.set(e , forKey: UserDefaultsKeys.rfromlocid)
-            defaults.set(f, forKey: UserDefaultsKeys.rfromcityname)
-            defaults.set(a , forKey: UserDefaultsKeys.rtoCity)
-            defaults.set(b, forKey: UserDefaultsKeys.rtolocid)
-            defaults.set(c , forKey: UserDefaultsKeys.rtocityname)
-        }
+        let x = fromcitylbl.text
+        let y = tocitylbl.text
+        fromcitylbl.text = y
+        tocitylbl.text = x
+        
+        
+        let a = defaults.string(forKey: UserDefaultsKeys.fromCity)
+        let b = defaults.string(forKey: UserDefaultsKeys.fromlocid)
+        let c = defaults.string(forKey: UserDefaultsKeys.fromcityname)
+        let d = defaults.string(forKey: UserDefaultsKeys.toCity)
+        let e = defaults.string(forKey: UserDefaultsKeys.tolocid)
+        let f = defaults.string(forKey: UserDefaultsKeys.tocityname)
+        
+        defaults.set(d , forKey: UserDefaultsKeys.fromCity)
+        defaults.set(e , forKey: UserDefaultsKeys.fromlocid)
+        defaults.set(f, forKey: UserDefaultsKeys.fromcityname)
+        defaults.set(a , forKey: UserDefaultsKeys.toCity)
+        defaults.set(b, forKey: UserDefaultsKeys.tolocid)
+        defaults.set(c , forKey: UserDefaultsKeys.tocityname)
         
     }
     

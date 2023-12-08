@@ -52,7 +52,7 @@ class MyAccountVC: BaseTableVC, ProfileUpdateViewModelDelegate {
         
         
         
-        let logstatus = defaults.bool(forKey: UserDefaultsKeys.userLoggedIn)
+        let logstatus = defaults.bool(forKey: UserDefaultsKeys.loggedInStatus)
         if logstatus == true {
             TableViewHelper.EmptyMessage(message: "", tableview: commonTableView, vc: self)
             profilePicView.isHidden = false

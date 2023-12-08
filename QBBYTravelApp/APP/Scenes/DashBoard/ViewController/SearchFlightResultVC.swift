@@ -430,8 +430,10 @@ extension SearchFlightResultVC:OnewayViewModelDelegate {
     
     
     func setupRoundTripTVCells(jfl:[[J_flight_list]]) {
+        
         commonTableView.separatorStyle = .none
         setuplabels(lbl: flightsFoundlbl, text: "\(jfl.count ) Flights found", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12), align: .right)
+        TableViewHelper.EmptyMessage(message: "", tableview: commonTableView, vc: self)
         
         
         tablerow.removeAll()

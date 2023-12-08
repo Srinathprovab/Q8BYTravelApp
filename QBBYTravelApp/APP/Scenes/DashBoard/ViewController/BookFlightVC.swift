@@ -342,10 +342,10 @@ class BookFlightVC: BaseTableVC {
         else if journyType == "circle"{
             
             payload["trip_type"] = defaults.string(forKey: UserDefaultsKeys.journeyType)
-            payload["adult"] = defaults.string(forKey: UserDefaultsKeys.radultCount)
-            payload["child"] = defaults.string(forKey: UserDefaultsKeys.rchildCount)
-            payload["infant"] = defaults.string(forKey: UserDefaultsKeys.rinfantsCount)
-            payload["v_class"] = defaults.string(forKey: UserDefaultsKeys.rselectClass) ?? "Economy"
+            payload["adult"] = defaults.string(forKey: UserDefaultsKeys.adultCount)
+            payload["child"] = defaults.string(forKey: UserDefaultsKeys.childCount)
+            payload["infant"] = defaults.string(forKey: UserDefaultsKeys.infantsCount)
+            payload["v_class"] = defaults.string(forKey: UserDefaultsKeys.selectClass) ?? "Economy"
             payload["sector_type"] = "international"
             payload["from"] = defaults.string(forKey: UserDefaultsKeys.fromCity)
             payload["from_loc_id"] = defaults.string(forKey: UserDefaultsKeys.fromlocid)
@@ -373,9 +373,9 @@ class BookFlightVC: BaseTableVC {
                 showToast(message: "Please Select Departure Date")
             }else if defaults.string(forKey:UserDefaultsKeys.calRetDate) == "Add Return" ||  defaults.string(forKey:UserDefaultsKeys.calRetDate) == nil{
                 showToast(message: "Please Select Return Date")
-            }else if defaults.string(forKey:UserDefaultsKeys.rtravellerDetails) == "Add Details" {
+            }else if defaults.string(forKey:UserDefaultsKeys.travellerDetails) == "Add Details" {
                 showToast(message: "Add Traveller")
-            }else if defaults.string(forKey:UserDefaultsKeys.rselectClass) == "Add Details" {
+            }else if defaults.string(forKey:UserDefaultsKeys.selectClass) == "Add Details" {
                 showToast(message: "Add Class")
             }else if checkDepartureAndReturnDates(payload, p1: "depature", p2: "return") == false {
                 showToast(message: "Invalid Date")

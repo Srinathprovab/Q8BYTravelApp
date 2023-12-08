@@ -16,6 +16,9 @@
         <array key="OpenSans-Regular.ttf">
             <string>OpenSans</string>
         </array>
+        <array key="OpenSans-Semibold.ttf">
+            <string>OpenSans-Semibold</string>
+        </array>
     </customFonts>
     <scenes>
         <!--View Controller-->
@@ -1155,13 +1158,11 @@
                                                     <constraint firstAttribute="trailing" secondItem="lUQ-j7-jyM" secondAttribute="trailing" id="se6-4V-aMt"/>
                                                 </constraints>
                                             </view>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BKs-Ix-M5l">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No. of stops" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BKs-Ix-M5l">
                                                 <rect key="frame" x="10" y="0.0" width="45" height="65"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="45" id="lH0-id-9sg"/>
                                                 </constraints>
-                                                <string key="text">no of
-stops</string>
                                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="14"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -1615,7 +1616,7 @@ stops</string>
                                                         <rect key="frame" x="0.0" y="0.0" width="96.333333333333329" height="36"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pOu-QW-et3">
-                                                                <rect key="frame" x="27.666666666666661" y="7.9999999999999982" width="41.333333333333343" height="20.333333333333329"/>
+                                                                <rect key="frame" x="27.666666666666657" y="7.9999999999999982" width="41.333333333333343" height="20.333333333333329"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -1643,7 +1644,7 @@ stops</string>
                                                         <rect key="frame" x="111.33333333333334" y="0.0" width="96.333333333333343" height="36"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bOV-pQ-eIv">
-                                                                <rect key="frame" x="27.666666666666661" y="7.9999999999999982" width="41.333333333333343" height="20.333333333333329"/>
+                                                                <rect key="frame" x="27.666666666666657" y="7.9999999999999982" width="41.333333333333343" height="20.333333333333329"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -1672,7 +1673,7 @@ stops</string>
                                                         <rect key="frame" x="222.66666666666666" y="0.0" width="96.333333333333343" height="36"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pyO-ug-6wr">
-                                                                <rect key="frame" x="27.666666666666661" y="7.9999999999999982" width="41.333333333333343" height="20.333333333333329"/>
+                                                                <rect key="frame" x="27.666666666666657" y="7.9999999999999982" width="41.333333333333343" height="20.333333333333329"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -2112,11 +2113,52 @@ stops</string>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uri-rg-oBP">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f3x-e8-KEC" customClass="NavBar" customModule="Q8BYTravelApp" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f3x-e8-KEC">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="130"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CpU-eO-1rT">
+                                                <rect key="frame" x="10" y="65" width="30" height="30"/>
+                                                <subviews>
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="leftarrow" translatesAutoresizingMaskIntoConstraints="NO" id="tp7-c9-SAI">
+                                                        <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                                    </imageView>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ai2-U8-bWV">
+                                                        <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="plain"/>
+                                                        <connections>
+                                                            <action selector="didTapOnBackBtnAction:" destination="g6d-du-daU" eventType="touchUpInside" id="M7U-wz-YgN"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="bottom" secondItem="tp7-c9-SAI" secondAttribute="bottom" id="53Y-j2-91L"/>
+                                                    <constraint firstItem="ai2-U8-bWV" firstAttribute="top" secondItem="CpU-eO-1rT" secondAttribute="top" id="9Ub-Uq-cFu"/>
+                                                    <constraint firstItem="ai2-U8-bWV" firstAttribute="leading" secondItem="CpU-eO-1rT" secondAttribute="leading" id="Bxc-d8-IUr"/>
+                                                    <constraint firstAttribute="bottom" secondItem="ai2-U8-bWV" secondAttribute="bottom" id="Dii-W1-r7Y"/>
+                                                    <constraint firstAttribute="height" constant="30" id="JTI-KL-3SK"/>
+                                                    <constraint firstAttribute="trailing" secondItem="ai2-U8-bWV" secondAttribute="trailing" id="M5i-cX-MBs"/>
+                                                    <constraint firstAttribute="trailing" secondItem="tp7-c9-SAI" secondAttribute="trailing" id="Scd-P0-Rw3"/>
+                                                    <constraint firstAttribute="width" constant="30" id="WPJ-je-SrI"/>
+                                                    <constraint firstItem="tp7-c9-SAI" firstAttribute="top" secondItem="CpU-eO-1rT" secondAttribute="top" id="chm-hQ-SNv"/>
+                                                    <constraint firstItem="tp7-c9-SAI" firstAttribute="leading" secondItem="CpU-eO-1rT" secondAttribute="leading" id="jLr-98-lCz"/>
+                                                </constraints>
+                                            </view>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Airlines" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hj6-Lm-xe5">
+                                                <rect key="frame" x="20" y="100" width="51" height="19.333333333333329"/>
+                                                <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="14"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="130" id="82Y-UL-qat"/>
+                                            <constraint firstItem="hj6-Lm-xe5" firstAttribute="top" secondItem="CpU-eO-1rT" secondAttribute="bottom" constant="5" id="8PF-Mc-TmY"/>
+                                            <constraint firstItem="CpU-eO-1rT" firstAttribute="top" secondItem="f3x-e8-KEC" secondAttribute="top" constant="65" id="HsB-zf-qMD"/>
+                                            <constraint firstItem="CpU-eO-1rT" firstAttribute="leading" secondItem="f3x-e8-KEC" secondAttribute="leading" constant="10" id="Yg8-oy-Yej"/>
+                                            <constraint firstItem="hj6-Lm-xe5" firstAttribute="leading" secondItem="f3x-e8-KEC" secondAttribute="leading" constant="20" id="ftS-Mg-OpM"/>
                                         </constraints>
                                     </view>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Qx6-hb-K8i">
@@ -2152,7 +2194,7 @@ stops</string>
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" name="AppBGColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="AoQ-fa-m6u" secondAttribute="trailing" constant="30" id="02B-X7-SCH"/>
                                     <constraint firstItem="Qx6-hb-K8i" firstAttribute="leading" secondItem="Uri-rg-oBP" secondAttribute="leading" id="G6d-Qj-Whj"/>
@@ -2179,11 +2221,10 @@ stops</string>
                     <connections>
                         <outlet property="commonTableView" destination="Qx6-hb-K8i" id="RME-Un-FY3"/>
                         <outlet property="holderView" destination="Uri-rg-oBP" id="M2Q-2c-K1e"/>
-                        <outlet property="navBar" destination="f3x-e8-KEC" id="vOQ-dh-FmC"/>
-                        <outlet property="navHeight" destination="82Y-UL-qat" id="d0u-gK-zhI"/>
                         <outlet property="searchImg" destination="COI-pV-foD" id="aau-Ev-T0D"/>
                         <outlet property="searchTF" destination="D8u-3D-fNd" id="MCA-sN-gqP"/>
                         <outlet property="searchTextfieldHolderView" destination="AoQ-fa-m6u" id="rK4-ei-GKs"/>
+                        <outlet property="titlelbl" destination="hj6-Lm-xe5" id="ny4-Ii-rt9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yNf-7M-pBf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -2198,14 +2239,12 @@ stops</string>
         <image name="filter1" width="20" height="20"/>
         <image name="filter5" width="18" height="16.333333969116211"/>
         <image name="fs" width="424" height="53.333332061767578"/>
+        <image name="leftarrow" width="32" height="32"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <image name="multiply" catalog="system" width="128" height="111"/>
         <image name="ring1" width="299" height="299"/>
         <image name="sort" width="8.6666669845581055" height="10.333333015441895"/>
         <image name="wifi" catalog="system" width="128" height="90"/>
-        <namedColor name="AppBGColor">
-            <color red="0.90200001001358032" green="0.9100000262260437" blue="0.90600001811981201" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="AppBackgroundColor">
             <color red="0.016000000759959221" green="0.28999999165534973" blue="0.68599998950958252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

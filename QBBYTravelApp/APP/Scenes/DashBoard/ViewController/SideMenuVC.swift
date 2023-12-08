@@ -34,7 +34,7 @@ class SideMenuVC: BaseTableVC, ProfileUpdateViewModelDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(loginDone), name: NSNotification.Name("logindon"), object: nil)
         
         
-        let logstatus = defaults.bool(forKey: UserDefaultsKeys.userLoggedIn)
+        let logstatus = defaults.bool(forKey: UserDefaultsKeys.loggedInStatus)
         if logstatus == true {
             callProfileDetailsAPI()
         }
@@ -105,7 +105,7 @@ class SideMenuVC: BaseTableVC, ProfileUpdateViewModelDelegate {
         tablerow.append(TableRow(title:"Holiday",key: "menu", image: "menu6",cellType:.checkOptionsTVCell))
         tablerow.append(TableRow(height:10,cellType:.EmptyTVCell))
         tablerow.append(TableRow(title:"Traveler Tools",key: "ourproducts", image: "",cellType:.MenuTitleTVCell))
-        if defaults.bool(forKey: UserDefaultsKeys.userLoggedIn) == true {
+        if defaults.bool(forKey: UserDefaultsKeys.loggedInStatus) == true {
             tablerow.append(TableRow(title:"Check My Bookings",key: "menu", image: "menu1",cellType:.checkOptionsTVCell))
         }
         tablerow.append(TableRow(title:"FAQ's",key: "menu", image: "menu2",cellType:.checkOptionsTVCell))
@@ -115,7 +115,7 @@ class SideMenuVC: BaseTableVC, ProfileUpdateViewModelDelegate {
         tablerow.append(TableRow(height:50,cellType:.EmptyTVCell))
         
         
-        if defaults.bool(forKey: UserDefaultsKeys.userLoggedIn) == true {
+        if defaults.bool(forKey: UserDefaultsKeys.loggedInStatus) == true {
             tablerow.append(TableRow(height:30,cellType:.EmptyTVCell))
             tablerow.append(TableRow(title:"Logout",key: "menu", image: "logout",cellType:.checkOptionsTVCell))
             tablerow.append(TableRow(height:30,cellType:.EmptyTVCell))

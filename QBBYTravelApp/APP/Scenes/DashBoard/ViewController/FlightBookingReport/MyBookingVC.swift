@@ -29,7 +29,7 @@ class MyBookingVC: BaseTableVC {
     var vm:MyBookingViewModel?
     
     override func viewWillAppear(_ animated: Bool) {
-        let logstatus = defaults.bool(forKey: UserDefaultsKeys.userLoggedIn)
+        let logstatus = defaults.bool(forKey: UserDefaultsKeys.loggedInStatus)
         if logstatus == true {
             TableViewHelper.EmptyMessage(message: "", tableview: commonTableView, vc: self)
             callUpcommingBookingsAPI()

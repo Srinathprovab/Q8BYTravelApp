@@ -51,7 +51,7 @@ class LoginVC: BaseTableVC {
     
     func setupTV() {
         
-        if isvcFrom == "splashscreen" {
+        if isvcFrom == "vc" {
             skipbtn.isHidden = false
             backbtn.isHidden = true
         }else {

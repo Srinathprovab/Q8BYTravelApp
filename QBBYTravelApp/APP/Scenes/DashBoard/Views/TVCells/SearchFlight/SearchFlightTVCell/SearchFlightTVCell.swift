@@ -223,12 +223,12 @@ extension SearchFlightTVCell:UITableViewDelegate,UITableViewDataSource {
                     
                     if self.key == "roundtrip" {
                         
-                        if defaults.string(forKey: UserDefaultsKeys.rfromCity)?.isEmpty == true {
+                        if defaults.string(forKey: UserDefaultsKeys.fromCity)?.isEmpty == true {
                             cell.titlelbl.text = "From"
                             cell.tolabel.text = "To"
                         }else {
-                            cell.titlelbl.text = defaults.string(forKey: UserDefaultsKeys.rfromCity) ?? "From"
-                            cell.tolabel.text = defaults.string(forKey: UserDefaultsKeys.rtoCity) ?? "To"
+                            cell.titlelbl.text = defaults.string(forKey: UserDefaultsKeys.fromCity) ?? "From"
+                            cell.tolabel.text = defaults.string(forKey: UserDefaultsKeys.toCity) ?? "To"
                         }
                     }else {
                         
@@ -257,12 +257,12 @@ extension SearchFlightTVCell:UITableViewDelegate,UITableViewDataSource {
                     if self.key == "roundtrip" {
                         cell.showReturnView()
                         
-                        if defaults.string(forKey: UserDefaultsKeys.rcalDepDate)?.isEmpty == true {
+                        if defaults.string(forKey: UserDefaultsKeys.calDepDate)?.isEmpty == true {
                             cell.deplbl.text = "Select Date"
                             cell.returnlbl.text = "Select Date"
                         }else {
-                            cell.deplbl.text = defaults.string(forKey: UserDefaultsKeys.rcalDepDate) ?? "Select Date"
-                            cell.returnlbl.text = defaults.string(forKey: UserDefaultsKeys.rcalRetDate) ?? "Select Date"
+                            cell.deplbl.text = defaults.string(forKey: UserDefaultsKeys.calDepDate) ?? "Select Date"
+                            cell.returnlbl.text = defaults.string(forKey: UserDefaultsKeys.calRetDate) ?? "Select Date"
                         }
                     }else {
                         
@@ -290,7 +290,7 @@ extension SearchFlightTVCell:UITableViewDelegate,UITableViewDataSource {
                     cell.cal2img.image = UIImage(named: "airlines")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppJournyTabSelectColor)
 
                     if self.key == "roundtrip" {
-                        cell.deplbl.text = "\(defaults.string(forKey: UserDefaultsKeys.rtravellerDetails) ?? "+ Add Traveller")"
+                        cell.deplbl.text = "\(defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "+ Add Traveller")"
                     }else {
                         cell.deplbl.text = "\(defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "+ Add Traveller")"
                     }

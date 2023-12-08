@@ -11,11 +11,10 @@ class NationalityVC: BaseTableVC, AirlinesListVModelDelegate {
     
     
     @IBOutlet weak var holderView: UIView!
-    @IBOutlet weak var navBar: NavBar!
-    @IBOutlet weak var navHeight: NSLayoutConstraint!
     @IBOutlet weak var searchTextfieldHolderView: UIView!
     @IBOutlet weak var searchImg: UIImageView!
     @IBOutlet weak var searchTF: UITextField!
+    @IBOutlet weak var titlelbl: UILabel!
     
     
     var airlinecodeArray = [String]()
@@ -53,10 +52,10 @@ class NationalityVC: BaseTableVC, AirlinesListVModelDelegate {
         
         if let tabselect = defaults.string(forKey: UserDefaultsKeys.tabselect) {
             if tabselect == "Airline" {
-                navBar.titlelbl.text = "Airlines"
+                titlelbl.text = "Airlines"
                 callAPI()
             }else {
-                navBar.titlelbl.text = "Nationality"
+                titlelbl.text = "Nationality"
             }
         }
     }
@@ -74,16 +73,7 @@ class NationalityVC: BaseTableVC, AirlinesListVModelDelegate {
     
     func setupUI() {
         
-        if screenHeight > 835 {
-            navHeight.constant = 130
-        }else {
-            navHeight.constant = 110
-        }
-        
-        
         holderView.backgroundColor = .AppHolderViewColor
-       
-        navBar.backBtn.addTarget(self, action: #selector(didTapOnBackButton(_:)), for: .touchUpInside)
         searchTextfieldHolderView.backgroundColor = HexColor("#E6E8E7")
         searchTextfieldHolderView.addCornerRadiusWithShadow(color: .clear, borderColor: .clear, cornerRadius: 6)
         searchImg.image = UIImage(named: "search")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppBackgroundColor)
@@ -92,9 +82,11 @@ class NationalityVC: BaseTableVC, AirlinesListVModelDelegate {
         searchTF.setLeftPaddingPoints(40)
         searchTF.font = UIFont.LatoRegular(size: 16)
         searchTF.addTarget(self, action: #selector(searchTextChanged(_:)), for: .editingChanged)
+        searchTF.placeholder = "Search Airlines"
         commonTableView.register(UINib(nibName: "TitleLblTVCell", bundle: nil), forCellReuseIdentifier: "cell")
         commonTableView.separatorStyle = .singleLine
         commonTableView.separatorColor = .lightGray
+        
         
     }
     
@@ -138,6 +130,11 @@ class NationalityVC: BaseTableVC, AirlinesListVModelDelegate {
         }
         
         commonTableView.reloadData()
+    }
+    
+    
+    @IBAction func didTapOnBackBtnAction(_ sender: Any) {
+        dismiss(animated: true)
     }
     
     

@@ -65,6 +65,7 @@ class CreateAccountVC: BaseTableVC, RegisterUserViewModelDelegate {
         tablerow.removeAll()
         
        
+        tablerow.append(TableRow(height:65,cellType:.EmptyTVCell))
         tablerow.append(TableRow(key:"createaccount",cellType:.LogoImgTVCell))
         tablerow.append(TableRow(cellType:.CreateAccountTVCell))
         

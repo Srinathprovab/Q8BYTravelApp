@@ -25,10 +25,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KFG-tr-Oxs">
-                        <rect key="frame" x="10" y="0.0" width="369" height="52"/>
+                        <rect key="frame" x="16" y="0.0" width="357" height="52"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hia-9M-6jB">
-                                <rect key="frame" x="0.0" y="0.0" width="369" height="30"/>
+                                <rect key="frame" x="0.0" y="0.0" width="357" height="30"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fare Rules" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dN2-Mw-Qjc">
                                         <rect key="frame" x="10" y="4" width="77" height="22"/>
@@ -37,14 +37,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="downarrow1" translatesAutoresizingMaskIntoConstraints="NO" id="bnO-7r-PhY">
-                                        <rect key="frame" x="344" y="12.666666666666666" width="10" height="4.9999999999999982"/>
+                                        <rect key="frame" x="332" y="12.666666666666666" width="10" height="4.9999999999999982"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="10" id="gYf-lS-xCw"/>
                                             <constraint firstAttribute="height" constant="5" id="om3-Hm-7AB"/>
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zSq-xO-aBJ">
-                                        <rect key="frame" x="0.0" y="0.0" width="369" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="357" height="30"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain"/>
                                         <connections>
@@ -66,7 +66,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="S2W-on-of8">
-                                <rect key="frame" x="0.0" y="40" width="369" height="0.0"/>
+                                <rect key="frame" x="0.0" y="40" width="357" height="0.0"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" id="MHx-kH-P1k"/>
@@ -89,8 +89,8 @@
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="KFG-tr-Oxs" secondAttribute="bottom" id="JRZ-KV-kzC"/>
                     <constraint firstItem="KFG-tr-Oxs" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="PAL-AG-7aM"/>
-                    <constraint firstItem="KFG-tr-Oxs" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="hLB-R9-gsv"/>
-                    <constraint firstAttribute="trailing" secondItem="KFG-tr-Oxs" secondAttribute="trailing" constant="10" id="jel-eQ-f7F"/>
+                    <constraint firstItem="KFG-tr-Oxs" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="hLB-R9-gsv"/>
+                    <constraint firstAttribute="trailing" secondItem="KFG-tr-Oxs" secondAttribute="trailing" constant="16" id="jel-eQ-f7F"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

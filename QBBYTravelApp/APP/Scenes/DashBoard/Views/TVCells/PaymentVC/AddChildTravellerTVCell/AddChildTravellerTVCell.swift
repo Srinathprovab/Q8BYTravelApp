@@ -73,7 +73,7 @@ class AddChildTravellerTVCell: TableViewCell, AddAdultsOrGuestTVCellDelegate {
             if journeyType == "oneway" {
                 childCount = Int(defaults.string(forKey: UserDefaultsKeys.childCount) ?? "0") ?? 0
             }else if journeyType == "circle"{
-                childCount = Int(defaults.string(forKey: UserDefaultsKeys.rchildCount) ?? "0") ?? 0
+                childCount = Int(defaults.string(forKey: UserDefaultsKeys.childCount) ?? "0") ?? 0
             }else {
                 childCount = Int(defaults.string(forKey: UserDefaultsKeys.mchildCount) ?? "0") ?? 0
             }

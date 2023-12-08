@@ -95,7 +95,7 @@ extension CommonTVCell:UITableViewDataSource,UITableViewDelegate {
                     defaults.set(cell.titlelbl.text ?? "", forKey: UserDefaultsKeys.selectClass)
                     defaults.set(indexPath.row, forKey: UserDefaultsKeys.select_classIndex)
                 }else if journeyType == "circle"{
-                    defaults.set(cell.titlelbl.text ?? "", forKey: UserDefaultsKeys.rselectClass)
+                    defaults.set(cell.titlelbl.text ?? "", forKey: UserDefaultsKeys.selectClass)
                     defaults.set(indexPath.row, forKey: UserDefaultsKeys.rselect_classIndex)
                 }else {
                     defaults.set(cell.titlelbl.text ?? "", forKey: UserDefaultsKeys.mselectClass)

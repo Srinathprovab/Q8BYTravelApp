@@ -59,8 +59,8 @@ class ItineraryTVCell: TableViewCell {
         setuplabels(lbl: layoverCitylbl, text: "", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12), align: .center)
         
         
-        fromairportname.numberOfLines = 2
-        toairportname.numberOfLines = 2
+        fromairportname.numberOfLines = 0
+        toairportname.numberOfLines = 0
         
       
         

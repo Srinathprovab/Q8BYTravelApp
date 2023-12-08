@@ -53,10 +53,10 @@ class ResetPasswordVC: BaseTableVC {
     func appendLoginTvcells() {
         tablerow.removeAll()
         
-        tablerow.append(TableRow(height:80,cellType:.EmptyTVCell))
+        tablerow.append(TableRow(height:65,cellType:.EmptyTVCell))
         tablerow.append(TableRow(key:"resetpassword",cellType:.LogoImgTVCell))
         tablerow.append(TableRow(title:"Email Address*",text:"1", tempText: "Email Address",cellType:.TextfieldTVCell))
-        tablerow.append(TableRow(title:"Mobile No*",key: "mobile",text:"22", tempText: "Mobile Number",cellType:.TextfieldTVCell))
+        tablerow.append(TableRow(title:"Mobile Number*",key: "mobile",text:"22", tempText: "Mobile Number",cellType:.TextfieldTVCell))
         
         tablerow.append(TableRow(height:20,cellType:.EmptyTVCell))
         tablerow.append(TableRow(title:"Send",cellType:.ButtonTVCell))

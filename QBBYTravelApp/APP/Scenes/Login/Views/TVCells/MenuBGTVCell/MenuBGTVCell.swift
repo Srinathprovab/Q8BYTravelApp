@@ -34,7 +34,7 @@ class MenuBGTVCell: TableViewCell {
     }
     
     override func updateUI() {
-        let logstatus = defaults.bool(forKey: UserDefaultsKeys.userLoggedIn)
+        let logstatus = defaults.bool(forKey: UserDefaultsKeys.loggedInStatus)
         if logstatus == true {
             
             loginBtn.setTitle("\(profildata?.first_name ?? "") \(profildata?.last_name ?? "")", for: .normal)

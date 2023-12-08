@@ -73,13 +73,13 @@ class DashBoardVC: BaseTableVC, HomePageViewModelDelegate, GetCountryListViewMod
                 defaults.set(totaltraverlers, forKey: UserDefaultsKeys.travellerDetails)
                 defaults.set("1", forKey: UserDefaultsKeys.totalTravellerCount)
                 
-                defaults.set("Economy", forKey: UserDefaultsKeys.rselectClass)
-                defaults.set("1", forKey: UserDefaultsKeys.radultCount)
-                defaults.set("0", forKey: UserDefaultsKeys.rchildCount)
-                defaults.set("0", forKey: UserDefaultsKeys.rinfantsCount)
+                defaults.set("Economy", forKey: UserDefaultsKeys.selectClass)
+                defaults.set("1", forKey: UserDefaultsKeys.adultCount)
+                defaults.set("0", forKey: UserDefaultsKeys.childCount)
+                defaults.set("0", forKey: UserDefaultsKeys.infantsCount)
                 
-                let totaltraverlers1 = "\(defaults.string(forKey: UserDefaultsKeys.totalTravellerCount) ?? "1") Traveller - \(defaults.string(forKey: UserDefaultsKeys.rselectClass) ?? "Economy")"
-                defaults.set(totaltraverlers1, forKey: UserDefaultsKeys.rtravellerDetails)
+                let totaltraverlers1 = "\(defaults.string(forKey: UserDefaultsKeys.totalTravellerCount) ?? "1") Traveller - \(defaults.string(forKey: UserDefaultsKeys.selectClass) ?? "Economy")"
+                defaults.set(totaltraverlers1, forKey: UserDefaultsKeys.travellerDetails)
                 
                 
                 defaults.set("Economy", forKey: UserDefaultsKeys.mselectClass)
@@ -95,16 +95,16 @@ class DashBoardVC: BaseTableVC, HomePageViewModelDelegate, GetCountryListViewMod
             }
         }
         
-        //Hotel default Values
-        defaults.set("1", forKey: UserDefaultsKeys.roomcount)
-        defaults.set("1", forKey: UserDefaultsKeys.hoteladultscount)
-        defaults.set("0", forKey: UserDefaultsKeys.hotelchildcount)
-        adtArray.removeAll()
-        chArray.removeAll()
-        adtArray.append("1")
-        chArray.append("0")
-        defaults.set("\(defaults.string(forKey: UserDefaultsKeys.roomcount) ?? "") Rooms,\(defaults.string(forKey: UserDefaultsKeys.hoteladultscount) ?? "") Adults,\(defaults.string(forKey: UserDefaultsKeys.hotelchildcount) ?? "") Childreen", forKey: UserDefaultsKeys.selectPersons)
-        defaults.set(2, forKey: UserDefaultsKeys.guestcount)
+//        //Hotel default Values
+//        defaults.set("1", forKey: UserDefaultsKeys.roomcount)
+//        defaults.set("1", forKey: UserDefaultsKeys.hoteladultscount)
+//        defaults.set("0", forKey: UserDefaultsKeys.hotelchildcount)
+//        adtArray.removeAll()
+//        chArray.removeAll()
+//        adtArray.append("1")
+//        chArray.append("0")
+//        defaults.set("\(defaults.string(forKey: UserDefaultsKeys.roomcount) ?? "") Rooms,\(defaults.string(forKey: UserDefaultsKeys.hoteladultscount) ?? "") Adults,\(defaults.string(forKey: UserDefaultsKeys.hotelchildcount) ?? "") Childreen", forKey: UserDefaultsKeys.selectPersons)
+//        defaults.set(2, forKey: UserDefaultsKeys.guestcount)
         
         if callapibool == true {
             callApi()
