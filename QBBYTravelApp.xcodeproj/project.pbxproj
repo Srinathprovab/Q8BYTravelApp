@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		03FCC858492A037446A098B8 /* Pods_QBBYTravelApp_QBBYTravelAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C01B2FE9D187DEA42F5F7DB /* Pods_QBBYTravelApp_QBBYTravelAppUITests.framework */; };
 		0421AC6AB90A64B28AA3A3E6 /* Pods_QBBYTravelAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4227826EB70D406738DE1D0 /* Pods_QBBYTravelAppTests.framework */; };
+		650575A32B22ECB00029BB6A /* loder.gif in Resources */ = {isa = PBXBuildFile; fileRef = 650575A22B22ECB00029BB6A /* loder.gif */; };
 		650722A329E191B600C14292 /* FDModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650722A229E191B600C14292 /* FDModel.swift */; };
 		650722A529E191EC00C14292 /* JourneySummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650722A429E191EC00C14292 /* JourneySummary.swift */; };
 		650722A729E191F200C14292 /* FlightDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 650722A629E191F200C14292 /* FlightDetails.swift */; };
@@ -442,6 +443,7 @@
 
 /* Begin PBXFileReference section */
 		63108F0AC6154F8815E1AD20 /* Pods-QBBYTravelApp-QBBYTravelAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QBBYTravelApp-QBBYTravelAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-QBBYTravelApp-QBBYTravelAppUITests/Pods-QBBYTravelApp-QBBYTravelAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		650575A22B22ECB00029BB6A /* loder.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = loder.gif; sourceTree = "<group>"; };
 		650722A229E191B600C14292 /* FDModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FDModel.swift; sourceTree = "<group>"; };
 		650722A429E191EC00C14292 /* JourneySummary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JourneySummary.swift; sourceTree = "<group>"; };
 		650722A629E191F200C14292 /* FlightDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlightDetails.swift; sourceTree = "<group>"; };
@@ -2041,6 +2043,7 @@
 		654C890E29630A7F006BAF76 /* Service Manager */ = {
 			isa = PBXGroup;
 			children = (
+				650575A22B22ECB00029BB6A /* loder.gif */,
 				654C890F29630A7F006BAF76 /* ServiceManager.swift */,
 			);
 			path = "Service Manager";
@@ -2863,6 +2866,7 @@
 				655CBA042A1B2CD000D594C3 /* FromCityTVCell.xib in Resources */,
 				654C897D29630A80006BAF76 /* MenuBGTVCell.xib in Resources */,
 				654A8A622A1877F30031FAC5 /* NavBar.xib in Resources */,
+				650575A32B22ECB00029BB6A /* loder.gif in Resources */,
 				65B2CA8A2AE6704400AD2B27 /* CreateAccountTVCell.xib in Resources */,
 				654C89AE29630A80006BAF76 /* Poppins-ExtraBold.ttf in Resources */,
 				654C89B329630A80006BAF76 /* OpenSans-Semibold.ttf in Resources */,

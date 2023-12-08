@@ -37,10 +37,10 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dropup" translatesAutoresizingMaskIntoConstraints="NO" id="gci-Kb-4Tt">
-                                        <rect key="frame" x="380" y="20" width="10" height="5"/>
+                                        <rect key="frame" x="366" y="10.666666666666664" width="24" height="24"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="10" id="KFf-n7-bgx"/>
-                                            <constraint firstAttribute="height" constant="5" id="aPZ-Df-uxY"/>
+                                            <constraint firstAttribute="width" constant="24" id="KFf-n7-bgx"/>
+                                            <constraint firstAttribute="height" constant="24" id="aPZ-Df-uxY"/>
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bHb-HS-aV4">
@@ -463,8 +463,8 @@
     </objects>
     <resources>
         <image name="cal" width="18" height="20"/>
-        <image name="downarrow" width="8.6666669845581055" height="4.3333334922790527"/>
-        <image name="dropup" width="4" height="2.6666667461395264"/>
+        <image name="downarrow" width="24" height="24"/>
+        <image name="dropup" width="24" height="24"/>
         <namedColor name="AppBGColor">
             <color red="0.90200001001358032" green="0.9100000262260437" blue="0.90600001811981201" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

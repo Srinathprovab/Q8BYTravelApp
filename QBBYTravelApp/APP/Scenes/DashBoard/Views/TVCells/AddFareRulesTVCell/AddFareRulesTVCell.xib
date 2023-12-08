@@ -17,34 +17,35 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="52" id="KGk-i7-Jjw" customClass="AddFareRulesTVCell" customModule="Q8BYTravelApp" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="389" height="52"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="42" id="KGk-i7-Jjw" customClass="AddFareRulesTVCell" customModule="Q8BYTravelApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="388" height="42"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="389" height="52"/>
+                <rect key="frame" x="0.0" y="0.0" width="388" height="42"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KFG-tr-Oxs">
-                        <rect key="frame" x="16" y="0.0" width="357" height="52"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KFG-tr-Oxs" customClass="BorderedView" customModule="Q8BYTravelApp" customModuleProvider="target">
+                        <rect key="frame" x="16" y="0.0" width="356" height="42"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hia-9M-6jB">
-                                <rect key="frame" x="0.0" y="0.0" width="357" height="30"/>
+                                <rect key="frame" x="0.0" y="0.0" width="356" height="40"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fare Rules" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dN2-Mw-Qjc">
-                                        <rect key="frame" x="10" y="4" width="77" height="22"/>
+                                        <rect key="frame" x="10" y="9" width="77" height="22"/>
                                         <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="16"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="downarrow1" translatesAutoresizingMaskIntoConstraints="NO" id="bnO-7r-PhY">
-                                        <rect key="frame" x="332" y="12.666666666666666" width="10" height="4.9999999999999982"/>
+                                        <rect key="frame" x="317" y="8" width="24" height="24"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="10" id="gYf-lS-xCw"/>
-                                            <constraint firstAttribute="height" constant="5" id="om3-Hm-7AB"/>
+                                            <constraint firstAttribute="width" constant="24" id="gYf-lS-xCw"/>
+                                            <constraint firstAttribute="height" constant="24" id="om3-Hm-7AB"/>
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zSq-xO-aBJ">
-                                        <rect key="frame" x="0.0" y="0.0" width="357" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="356" height="40"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain"/>
                                         <connections>
@@ -52,7 +53,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" name="FromcityBorderColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="bnO-7r-PhY" secondAttribute="trailing" constant="15" id="2OG-Hd-oba"/>
                                     <constraint firstItem="bnO-7r-PhY" firstAttribute="centerY" secondItem="Hia-9M-6jB" secondAttribute="centerY" id="3On-fp-PGv"/>
@@ -61,12 +62,23 @@
                                     <constraint firstItem="zSq-xO-aBJ" firstAttribute="leading" secondItem="Hia-9M-6jB" secondAttribute="leading" id="aCn-84-Q0G"/>
                                     <constraint firstAttribute="trailing" secondItem="zSq-xO-aBJ" secondAttribute="trailing" id="jHT-2i-azp"/>
                                     <constraint firstItem="dN2-Mw-Qjc" firstAttribute="leading" secondItem="Hia-9M-6jB" secondAttribute="leading" constant="10" id="ngx-qT-Kcs"/>
-                                    <constraint firstAttribute="height" constant="30" id="xdR-L1-mbF"/>
+                                    <constraint firstAttribute="height" constant="40" id="pGE-cz-l4U"/>
                                     <constraint firstAttribute="bottom" secondItem="zSq-xO-aBJ" secondAttribute="bottom" id="y48-nj-kDK"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                        <color key="value" name="AppBorderColor"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="S2W-on-of8">
-                                <rect key="frame" x="0.0" y="40" width="357" height="0.0"/>
+                                <rect key="frame" x="0.0" y="40" width="356" height="0.0"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" id="MHx-kH-P1k"/>
@@ -75,15 +87,25 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="S2W-on-of8" firstAttribute="top" secondItem="Hia-9M-6jB" secondAttribute="bottom" constant="10" id="3Tc-z4-zR2"/>
-                            <constraint firstAttribute="bottom" secondItem="S2W-on-of8" secondAttribute="bottom" constant="12" id="9aj-sy-9bF"/>
+                            <constraint firstItem="S2W-on-of8" firstAttribute="top" secondItem="Hia-9M-6jB" secondAttribute="bottom" id="7cx-Mi-as2"/>
                             <constraint firstAttribute="trailing" secondItem="S2W-on-of8" secondAttribute="trailing" id="EUI-gu-Lct"/>
                             <constraint firstItem="Hia-9M-6jB" firstAttribute="top" secondItem="KFG-tr-Oxs" secondAttribute="top" id="WdR-3m-69A"/>
                             <constraint firstAttribute="trailing" secondItem="Hia-9M-6jB" secondAttribute="trailing" id="WpC-0c-A45"/>
                             <constraint firstItem="S2W-on-of8" firstAttribute="leading" secondItem="KFG-tr-Oxs" secondAttribute="leading" id="gGR-0z-xjk"/>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="52" id="lAD-fQ-ajS"/>
+                            <constraint firstAttribute="bottom" secondItem="S2W-on-of8" secondAttribute="bottom" constant="2" id="l0k-4Z-1SB"/>
                             <constraint firstItem="Hia-9M-6jB" firstAttribute="leading" secondItem="KFG-tr-Oxs" secondAttribute="leading" id="tsV-FB-wWx"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" name="AppBorderColor"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="1"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
                 <constraints>
@@ -99,12 +121,12 @@
                 <outlet property="farerulesTV" destination="S2W-on-of8" id="Qjm-ct-UKx"/>
                 <outlet property="tvHeight" destination="MHx-kH-P1k" id="VfB-N6-aI3"/>
             </connections>
-            <point key="canvasLocation" x="54.198473282442748" y="80.985915492957744"/>
+            <point key="canvasLocation" x="53.435114503816791" y="89.436619718309871"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="downarrow1" width="8.6666669845581055" height="4.3333334922790527"/>
-        <namedColor name="FromcityBorderColor">
+        <namedColor name="AppBorderColor">
             <color red="0.65100002288818359" green="0.76099997758865356" blue="0.98000001907348633" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">

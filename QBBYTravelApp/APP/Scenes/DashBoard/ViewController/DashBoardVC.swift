@@ -38,77 +38,13 @@ class DashBoardVC: BaseTableVC, HomePageViewModelDelegate, GetCountryListViewMod
     var gestureEnabled: Bool = true
     
     
-    @objc func offline(){
-        guard let vc = NoInternetConnectionVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .fullScreen
-        callapibool = true
-        present(vc, animated: true)
-    }
+    
     
     
     
     //MARK: - viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(offline), name: NSNotification.Name("offline"), object: nil)
-        
-        
-        if !UserDefaults.standard.bool(forKey: "ExecuteOnce") {
-            
-            if !UserDefaults.standard.bool(forKey: "ExecuteOnce") {
-                
-                defaults.set("Airline", forKey: UserDefaultsKeys.tabselect)
-                defaults.set("oneway", forKey: UserDefaultsKeys.journeyType)
-                defaults.set("KWD", forKey: UserDefaultsKeys.selectedCurrency)
-                defaults.set("Economy", forKey: UserDefaultsKeys.selectClass)
-                defaults.set("1", forKey: UserDefaultsKeys.adultCount)
-                defaults.set("0", forKey: UserDefaultsKeys.childCount)
-                defaults.set("0", forKey: UserDefaultsKeys.infantsCount)
-                defaults.set("1", forKey: UserDefaultsKeys.totalTravellerCount)
-                
-                
-                let totaltraverlers = "\(defaults.string(forKey: UserDefaultsKeys.totalTravellerCount) ?? "1") Traveller - \(defaults.string(forKey: UserDefaultsKeys.selectClass) ?? "Economy")"
-                
-                
-                defaults.set(totaltraverlers, forKey: UserDefaultsKeys.travellerDetails)
-                defaults.set("1", forKey: UserDefaultsKeys.totalTravellerCount)
-                
-                defaults.set("Economy", forKey: UserDefaultsKeys.selectClass)
-                defaults.set("1", forKey: UserDefaultsKeys.adultCount)
-                defaults.set("0", forKey: UserDefaultsKeys.childCount)
-                defaults.set("0", forKey: UserDefaultsKeys.infantsCount)
-                
-                let totaltraverlers1 = "\(defaults.string(forKey: UserDefaultsKeys.totalTravellerCount) ?? "1") Traveller - \(defaults.string(forKey: UserDefaultsKeys.selectClass) ?? "Economy")"
-                defaults.set(totaltraverlers1, forKey: UserDefaultsKeys.travellerDetails)
-                
-                
-                defaults.set("Economy", forKey: UserDefaultsKeys.mselectClass)
-                defaults.set("1", forKey: UserDefaultsKeys.madultCount)
-                defaults.set("0", forKey: UserDefaultsKeys.mchildCount)
-                defaults.set("0", forKey: UserDefaultsKeys.minfantsCount)
-                
-                let totaltraverlers3 = "\(defaults.string(forKey: UserDefaultsKeys.totalTravellerCount) ?? "1") Traveller - \(defaults.string(forKey: UserDefaultsKeys.mselectClass) ?? "Economy")"
-                defaults.set(totaltraverlers3, forKey: UserDefaultsKeys.mtravellerDetails)
-                
-                
-                UserDefaults.standard.set(true, forKey: "ExecuteOnce")
-            }
-        }
-        
-//        //Hotel default Values
-//        defaults.set("1", forKey: UserDefaultsKeys.roomcount)
-//        defaults.set("1", forKey: UserDefaultsKeys.hoteladultscount)
-//        defaults.set("0", forKey: UserDefaultsKeys.hotelchildcount)
-//        adtArray.removeAll()
-//        chArray.removeAll()
-//        adtArray.append("1")
-//        chArray.append("0")
-//        defaults.set("\(defaults.string(forKey: UserDefaultsKeys.roomcount) ?? "") Rooms,\(defaults.string(forKey: UserDefaultsKeys.hoteladultscount) ?? "") Adults,\(defaults.string(forKey: UserDefaultsKeys.hotelchildcount) ?? "") Childreen", forKey: UserDefaultsKeys.selectPersons)
-//        defaults.set(2, forKey: UserDefaultsKeys.guestcount)
-        
-        if callapibool == true {
-            callApi()
-        }
+        addObserver()
     }
     
     
@@ -205,7 +141,7 @@ class DashBoardVC: BaseTableVC, HomePageViewModelDelegate, GetCountryListViewMod
             break
             
         case "Hotel":
-          //  gotoBookHotelVC()
+            //  gotoBookHotelVC()
             break
             
             
@@ -480,4 +416,100 @@ extension DashBoardVC: UIGestureRecognizerDelegate {
             break
         }
     }
+}
+
+
+
+extension DashBoardVC {
+    
+    func addObserver() {
+        
+        
+        if !UserDefaults.standard.bool(forKey: "ExecuteOnce") {
+            
+            if !UserDefaults.standard.bool(forKey: "ExecuteOnce") {
+                
+                defaults.set("Airline", forKey: UserDefaultsKeys.tabselect)
+                defaults.set("oneway", forKey: UserDefaultsKeys.journeyType)
+                defaults.set("KWD", forKey: UserDefaultsKeys.selectedCurrency)
+                defaults.set("Economy", forKey: UserDefaultsKeys.selectClass)
+                defaults.set("1", forKey: UserDefaultsKeys.adultCount)
+                defaults.set("0", forKey: UserDefaultsKeys.childCount)
+                defaults.set("0", forKey: UserDefaultsKeys.infantsCount)
+                defaults.set("1", forKey: UserDefaultsKeys.totalTravellerCount)
+                
+                
+                let totaltraverlers = "\(defaults.string(forKey: UserDefaultsKeys.totalTravellerCount) ?? "1") Traveller - \(defaults.string(forKey: UserDefaultsKeys.selectClass) ?? "Economy")"
+                
+                
+                defaults.set(totaltraverlers, forKey: UserDefaultsKeys.travellerDetails)
+                defaults.set("1", forKey: UserDefaultsKeys.totalTravellerCount)
+                
+                defaults.set("Economy", forKey: UserDefaultsKeys.selectClass)
+                defaults.set("1", forKey: UserDefaultsKeys.adultCount)
+                defaults.set("0", forKey: UserDefaultsKeys.childCount)
+                defaults.set("0", forKey: UserDefaultsKeys.infantsCount)
+                
+                let totaltraverlers1 = "\(defaults.string(forKey: UserDefaultsKeys.totalTravellerCount) ?? "1") Traveller - \(defaults.string(forKey: UserDefaultsKeys.selectClass) ?? "Economy")"
+                defaults.set(totaltraverlers1, forKey: UserDefaultsKeys.travellerDetails)
+                
+                
+                defaults.set("Economy", forKey: UserDefaultsKeys.mselectClass)
+                defaults.set("1", forKey: UserDefaultsKeys.madultCount)
+                defaults.set("0", forKey: UserDefaultsKeys.mchildCount)
+                defaults.set("0", forKey: UserDefaultsKeys.minfantsCount)
+                
+                let totaltraverlers3 = "\(defaults.string(forKey: UserDefaultsKeys.totalTravellerCount) ?? "1") Traveller - \(defaults.string(forKey: UserDefaultsKeys.mselectClass) ?? "Economy")"
+                defaults.set(totaltraverlers3, forKey: UserDefaultsKeys.mtravellerDetails)
+                
+                
+                UserDefaults.standard.set(true, forKey: "ExecuteOnce")
+            }
+        }
+        
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(nointernet), name: Notification.Name("offline"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(resultnil), name: NSNotification.Name("resultnil"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(nointernetreload), name: NSNotification.Name("nointernetreload"), object: nil)
+        
+        
+        if callapibool == true {
+            callApi()
+        }
+        
+    }
+    
+    
+    @objc func nointernetreload(){
+        DispatchQueue.main.async {[self] in
+            callApi()
+        }
+    }
+    
+    
+    @objc func reload(){
+        DispatchQueue.main.async {[self] in
+            commonTableView.reloadData()
+        }
+    }
+    
+    @objc func nointernet(){
+        gotoNoInternetConnectionVC(key: "nointernet", titleStr: "")
+    }
+    
+    @objc func resultnil(){
+        gotoNoInternetConnectionVC(key: "noresult", titleStr: "NO AVAILABILITY FOR THIS REQUEST")
+    }
+    
+    
+    func gotoNoInternetConnectionVC(key:String,titleStr:String) {
+        guard let vc = NoInternetConnectionVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.key = key
+        vc.key = titleStr
+        self.present(vc, animated: false)
+    }
+    
+    
 }

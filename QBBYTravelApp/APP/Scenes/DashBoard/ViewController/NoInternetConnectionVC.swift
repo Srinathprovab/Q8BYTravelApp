@@ -102,17 +102,23 @@ class NoInternetConnectionVC: UIViewController {
                 }else {
                     gotoBookHotelVC()
                 }
-               
+                
             }
             
         }else if key == "noseat" {
-            if let tabselect = defaults.string(forKey: UserDefaultsKeys.tabselect),tabselect == "Flight" {
-                gotoBookFlightVC()
-            }else {
-                
+            
+            if let tabselect = defaults.string(forKey: UserDefaultsKeys.tabselect){
+                if tabselect == "Airline"  {
+                    gotoBookFlightVC()
+                }else {
+                    gotoBookHotelVC()
+                }
             }
+            
         }else {
-            NotificationCenter.default.post(name: NSNotification.Name("reload"), object: nil)
+            
+            callapibool = true 
+            NotificationCenter.default.post(name: NSNotification.Name("nointernetreload"), object: nil)
             dismiss(animated: false)
         }
     }

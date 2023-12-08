@@ -42,7 +42,7 @@ class TDetailsLoginTVCell: TableViewCell {
         loginBtnView.layer.cornerRadius = 4
         loginBtnView.clipsToBounds = true
         
-        titlelbl.text = "Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. At vel sed at"
+        titlelbl.text = "If you already have an account with Q8BY Please do sign in here."
         titlelbl.textColor = .WhiteColor
         titlelbl.font = UIFont.LatoRegular(size: 12)
         titlelbl.numberOfLines = 0

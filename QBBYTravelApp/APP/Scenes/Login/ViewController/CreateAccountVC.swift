@@ -26,19 +26,12 @@ class CreateAccountVC: BaseTableVC, RegisterUserViewModelDelegate {
     var pass = String()
     var cpass = String()
     var payload = [String:Any]()
-    
+    var apibool = false
     var vm:RegisterUserViewModel?
-    
-    @objc func offline(){
-        guard let vc = NoInternetConnectionVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .fullScreen
-        callapibool = true
-        present(vc, animated: true)
-    }
-    
+   
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(offline), name: NSNotification.Name("offline"), object: nil)
        // countryCode = defaults.string(forKey: UserDefaultsKeys.mobilecountrycode) ?? ""
+        addObserver()
     }
     
     
@@ -168,6 +161,7 @@ class CreateAccountVC: BaseTableVC, RegisterUserViewModelDelegate {
                 showToast(message: "Password Should Match")
                 setcolor(tf: cell.createPassTF, color: .red)
             }else {
+                apibool.toggle()
                 callRegAPI()
             }
         
@@ -223,4 +217,48 @@ extension CreateAccountVC {
             }
         }
     }
+}
+
+
+
+
+extension CreateAccountVC {
+    
+    func addObserver() {
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(nointernet), name: Notification.Name("offline"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(resultnil), name: NSNotification.Name("resultnil"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(nointernetreload), name: NSNotification.Name("nointernetreload"), object: nil)
+        
+    }
+    
+    
+    @objc func nointernetreload(){
+        DispatchQueue.main.async {[self] in
+            if apibool == true {
+                callRegAPI()
+            }
+        }
+    }
+ 
+    
+    @objc func nointernet(){
+        gotoNoInternetConnectionVC(key: "nointernet", titleStr: "")
+    }
+    
+    @objc func resultnil(){
+        gotoNoInternetConnectionVC(key: "noresult", titleStr: "NO AVAILABILITY FOR THIS REQUEST")
+    }
+    
+    
+    func gotoNoInternetConnectionVC(key:String,titleStr:String) {
+        guard let vc = NoInternetConnectionVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.key = key
+        vc.key = titleStr
+        self.present(vc, animated: false)
+    }
+    
+    
 }

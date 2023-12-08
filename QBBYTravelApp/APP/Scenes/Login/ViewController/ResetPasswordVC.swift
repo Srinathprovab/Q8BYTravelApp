@@ -17,22 +17,19 @@ class ResetPasswordVC: BaseTableVC {
         let vc = storyboard.instantiateViewController(withIdentifier: self.className()) as? ResetPasswordVC
         return vc
     }
+    
+    
+    var apibool = false
     var email = String()
     var mobileNo = String()
     var payload = [String:Any]()
     var vm:mobileforgotpasswordViewModel?
     
     
-    @objc func offline(){
-        guard let vc = NoInternetConnectionVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .fullScreen
-        callapibool = true
-        present(vc, animated: true)
-    }
+   
     
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(offline), name: NSNotification.Name("offline"), object: nil)
-        
+        addObserver()
     }
     
     override func viewDidLoad() {
@@ -94,11 +91,16 @@ class ResetPasswordVC: BaseTableVC {
         }else if mobileNo.isEmpty == true {
             showToast(message: "Enter Mobile No")
         }else{
-           
-            payload["email"] = email
-            payload["phone"] = mobileNo
-            vm?.CALL_MOBILE_FORGET_PASSWORD_API(dictParam: payload)
+            apibool = true
+            callAPI()
         }
+    }
+    
+    
+    func callAPI() {
+        payload["email"] = email
+        payload["phone"] = mobileNo
+        vm?.CALL_MOBILE_FORGET_PASSWORD_API(dictParam: payload)
     }
     
     
@@ -112,6 +114,50 @@ class ResetPasswordVC: BaseTableVC {
 extension ResetPasswordVC: mobileforgotpasswordViewModelDelegate{
     func forgetPassword(response: LoginModel) {
         showToast(message: response.data ?? "")
+    }
+    
+    
+}
+
+
+
+
+extension ResetPasswordVC {
+    
+    func addObserver() {
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(nointernet), name: Notification.Name("offline"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(resultnil), name: NSNotification.Name("resultnil"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(nointernetreload), name: NSNotification.Name("nointernetreload"), object: nil)
+        
+    }
+    
+    
+    @objc func nointernetreload(){
+        DispatchQueue.main.async {[self] in
+            if apibool == true {
+                callAPI()
+            }
+        }
+    }
+ 
+    
+    @objc func nointernet(){
+        gotoNoInternetConnectionVC(key: "nointernet", titleStr: "")
+    }
+    
+    @objc func resultnil(){
+        gotoNoInternetConnectionVC(key: "noresult", titleStr: "NO AVAILABILITY FOR THIS REQUEST")
+    }
+    
+    
+    func gotoNoInternetConnectionVC(key:String,titleStr:String) {
+        guard let vc = NoInternetConnectionVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.key = key
+        vc.key = titleStr
+        self.present(vc, animated: false)
     }
     
     

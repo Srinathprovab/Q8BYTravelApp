@@ -42,7 +42,7 @@ class PromocodeTVCell: TableViewCell {
         
         img.image = UIImage(named: "coupon")
         setupLabels(lbl: titlelbl, text: "Offers & Promocode", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 18))
-        setupLabels(lbl: subtitlelbl, text: "Have An E-coupon or Promo Codo ?", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12))
+        setupLabels(lbl: subtitlelbl, text: "Have An E-coupon or Promo Code ?", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12))
         setupViews(v: textFieldView, radius: 4, color: .WhiteColor)
         textFieldView.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.7).cgColor
         applyBtn.setTitle("Apply", for: .normal)

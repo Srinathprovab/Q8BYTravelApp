@@ -132,7 +132,7 @@ class AddDeatilsOfTravellerTVCell: TableViewCell {
     
     
     func collapsView() {
-        dropdownimg.image = UIImage(named: "down")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppLabelColor)
+        dropdownimg.image = UIImage(named: "downarrow")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppLabelColor)
         saveView.isHidden = true
         viewHeight.constant = 0
     }
@@ -171,7 +171,7 @@ class AddDeatilsOfTravellerTVCell: TableViewCell {
                 travelerArray[self.indexposition ].middlename = ""
                 travelerArray[self.indexposition ].laedpassenger = "0"
                 titledropDown.dataSource = ["Mr","Ms","Mrs"]
-                titleTF.placeholder = "Mr"
+                titleTF.placeholder = "Mr*"
             } else if cellInfo.key == "child" {
                 if travelerArray.count <= self.indexposition {
                     travelerArray += Array(repeating: Traveler(), count: (self.indexposition ) - travelerArray.count + 1)
@@ -181,7 +181,7 @@ class AddDeatilsOfTravellerTVCell: TableViewCell {
                 travelerArray[self.indexposition ].middlename = ""
                 travelerArray[self.indexposition ].laedpassenger = "0"
                 titledropDown.dataSource = ["Master","Miss"]
-                titleTF.placeholder = "Master"
+                titleTF.placeholder = "Master*"
             } else {
                 if travelerArray.count <= self.indexposition {
                     travelerArray += Array(repeating: Traveler(), count: (self.indexposition ) - travelerArray.count + 1)
@@ -191,7 +191,7 @@ class AddDeatilsOfTravellerTVCell: TableViewCell {
                 travelerArray[self.indexposition ].middlename = ""
                 travelerArray[self.indexposition ].laedpassenger = "0"
                 titledropDown.dataSource = ["Master","Miss"]
-                titleTF.placeholder = "Master"
+                titleTF.placeholder = "Master*"
             }
             
         }
@@ -224,14 +224,13 @@ class AddDeatilsOfTravellerTVCell: TableViewCell {
         collapsView()
         
         
-        setupTextField(txtField: titleTF, tag1: 11, label: "Title*", placeholder: mrplaceholder)
-        
-        setupTextField(txtField: fnameTF, tag1: 1, label: "First Name*", placeholder: "First Name")
-        setupTextField(txtField: lnameTF, tag1: 2, label: "Last Name*", placeholder: "Last Name")
-        setupTextField(txtField: dobTF, tag1: 3, label: "Date of Birth*", placeholder: "DOB")
-        setupTextField(txtField: passportnoTF, tag1: 5, label: "Passport NO*", placeholder: "Passport NO")
-        setupTextField(txtField: passportIssuingCountryTF, tag1: 6, label: "Passport Issuing Country*", placeholder: "Issuing Country")
-        setupTextField(txtField: passportExpireDateTF, tag1: 7, label: "Passport Exprity Date*", placeholder: "Exprity Date")
+        setupTextField(txtField: titleTF, tag1: 11, label: "Title*", placeholder: "\(mrplaceholder)*")
+        setupTextField(txtField: fnameTF, tag1: 1, label: "First Name*", placeholder: "First Name*")
+        setupTextField(txtField: lnameTF, tag1: 2, label: "Last Name*", placeholder: "Last Name*")
+        setupTextField(txtField: dobTF, tag1: 3, label: "Date of Birth*", placeholder: "DOB*")
+        setupTextField(txtField: passportnoTF, tag1: 5, label: "Passport NO*", placeholder: "Passport NO*")
+        setupTextField(txtField: passportIssuingCountryTF, tag1: 6, label: "Passport Issuing Country*", placeholder: "Issuing Country*")
+        setupTextField(txtField: passportExpireDateTF, tag1: 7, label: "Passport Expriy Date*", placeholder: "Expriy Date*")
         setupTextField(txtField: flyerProgramTF, tag1: 8, label: "Flyer Program ", placeholder: "Flyer Program")
         setupTextField(txtField: flyerNoTF, tag1: 9, label: "Flyer Number ", placeholder: "Flyer Number")
         

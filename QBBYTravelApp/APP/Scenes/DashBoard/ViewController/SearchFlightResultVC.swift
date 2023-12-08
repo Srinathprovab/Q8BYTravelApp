@@ -11,15 +11,14 @@ class SearchFlightResultVC: BaseTableVC, TimerManagerDelegate {
     
     
     @IBOutlet weak var holderView: UIView!
-    @IBOutlet weak var nav: NavBar!
-    @IBOutlet weak var navHeight: NSLayoutConstraint!
     @IBOutlet weak var sessonlbl: UILabel!
     @IBOutlet weak var flightsFoundlbl: UILabel!
     @IBOutlet weak var filterTapView: UIView!
     @IBOutlet weak var filterImg: UIImageView!
     @IBOutlet weak var filterTapBtn: UIButton!
     @IBOutlet weak var noofstopscv: UICollectionView!
-    
+    @IBOutlet weak var citycodeslbl: UILabel!
+    @IBOutlet weak var dateslbl: UILabel!
     
     
     static var newInstance: SearchFlightResultVC? {
@@ -64,23 +63,9 @@ class SearchFlightResultVC: BaseTableVC, TimerManagerDelegate {
     func setupUI() {
         
         
-        navHeight.constant = 174
-        
-        
         holderView.backgroundColor = .WhiteColor
         holderView.isHidden = false
         
-        nav.backBtn.addTarget(self, action: #selector(gotoBackScreen), for: .touchUpInside)
-        nav.citylbl.isHidden = false
-        
-        
-        nav.filterView.isHidden = true
-        nav.editView.isHidden = false
-        nav.editView.backgroundColor = HexColor("#FFB000")
-        nav.editBtn.addTarget(self, action: #selector(didTapOnEditSearchFlight(_:)), for: .touchUpInside)
-        nav.holderview.backgroundColor = .WhiteColor
-        
-       
         
         filterTapBtn.setTitle("", for: .normal)
         filterTapBtn.addTarget(self, action: #selector(didTapOnFilterBtnAction(_:)), for: .touchUpInside)
@@ -113,25 +98,9 @@ class SearchFlightResultVC: BaseTableVC, TimerManagerDelegate {
         self.present(vc, animated: false)
     }
     
-    @objc func gotoBackScreen() {
-        callapibool = false
-        TimerManager.shared.sessionStop()
-        guard let vc = BookFlightVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: false)
-    }
-    
-    
     
     override func didTapOnRefunduableBtn(cell: SearchFlightResultInfoTVCell) {
         print("didTapOnRefunduableBtn")
-    }
-    
-    
-    @objc func didTapOnEditSearchFlight(_ sender:UIButton) {
-        guard let vc = ModifyFlightSearchVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .overCurrentContext
-        self.present(vc, animated: false)
     }
     
     
@@ -153,6 +122,25 @@ class SearchFlightResultVC: BaseTableVC, TimerManagerDelegate {
     override func didTaponRoundTripCell(cell: RoundTripDetailsTVcell) {
         accesskey = cell.access_key1
         goToFlightInfoVC()
+    }
+    
+    
+    @IBAction func didTapOnBackBtnAction(_ sender: Any) {
+        callapibool = false
+        TimerManager.shared.sessionStop()
+        guard let vc = BookFlightVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: false)
+    }
+    
+    @IBAction func didTaponModifySearchBtnAction(_ sender: Any) {
+        gotoModifyFlightSearchVC()
+    }
+    
+    func gotoModifyFlightSearchVC() {
+        guard let vc = ModifyFlightSearchVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .overCurrentContext
+        self.present(vc, animated: false)
     }
     
 }
@@ -263,7 +251,6 @@ extension SearchFlightResultVC:OnewayViewModelDelegate {
     
     func callAPI() {
         viewmodel?.CALL_GET_FLIGHT_LIST_API(dictParam: payload)
-        
     }
     
     
@@ -277,7 +264,8 @@ extension SearchFlightResultVC:OnewayViewModelDelegate {
         TimerManager.shared.stopTimer()
         TimerManager.shared.startTimer(time: 900)
         
-        setuplabels(lbl: flightsFoundlbl, text: "\(response.data?.j_flight_list?.count ?? 0) Flights found", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12), align: .right)
+        
+        flightsFoundlbl.text = "\(response.data?.j_flight_list?.count ?? 0) Flights found"
         
         //        defaults.set("\(response.data?.search_params?.depature?.joined(separator: ","))", forKey: UserDefaultsKeys.journyDates)
         //
@@ -326,62 +314,15 @@ extension SearchFlightResultVC:OnewayViewModelDelegate {
     
     func onewayFlightList(response: OnewayModel) {
         
+        holderView.isHidden = false
         searchid = "\(response.data?.search_id ?? 0)"
         bookingsource = response.data?.booking_source ?? ""
         bookingsourcekey = response.data?.booking_source_key ?? ""
-        holderView.isHidden = false
-        
+    
         oneWayFlights = response.data?.j_flight_list ?? [[]]
-        oneWayFlights.forEach { i in
-            i.forEach { j in
-                prices.append("\(j.price?.api_total_display_fare ?? 0.0)")
-                fareTypeA.append(j.fareType ?? "")
-                j.flight_details?.summary?.forEach({ k in
-                    
-                    airlinesA.append(k.operator_name ?? "")
-                    
-                    switch k.no_of_stops {
-                    case 0:
-                        noofStopsA.append("0 Stop")
-                        break
-                    case 1:
-                        noofStopsA.append("1 Stop")
-                        break
-                    case 2:
-                        noofStopsA.append("1+ Stop")
-                        break
-                    default:
-                        break
-                    }
-                })
-            }
-        }
-        
-        
-        oneWayFlights.forEach { i in
-            i.forEach { j in
-                
-                j.flight_details?.details?.forEach({ i in
-                    i.forEach { j in
-                        
-                        connectingFlightsA.append("\(j.operator_name ?? "") (\(j.operator_code ?? ""))")
-                        connectingAirportA.append("\( j.destination?.city ?? "") (\(j.destination?.loc ?? ""))")
-                    }
-                })
-            }
-        }
-        
-        prices = Array(Set(prices))
-        noofStopsA = Array(Set(noofStopsA))
-        fareTypeA = Array(Set(fareTypeA))
-        airlinesA = Array(Set(airlinesA))
-        connectingFlightsA = Array(Set(connectingFlightsA))
-        connectingAirportA = Array(Set(connectingAirportA))
-        
         TimerManager.shared.stopTimer()
         TimerManager.shared.startTimer(time: 900)
         
-        setuplabels(lbl: sessonlbl, text: "Your Session Expires In: 14:15", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12), align: .left)
         
         
         let journyType = defaults.string(forKey: UserDefaultsKeys.journeyType)
@@ -395,11 +336,10 @@ extension SearchFlightResultVC:OnewayViewModelDelegate {
             defaults.set("\(response.data?.search_params?.from_loc ?? "") - \(response.data?.search_params?.to_loc ?? "")", forKey: UserDefaultsKeys.journyCitys)
             
             
-       //     defaults.set(defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "", forKey: UserDefaultsKeys.travellerDetails)
             
-            
-            
-            setupRoundTripTVCells(jfl: response.data?.j_flight_list ?? [[]])
+           // setupRoundTripTVCells(jfl: response.data?.j_flight_list ?? [[]])
+            appendValuesafterFilterApply(jfl: response.data?.j_flight_list ?? [[]])
+
             
             break
             
@@ -410,10 +350,8 @@ extension SearchFlightResultVC:OnewayViewModelDelegate {
             defaults.set("\(response.data?.search_params?.from_loc ?? "") - \(response.data?.search_params?.to_loc ?? "") & \(response.data?.search_params?.to_loc ?? "") - \(response.data?.search_params?.from_loc ?? "")", forKey: UserDefaultsKeys.journyCitys)
             
             
-         //   defaults.set(response.data?.search_params?.from_loc ?? "", forKey: UserDefaultsKeys.travellerDetails)
-            setupRoundTripTVCells(jfl: response.data?.j_flight_list ?? [[]])
-            
-            
+           // setupRoundTripTVCells(jfl: response.data?.j_flight_list ?? [[]])
+            appendValuesafterFilterApply(jfl: response.data?.j_flight_list ?? [[]])
             break
             
         default:
@@ -421,8 +359,10 @@ extension SearchFlightResultVC:OnewayViewModelDelegate {
         }
         
         
-        setuplabels(lbl: nav.titlelbl, text: defaults.string(forKey: UserDefaultsKeys.journyCitys) ?? "", textcolor: .AppLabelColor, font: .OpenSansBold(size: 14), align: .left)
-        setuplabels(lbl: nav.citylbl, text: "\(defaults.string(forKey: UserDefaultsKeys.journyDates) ?? ""), \(defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "")", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12), align: .left)
+        
+        self.citycodeslbl.text = defaults.string(forKey: UserDefaultsKeys.journyCitys) ?? ""
+        self.dateslbl.text = "\(defaults.string(forKey: UserDefaultsKeys.journyDates) ?? ""), \(defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "")"
+        
     }
     
     
@@ -432,11 +372,12 @@ extension SearchFlightResultVC:OnewayViewModelDelegate {
     func setupRoundTripTVCells(jfl:[[J_flight_list]]) {
         
         commonTableView.separatorStyle = .none
-        setuplabels(lbl: flightsFoundlbl, text: "\(jfl.count ) Flights found", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12), align: .right)
+        flightsFoundlbl.text = "\(jfl.count) Flights found"
         TableViewHelper.EmptyMessage(message: "", tableview: commonTableView, vc: self)
         
         
         tablerow.removeAll()
+        
         
         jfl.forEach { i in
             i.forEach { j in
@@ -508,10 +449,10 @@ extension SearchFlightResultVC:AppliedFilters {
         guard let departureDate = dateFormatter.date(from: time) else {
             return false
         }
-
+        
         let calendar = Calendar.current
         let hour = calendar.component(.hour, from: departureDate)
-
+        
         switch range {
         case "12 am - 6 am":
             return hour >= 0 && hour < 6
@@ -531,15 +472,15 @@ extension SearchFlightResultVC:AppliedFilters {
     func filterByApplied(minpricerange: Double, maxpricerange: Double, noofstopsFA: [String], departureTimeFilter: [String], arrivalTimeFilter: [String], airlinesFA: [String], cancellationTypeFA: [String], connectingFlightsFA: [String], connectingAirportsFA: [String]) {
         
         
-//        print("====minpricerange ==== \(minpricerange)")
-//        print("====maxpricerange ==== \(maxpricerange)")
-//        print("==== noofstopsFA ==== \(noofstopsFA)")
-//        print("==== departureTimeFilter ==== \(departureTimeFilter)")
-//        print("==== arrivalTimeFilter ==== \(arrivalTimeFilter)")
-//        print("==== airlinesFA ==== \(airlinesFA)")
-//        print("==== cancellationTypeFA ==== \(cancellationTypeFA)")
-//        print("==== connectingFlightsFA ==== \(connectingFlightsFA)")
-//        print("==== connectingAirportsFA ==== \(connectingAirportsFA)")
+        //        print("====minpricerange ==== \(minpricerange)")
+        //        print("====maxpricerange ==== \(maxpricerange)")
+        //        print("==== noofstopsFA ==== \(noofstopsFA)")
+        //        print("==== departureTimeFilter ==== \(departureTimeFilter)")
+        //        print("==== arrivalTimeFilter ==== \(arrivalTimeFilter)")
+        //        print("==== airlinesFA ==== \(airlinesFA)")
+        //        print("==== cancellationTypeFA ==== \(cancellationTypeFA)")
+        //        print("==== connectingFlightsFA ==== \(connectingFlightsFA)")
+        //        print("==== connectingAirportsFA ==== \(connectingAirportsFA)")
         
         
         if let journyType = defaults.string(forKey: UserDefaultsKeys.journeyType) {
@@ -641,25 +582,7 @@ extension SearchFlightResultVC:AppliedFilters {
             
             setupRoundTripTVCells(jfl: sortedArray)
             
-            
         }
-        
-        
-        
-        
-        //        if let journeyType = defaults.string(forKey: UserDefaultsKeys.journeyType), journeyType == "multicity" {
-        //
-        //            let totalPrice = multicityFlights.reduce(0.0) { result, flight in
-        //                result + (Double(flight.totalPrice ?? "") ?? 0.0)
-        //            }
-        //
-        //            let sortedFlights = multicityFlights.filter { i in
-        //                return totalPrice >= minpricerange && totalPrice <= maxpricerange
-        //            }
-        //
-        //
-        //            setupMulticityTVCells(jfl: sortedFlights)
-        //        }
         
     }
     
@@ -669,25 +592,24 @@ extension SearchFlightResultVC:AppliedFilters {
         
         switch sortBy {
         case .PriceLow:
-            let sortedFlights = oneWayFlights.sorted { (flights1, flights2) -> Bool in
+            let sortedArray = oneWayFlights.sorted { (flights1, flights2) -> Bool in
                 let totalPrice1 = flights1.reduce(0) { $0 + (Double($1.totalPrice ?? "0") ?? 0) }
                 let totalPrice2 = flights2.reduce(0) { $0 + (Double($1.totalPrice ?? "0") ?? 0) }
                 return totalPrice1 < totalPrice2
             }
             
             
-            setupRoundTripTVCells(jfl: sortedFlights)
-            
+            setupRoundTripTVCells(jfl: sortedArray)
             break
             
         case .PriceHigh:
-            let sortedFlights = oneWayFlights.sorted { (flights1, flights2) -> Bool in
+            let sortedArray = oneWayFlights.sorted { (flights1, flights2) -> Bool in
                 let totalPrice1 = flights1.reduce(0) { $0 + (Double($1.totalPrice ?? "0") ?? 0) }
                 let totalPrice2 = flights2.reduce(0) { $0 + (Double($1.totalPrice ?? "0") ?? 0) }
                 return totalPrice1 > totalPrice2
             }
             
-            setupRoundTripTVCells(jfl: sortedFlights)
+            setupRoundTripTVCells(jfl: sortedArray)
             break
             
             
@@ -745,7 +667,6 @@ extension SearchFlightResultVC:AppliedFilters {
             })
             
             setupRoundTripTVCells(jfl: sortedArray)
-            
             break
             
         case .DurationHigh:
@@ -797,6 +718,71 @@ extension SearchFlightResultVC:AppliedFilters {
 }
 
 
+extension SearchFlightResultVC {
+    
+    //MARK: - appendValuesafterFilterApply
+    func appendValuesafterFilterApply(jfl:[[J_flight_list]]) {
+        
+        prices.removeAll()
+        noofStopsA.removeAll()
+        fareTypeA.removeAll()
+        airlinesA.removeAll()
+        connectingFlightsA.removeAll()
+        connectingAirportA.removeAll()
+        
+        
+        jfl.forEach { i in
+            i.forEach { j in
+                prices.append("\(j.price?.api_total_display_fare ?? 0.0)")
+                fareTypeA.append(j.fareType ?? "")
+                j.flight_details?.summary?.forEach({ k in
+                    
+                    airlinesA.append(k.operator_name ?? "")
+                    
+                    switch k.no_of_stops {
+                    case 0:
+                        noofStopsA.append("0 Stop")
+                        break
+                    case 1:
+                        noofStopsA.append("1 Stop")
+                        break
+                    case 2:
+                        noofStopsA.append("1+ Stop")
+                        break
+                    default:
+                        break
+                    }
+                })
+            }
+        }
+        
+        
+        jfl.forEach { i in
+            i.forEach { j in
+                
+                j.flight_details?.details?.forEach({ i in
+                    i.forEach { j in
+                        
+                        connectingFlightsA.append("\(j.operator_name ?? "") (\(j.operator_code ?? ""))")
+                        connectingAirportA.append("\( j.destination?.city ?? "") (\(j.destination?.loc ?? ""))")
+                    }
+                })
+            }
+        }
+        
+        prices = Array(Set(prices))
+        noofStopsA = Array(Set(noofStopsA))
+        fareTypeA = Array(Set(fareTypeA))
+        airlinesA = Array(Set(airlinesA))
+        connectingFlightsA = Array(Set(connectingFlightsA))
+        connectingAirportA = Array(Set(connectingAirportA))
+        
+        
+        setupRoundTripTVCells(jfl: jfl)
+    }
+}
+
+
 
 extension SearchFlightResultVC {
     
@@ -816,9 +802,20 @@ extension SearchFlightResultVC {
         NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name("reload"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(resultnil), name: NSNotification.Name("resultnil"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadTimer), name: NSNotification.Name("reloadTimer"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(nointernetreload), name: NSNotification.Name("nointernetreload"), object: nil)
         
     }
     
+    
+    @objc func nointernetreload(){
+        
+        DispatchQueue.main.async {[self] in
+            TimerManager.shared.sessionStop()
+            callapibool = false
+            callAPI()
+        }
+        
+    }
     
     @objc func reloadTimer(){
         DispatchQueue.main.async {
@@ -842,8 +839,6 @@ extension SearchFlightResultVC {
     }
     
     
-    
-    
     func gotoNoInternetConnectionVC(key:String,titleStr:String) {
         guard let vc = NoInternetConnectionVC.newInstance.self else {return}
         vc.modalPresentationStyle = .overCurrentContext
@@ -865,11 +860,7 @@ extension SearchFlightResultVC {
             let minutes =  totalTime / 60
             let seconds = totalTime % 60
             let formattedTime = String(format: "%02d:%02d", minutes, seconds)
-            
-            setuplabels(lbl: sessonlbl, text: "Your Session Expires In: \(formattedTime)",
-                        textcolor: .AppLabelColor,
-                        font: .OpenSansRegular(size: 12),
-                        align: .left)
+            sessonlbl.text = "Your Session Expires In: \(formattedTime)"
         }
     }
     

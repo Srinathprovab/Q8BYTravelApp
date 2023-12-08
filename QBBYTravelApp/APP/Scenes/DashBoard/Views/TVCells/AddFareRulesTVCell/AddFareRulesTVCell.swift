@@ -42,11 +42,11 @@ class AddFareRulesTVCell: TableViewCell, FareRulesTVCellDelegate {
         // Depending on the toggle state, update the button's title or perform some action
         if isToggled {
             
-            dropimg.image = UIImage(named: "downarrow1")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppBackgroundColor)
+            dropimg.image = UIImage(named: "dropup")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppBackgroundColor)
             tvHeight.constant = CGFloat(fareRulesData.count * 46)
             farerulesTV.reloadData()
         } else {
-            dropimg.image = UIImage(named: "dropup1")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppBackgroundColor)
+            dropimg.image = UIImage(named: "downarrow")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppBackgroundColor)
             tvHeight.constant = 0
             farerulesTV.reloadData()
         }
@@ -66,12 +66,8 @@ extension AddFareRulesTVCell:UITableViewDelegate,UITableViewDataSource {
     
     func setupTV() {
         
+        dropimg.image = UIImage(named: "downarrow")?.withRenderingMode(.alwaysOriginal).withTintColor(.AppBackgroundColor)
         tvHeight.constant = 0
-        farerulesTV.layer.cornerRadius = 4
-        farerulesTV.clipsToBounds = true
-        farerulesTV.layer.borderColor = UIColor.AppBorderColor.cgColor
-        farerulesTV.layer.borderWidth = 1
-        
         farerulesTV.register(UINib(nibName: "FareRulesTVCell", bundle: nil), forCellReuseIdentifier: "cell")
         farerulesTV.delegate = self
         farerulesTV.dataSource = self

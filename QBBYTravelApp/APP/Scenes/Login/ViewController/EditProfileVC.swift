@@ -44,15 +44,10 @@ class EditProfileVC: BaseTableVC, ProfileUpdateViewModelDelegate {
     
     
     
-    @objc func offline(){
-        guard let vc = NoInternetConnectionVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .fullScreen
-        callapibool = true
-        present(vc, animated: true)
-    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(offline), name: NSNotification.Name("offline"), object: nil)
+        addObserver()
         if pickerbool == true {
             
         }else {
@@ -85,7 +80,7 @@ class EditProfileVC: BaseTableVC, ProfileUpdateViewModelDelegate {
         phone = profildata?.phone ?? ""
         email = profildata?.email ?? ""
         
-      //  self.profilePic.sd_setImage(with: URL(string: profildata?.image ?? ""), placeholderImage:UIImage(contentsOfFile:"placeholder.png"))
+        //  self.profilePic.sd_setImage(with: URL(string: profildata?.image ?? ""), placeholderImage:UIImage(contentsOfFile:"placeholder.png"))
         
         DispatchQueue.main.async {[self] in
             appendLoginTvcells()
@@ -108,7 +103,7 @@ class EditProfileVC: BaseTableVC, ProfileUpdateViewModelDelegate {
         profilePicView.clipsToBounds = true
         profilePicView.layer.borderWidth = 2
         profilePicView.layer.borderColor = UIColor.WhiteColor.cgColor
-      
+        
         changePicBtn.setTitleColor(.AppBackgroundColor, for: .normal)
         changePicBtn.setTitle("", for: .normal)
         
@@ -125,13 +120,13 @@ class EditProfileVC: BaseTableVC, ProfileUpdateViewModelDelegate {
         tablerow.append(TableRow(title:"Last Name*",subTitle: last_name,text:"2", tempText: "Last Name",cellType:.TextfieldTVCell))
         tablerow.append(TableRow(title:"Date Of Birth*",subTitle: date_of_birth,key: "dob",text:"3",tempText: "dob",cellType:.TextfieldTVCell))
         tablerow.append(TableRow(title:"Email Address*",subTitle:email,key: "alpha",text:"5",key1: "noedit", tempText: "Email Address",cellType:.TextfieldTVCell))
-//        tablerow.append(TableRow(title:"Address2*",subTitle: address2,text:"6", tempText: "address",cellType:.TextfieldTVCell))
+        //        tablerow.append(TableRow(title:"Address2*",subTitle: address2,text:"6", tempText: "address",cellType:.TextfieldTVCell))
         tablerow.append(TableRow(title:"Mobile Number*",subTitle: phone,key: "",text:"4",key1: "noedit", moreData:["+91","+988","+133"], tempText: "Mobile",cellType:.TextfieldTVCell))
-//        tablerow.append(TableRow(title:"Gender*",subTitle: gender,key:"gender",text:"7", tempText: "gender",cellType:.TextfieldTVCell))
-//        tablerow.append(TableRow(title:"Country Name*",subTitle: country_name,text:"8", tempText: "cname",cellType:.TextfieldTVCell))
-//        tablerow.append(TableRow(title:"State Name*",subTitle: state_name,text:"9", tempText: "sname",cellType:.TextfieldTVCell))
-//        tablerow.append(TableRow(title:"City Name*",subTitle: city_name,text:"10", tempText: "cityname",cellType:.TextfieldTVCell))
-//        tablerow.append(TableRow(title:"Pin Code*",subTitle: pin_code,text:"11", tempText: "pincode",cellType:.TextfieldTVCell))
+        //        tablerow.append(TableRow(title:"Gender*",subTitle: gender,key:"gender",text:"7", tempText: "gender",cellType:.TextfieldTVCell))
+        //        tablerow.append(TableRow(title:"Country Name*",subTitle: country_name,text:"8", tempText: "cname",cellType:.TextfieldTVCell))
+        //        tablerow.append(TableRow(title:"State Name*",subTitle: state_name,text:"9", tempText: "sname",cellType:.TextfieldTVCell))
+        //        tablerow.append(TableRow(title:"City Name*",subTitle: city_name,text:"10", tempText: "cityname",cellType:.TextfieldTVCell))
+        //        tablerow.append(TableRow(title:"Pin Code*",subTitle: pin_code,text:"11", tempText: "pincode",cellType:.TextfieldTVCell))
         
         
         
@@ -210,23 +205,23 @@ class EditProfileVC: BaseTableVC, ProfileUpdateViewModelDelegate {
             showToast(message: "Enter Last Name")
         }
         
-//        else  if date_of_birth.isEmpty == true {
-//            showToast(message: "Enter Date Of Birth ")
-//        }else if phone.isEmpty == true {
-//            showToast(message: "Enter Mobile Number")
-//        }else if gender.isEmpty == true {
-//            showToast(message: "Enter Gender")
-//        }else  if address.isEmpty == true {
-//            showToast(message: "Enter Address")
-//        }else  if country_name.isEmpty == true {
-//            showToast(message: "Enter Country Name ")
-//        }else if state_name.isEmpty == true {
-//            showToast(message: "Enter State Name")
-//        }else if city_name.isEmpty == true {
-//            showToast(message: "Enter City Name")
-//        }else if pin_code.isEmpty == true {
-//            showToast(message: "Enter Pin Code")
-//        }
+        //        else  if date_of_birth.isEmpty == true {
+        //            showToast(message: "Enter Date Of Birth ")
+        //        }else if phone.isEmpty == true {
+        //            showToast(message: "Enter Mobile Number")
+        //        }else if gender.isEmpty == true {
+        //            showToast(message: "Enter Gender")
+        //        }else  if address.isEmpty == true {
+        //            showToast(message: "Enter Address")
+        //        }else  if country_name.isEmpty == true {
+        //            showToast(message: "Enter Country Name ")
+        //        }else if state_name.isEmpty == true {
+        //            showToast(message: "Enter State Name")
+        //        }else if city_name.isEmpty == true {
+        //            showToast(message: "Enter City Name")
+        //        }else if pin_code.isEmpty == true {
+        //            showToast(message: "Enter Pin Code")
+        //        }
         
         
         else {
@@ -372,6 +367,46 @@ extension EditProfileVC:UIImagePickerControllerDelegate & UINavigationController
     }
     
     
+    
+    
+}
+
+
+
+
+extension EditProfileVC {
+    
+    func addObserver() {
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(nointernet), name: Notification.Name("offline"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(resultnil), name: NSNotification.Name("resultnil"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(nointernetreload), name: NSNotification.Name("nointernetreload"), object: nil)
+        
+    }
+    
+    
+    @objc func nointernetreload(){
+        callUpdateProfileAPI()
+    }
+    
+    
+    @objc func nointernet(){
+        gotoNoInternetConnectionVC(key: "nointernet", titleStr: "")
+    }
+    
+    @objc func resultnil(){
+        gotoNoInternetConnectionVC(key: "noresult", titleStr: "NO AVAILABILITY FOR THIS REQUEST")
+    }
+    
+    
+    func gotoNoInternetConnectionVC(key:String,titleStr:String) {
+        guard let vc = NoInternetConnectionVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.key = key
+        vc.key = titleStr
+        self.present(vc, animated: false)
+    }
     
     
 }

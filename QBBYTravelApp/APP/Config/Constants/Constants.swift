@@ -29,7 +29,7 @@ let screenHeight = UIScreen.main.bounds.size.height
 //MARK: - Base url
 var BASE_URL = "https://q8by.com/mobile_webservices/index.php/"
 var BASE_URL1 = "https://q8by.com/mobile_webservices/index.php/"
-
+var loderBool = false
 var countrylist = [Country_list]()
 
 //MARK: - COREDATE SAVE PASSENGER DETAILS

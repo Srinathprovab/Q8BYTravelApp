@@ -10,10 +10,9 @@ import UIKit
 class SelectedFlightInfoVC: BaseTableVC, TimerManagerDelegate, FDViewModelDelegate {
     
     
+    @IBOutlet weak var dateslbl: UILabel!
+    @IBOutlet weak var citycodelbl: UILabel!
     @IBOutlet weak var holderView: UIView!
-    @IBOutlet weak var nav: NavBar!
-    @IBOutlet weak var navHeight: NSLayoutConstraint!
-    @IBOutlet weak var itineraryCV: UICollectionView!
     @IBOutlet weak var booknowHolderView: UIView!
     @IBOutlet weak var titlelbl: UILabel!
     @IBOutlet weak var bookNowView: UIView!
@@ -66,25 +65,9 @@ class SelectedFlightInfoVC: BaseTableVC, TimerManagerDelegate, FDViewModelDelega
     
     func setupUI() {
         
-        booknowHolderView.isHidden = true
-        nav.isHidden = true
-        navHeight.constant = 160
-        holderView.backgroundColor = .WhiteColor
-        nav.titlelbl.text = ""
-        nav.backBtn.addTarget(self, action: #selector(gotoBackScreen), for: .touchUpInside)
-        nav.citylbl.isHidden = false
-        nav.datelbl.isHidden = false
-        //   nav.travellerlbl.isHidden = false
-        
-        setuplabels(lbl: nav.titlelbl, text: defaults.string(forKey: UserDefaultsKeys.journyCitys) ?? "", textcolor: .AppLabelColor, font: .OpenSansBold(size: 14), align: .left)
-        setuplabels(lbl: nav.citylbl, text: "\(defaults.string(forKey: UserDefaultsKeys.journyDates) ?? ""), \(defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "")", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12), align: .left)
-        
-        setupViews(v: booknowHolderView, radius: 0, color: .AppBackgroundColor)
-        setupViews(v: bookNowView, radius: 20, color: .AppBtnColor)
-        bookNowView.backgroundColor = .layoverColor
-        setuplabels(lbl: titlelbl, text: "KWD:150.00", textcolor: .WhiteColor, font: .oswaldRegular(size: 20), align: .left)
-        setuplabels(lbl: bookNowlbl, text: "BOOK NOW", textcolor: .AppLabelColor, font: .oswaldRegular(size: 16), align: .center)
-        bookNowBtn.setTitle("", for: .normal)
+        holderView.isHidden = true
+        citycodelbl.text = defaults.string(forKey: UserDefaultsKeys.journyCitys) ?? ""
+        dateslbl.text = "\(defaults.string(forKey: UserDefaultsKeys.journyDates) ?? ""), \(defaults.string(forKey: UserDefaultsKeys.travellerDetails) ?? "")"
         
         commonTableView.registerTVCells(["AddItineraryTVCell",
                                          "EmptyTVCell",
@@ -98,22 +81,6 @@ class SelectedFlightInfoVC: BaseTableVC, TimerManagerDelegate, FDViewModelDelega
         
         
     }
-    
-    func setupViews(v:UIView,radius:CGFloat,color:UIColor) {
-        v.backgroundColor = color
-        v.layer.cornerRadius = radius
-        v.clipsToBounds = true
-        v.layer.borderWidth = 0.2
-        v.layer.borderColor = UIColor.AppBorderColor.cgColor
-    }
-    
-    
-    @objc func gotoBackScreen() {
-        callapibool = false
-        NotificationCenter.default.post(name: NSNotification.Name("backvc"), object: nil)
-        dismiss(animated: true)
-    }
-    
     
     
     
@@ -145,6 +112,13 @@ class SelectedFlightInfoVC: BaseTableVC, TimerManagerDelegate, FDViewModelDelega
     }
     
     
+    
+    @IBAction func didTapOnBackBtnAction(_ sender: Any) {
+        callapibool = false
+        NotificationCenter.default.post(name: NSNotification.Name("backvc"), object: nil)
+        dismiss(animated: true)
+    }
+    
 }
 
 
@@ -162,9 +136,8 @@ extension SelectedFlightInfoVC {
     
     
     func flightDetails(response: FDModel) {
-        booknowHolderView.isHidden = false
-        //  cvHolderView.isHidden = false
-        nav.isHidden = false
+        
+        holderView.isHidden = false
         titlelbl.text = "\(response.priceDetails?.api_currency ?? ""):\(response.priceDetails?.grand_total ?? "")"
         grandTotal = "\(response.priceDetails?.api_currency ?? ""):\(response.priceDetails?.grand_total ?? "")"
         jm = response.journeySummary ?? []
@@ -186,9 +159,9 @@ extension SelectedFlightInfoVC {
         sub_total_infant = String(response.priceDetails?.sub_total_infant ?? "0")
         
         DispatchQueue.main.async {[self] in
-            // setupItineraryTVCells()
             setupFareBreakdownTVCells()
         }
+        
     }
     
     
@@ -208,7 +181,6 @@ extension SelectedFlightInfoVC {
         
         
         setupItineraryTVCells()
-        tablerow.append(TableRow(height:30,cellType:.EmptyTVCell))
         
         
         
@@ -320,14 +292,11 @@ extension SelectedFlightInfoVC {
         
         
         tablerow.append(TableRow(title:"Total Trip Cost",subTitle: farepricedetails?.grand_total,key: "totalcost",cellType:.TitleLblTVCell))
-        tablerow.append(TableRow(height:30,cellType:.EmptyTVCell))
-        
+        tablerow.append(TableRow(height:20,cellType:.EmptyTVCell))
+
         setupFareRulesTVCells()
-        tablerow.append(TableRow(height:30,cellType:.EmptyTVCell))
-        
         setupBaggageInfoTVCells()
-        tablerow.append(TableRow(height:30,cellType:.EmptyTVCell))
-        
+        tablerow.append(TableRow(height:20,cellType:.EmptyTVCell))
         
         commonTVData = tablerow
         commonTableView.reloadData()
@@ -335,20 +304,9 @@ extension SelectedFlightInfoVC {
     
     
     func setupFareRulesTVCells() {
-        
-        //        self.commonTableView.estimatedRowHeight = 500
-        //        self.commonTableView.rowHeight = 40
-        
-        //tablerow.append(TableRow(title:"Fare Rules",subTitle: "",key: "title",cellType:.TitleLblTVCell))
-        //        tablerow.append(TableRow(moreData:fareRulesData,cellType:.FareRulesDataTVCell))
-        
-        
         if fareRulesData.count != 0 {
             tablerow.append(TableRow(cellType:.AddFareRulesTVCell))
         }
-        
-        
-        
     }
     
     
@@ -407,7 +365,19 @@ extension SelectedFlightInfoVC {
         NotificationCenter.default.addObserver(self, selector: #selector(reload), name: NSNotification.Name("reload"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(resultnil), name: NSNotification.Name("resultnil"), object: nil)
         
+        NotificationCenter.default.addObserver(self, selector: #selector(nointernetreload), name: NSNotification.Name("nointernetreload"), object: nil)
+
     }
+    
+    
+    @objc func nointernetreload(){
+        
+        DispatchQueue.main.async {[self] in
+            callAPI()
+        }
+        
+    }
+    
     
     
     

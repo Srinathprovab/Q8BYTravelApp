@@ -244,7 +244,7 @@ class FilterSearchVC: BaseTableVC {
         //  tablerow.append(TableRow(height:20,cellType:.EmptyTVCell))
         tablerow.append(TableRow(title:"Prices",cellType:.SliderTVCell))
       //  tablerow.append(TableRow(title:"No Of Stops",data: noofStopsA,cellType:.CheckBoxTVCell))
-        tablerow.append(TableRow(title:"Departurn Time",key:"time", data: departurnTimeArray,cellType:.CheckBoxTVCell))
+        tablerow.append(TableRow(title:"Departure Time",key:"time", data: departurnTimeArray,cellType:.CheckBoxTVCell))
         tablerow.append(TableRow(title:"Arrival Time",key:"time", data: departurnTimeArray,cellType:.CheckBoxTVCell))
         tablerow.append(TableRow(title:"Airlines",data: airlinesA,cellType:.CheckBoxTVCell))
         tablerow.append(TableRow(title:"Cancellations Type",data: fareTypeA,cellType:.CheckBoxTVCell))
@@ -267,7 +267,7 @@ class FilterSearchVC: BaseTableVC {
     func setupSortTVCells() {
         tablerow.removeAll()
         
-        tablerow.append(TableRow(title:"PRICE",
+        tablerow.append(TableRow(title:"Price",
                                  subTitle: "Low to high",
                                  buttonTitle: "High to low",
                                  tempInfo: sortBy,
@@ -276,7 +276,7 @@ class FilterSearchVC: BaseTableVC {
                                  subTitle: "Earlist  flight",buttonTitle: "Latest flight",tempInfo: sortBy,cellType:.SortByPriceTVCell))
         tablerow.append(TableRow(title:"Arrival Time",subTitle: "Earlist  flight",buttonTitle: "Latest flight",cellType:.SortByPriceTVCell))
         tablerow.append(TableRow(title:"Duration",subTitle: "Low to high",buttonTitle: "High to low",tempInfo: sortBy,cellType:.SortByPriceTVCell))
-        tablerow.append(TableRow(title:"AIRLINE",subTitle: "A-Z",buttonTitle: "Z-A",tempInfo: sortBy,cellType:.SortByPriceTVCell))
+        tablerow.append(TableRow(title:"Airline",subTitle: "A-Z",buttonTitle: "Z-A",tempInfo: sortBy,cellType:.SortByPriceTVCell))
         tablerow.append((TableRow(height:30,cellType: .EmptyTVCell)))
         
         commonTVData = tablerow
@@ -352,7 +352,7 @@ class FilterSearchVC: BaseTableVC {
         if let tabSelected = defaults.string(forKey: UserDefaultsKeys.tabselect) {
             if tabSelected == "Airline" {
                 
-                if cell.titlelbl.text == "PRICE" {
+                if cell.titlelbl.text == "Price" {
                     sortBy = .PriceLow
                     
                     if let cell2 = commonTableView.cellForRow(at: IndexPath(item: 1, section: 0)) as? SortByPriceTVCell {
@@ -472,7 +472,7 @@ class FilterSearchVC: BaseTableVC {
         if let tabSelected = defaults.string(forKey: UserDefaultsKeys.tabselect) {
             if tabSelected == "Airline" {
                 
-                if cell.titlelbl.text == "PRICE" {
+                if cell.titlelbl.text == "Price" {
                     sortBy = .PriceHigh
                     
                     
@@ -642,7 +642,7 @@ class FilterSearchVC: BaseTableVC {
                     
                     
                     
-                case "Departurn Time":
+                case "Departure Time":
                     departureTimeFilter.append(cell.titlelbl.text ?? "")
                     break
                     
@@ -749,7 +749,7 @@ class FilterSearchVC: BaseTableVC {
                     break
                     
                     
-                case "Departurn Time":
+                case "Departure Time":
                     if let index = departureTimeFilter.firstIndex(of: cell.titlelbl.text ?? "") {
                         departureTimeFilter.remove(at: index)
                     }

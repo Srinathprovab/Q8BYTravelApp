@@ -42,7 +42,6 @@ class RoundTripInfoTVCell: UITableViewCell {
     
     func setupUI() {
         
-        //contentView.backgroundColor = .AppHolderViewColor
      
         setuplabels(lbl: fromCityTimelbl, text: "", textcolor: .AppLabelColor, font: .OswaldSemiBold(size: 22), align: .left)
         setuplabels(lbl: toCityTimelbl, text: "", textcolor: .AppLabelColor, font: .OswaldSemiBold(size: 22), align: .right)
@@ -54,20 +53,7 @@ class RoundTripInfoTVCell: UITableViewCell {
         round2.isHidden = true
         round3.isHidden = true
         
-//        switch noOfStopslbl.text {
-//        case "0":
-//            break
-//        case "1":
-//            round1.isHidden = false
-//            break
-//        case "2":
-//            round1.isHidden = false
-//            round2.isHidden = false
-//            break
-//        default:
-//            break
-//        }
-        
+
     }
     
 }
