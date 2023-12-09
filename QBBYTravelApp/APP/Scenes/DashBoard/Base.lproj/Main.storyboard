@@ -1930,7 +1930,7 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="chevron.backward" catalog="system"/>
                                         <connections>
-                                            <action selector="didTapOnCloseBtn:" destination="tTn-qk-zTZ" eventType="touchUpInside" id="n76-w9-dt5"/>
+                                            <action selector="didTapOnBackBtnAction:" destination="tTn-qk-zTZ" eventType="touchUpInside" id="Jnf-6G-fl7"/>
                                         </connections>
                                     </button>
                                 </subviews>

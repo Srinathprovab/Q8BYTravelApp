@@ -37,26 +37,11 @@ class ModifyFlightSearchVC: BaseTableVC {
     }
     
     
-    
-    
-    @objc func offline(){
-        guard let vc = NoInternetConnectionVC.newInstance.self else {return}
-        vc.modalPresentationStyle = .fullScreen
-        callapibool = true
-        present(vc, animated: true)
-    }
-    
+  
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(offline), name: NSNotification.Name("offline"), object: nil)
-        
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(reload(notification:)), name: NSNotification.Name("reload"), object: nil)
+        addObserver()
     }
     
-    
-    @objc func reload(notification: NSNotification){
-        commonTableView.reloadData()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -499,5 +484,57 @@ class ModifyFlightSearchVC: BaseTableVC {
     override func cancelDatePicker(cell:FlightSearchTVCell){
         self.view.endEditing(true)
     }
+    
+    
+    @IBAction func didTapOnBackBtnAction(_ sender: Any) {
+        dismiss(animated: true)
+    }
+    
+    
+    
+}
+
+
+extension ModifyFlightSearchVC {
+    
+    func addObserver() {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(nointernet), name: Notification.Name("offline"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(resultnil), name: NSNotification.Name("resultnil"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(nointernetreload), name: NSNotification.Name("nointernetreload"), object: nil)
+                
+        NotificationCenter.default.addObserver(self, selector: #selector(reload(notification:)), name: NSNotification.Name("reload"), object: nil)
+        
+    }
+    
+    
+    
+    @objc func reload(notification: NSNotification){
+        commonTableView.reloadData()
+    }
+
+    
+    @objc func nointernetreload(){
+        commonTableView.reloadData()
+    }
+    
+    
+    @objc func nointernet(){
+        gotoNoInternetConnectionVC(key: "nointernet", titleStr: "")
+    }
+    
+    @objc func resultnil(){
+        gotoNoInternetConnectionVC(key: "noresult", titleStr: "NO AVAILABILITY FOR THIS REQUEST")
+    }
+    
+    
+    func gotoNoInternetConnectionVC(key:String,titleStr:String) {
+        guard let vc = NoInternetConnectionVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .overCurrentContext
+        vc.key = key
+        vc.key = titleStr
+        self.present(vc, animated: false)
+    }
+    
     
 }

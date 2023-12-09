@@ -483,7 +483,6 @@ extension SearchFlightResultVC:AppliedFilters {
         //        print("==== connectingAirportsFA ==== \(connectingAirportsFA)")
         
         
-        if let journyType = defaults.string(forKey: UserDefaultsKeys.journeyType) {
             
             let sortedArray = oneWayFlights.filter { flightList in
                 
@@ -582,7 +581,7 @@ extension SearchFlightResultVC:AppliedFilters {
             
             setupRoundTripTVCells(jfl: sortedArray)
             
-        }
+       
         
     }
     

@@ -71,7 +71,7 @@ extension AddItineraryTVCell:UITableViewDelegate,UITableViewDataSource {
             cell.fromCityDatelbl.text = data.origin?.date
             cell.toCityTimelbl.text =  data.destination?.time
             cell.toCityNamelbl.text = "\(data.destination?.city ?? "")(\(data.destination?.loc ?? ""))"
-            cell.toCityDatelbl.text = data.destination?.date
+            cell.toCityDatelbl.text = "00000"
             cell.hourslbl.text = data.duration
             cell.fromairportname.text = data.origin?.airport_name
             cell.toairportname.text = data.destination?.airport_name
