@@ -486,6 +486,17 @@ class ModifyFlightSearchVC: BaseTableVC {
     }
     
     
+    //MARK: - didTapOnAirlineBtnAction
+    override func didTapOnAirlineBtnAction(cell:FlightSearchTVCell) {
+        gotoNationalityVC()
+    }
+    
+    func gotoNationalityVC(){
+        guard let vc = NationalityVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
+    }
+    
     @IBAction func didTapOnBackBtnAction(_ sender: Any) {
         dismiss(animated: true)
     }
