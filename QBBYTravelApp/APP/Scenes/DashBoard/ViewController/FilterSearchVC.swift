@@ -272,9 +272,19 @@ class FilterSearchVC: BaseTableVC {
                                  buttonTitle: "High to low",
                                  tempInfo: sortBy,
                                  cellType:.SortByPriceTVCell))
+        
         tablerow.append(TableRow(title:"Departure Time",
-                                 subTitle: "Earlist  flight",buttonTitle: "Latest flight",tempInfo: sortBy,cellType:.SortByPriceTVCell))
-        tablerow.append(TableRow(title:"Arrival Time",subTitle: "Earlist  flight",buttonTitle: "Latest flight",cellType:.SortByPriceTVCell))
+                                 subTitle: "Earliest Flight",
+                                 buttonTitle: "Last Flight",
+                                 tempInfo: sortBy,
+                                 cellType:.SortByPriceTVCell))
+        
+        tablerow.append(TableRow(title:"Arrival Time",
+                                 subTitle: "Earliest Flight",
+                                 buttonTitle: "Last Flight",
+                                 tempInfo: sortBy,
+                                 cellType:.SortByPriceTVCell))
+        
         tablerow.append(TableRow(title:"Duration",subTitle: "Low to high",buttonTitle: "High to low",tempInfo: sortBy,cellType:.SortByPriceTVCell))
         tablerow.append(TableRow(title:"Airline",subTitle: "A-Z",buttonTitle: "Z-A",tempInfo: sortBy,cellType:.SortByPriceTVCell))
         tablerow.append((TableRow(height:30,cellType: .EmptyTVCell)))

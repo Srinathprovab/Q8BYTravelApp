@@ -67,7 +67,6 @@ class ModifyFlightSearchVC: BaseTableVC {
         setupLabels(lbl: roundTriplbl, text: "Round Trip", textcolor: .AppSubtitleColor, font: .OpenSansRegular(size: 16))
         setupLabels(lbl: multicitylbl, text: "Multicity", textcolor: .AppSubtitleColor, font: .OpenSansRegular(size: 16))
         
-        
         oneWayBtn.setTitle("", for: .normal)
         roundTripBtn.setTitle("", for: .normal)
         multicityBtn.setTitle("", for: .normal)
@@ -81,6 +80,7 @@ class ModifyFlightSearchVC: BaseTableVC {
                                          "FlightSearchTVCell",
                                          "AddCityTVCell",
                                          "MultiCityTripTVCell"])
+        
         
         appendTvcells(str: "oneway")
         if let selectedJourneyType = defaults.string(forKey: UserDefaultsKeys.journeyType) {

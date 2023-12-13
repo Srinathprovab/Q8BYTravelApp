@@ -132,7 +132,7 @@ class PayNowVC: BaseTableVC,HotelMBViewModelDelegate,TimerManagerDelegate, PreBo
         
         
         passengertypeArray.removeAll()
-        tablerow.append(TableRow(height:20, bgColor:.AppHolderViewColor,cellType:.EmptyTVCell))
+//        tablerow.append(TableRow(height:20, bgColor:.AppHolderViewColor,cellType:.EmptyTVCell))
         tablerow.append(TableRow(title:"Passenger Details",cellType:.TotalNoofTravellerTVCell))
         for i in 1...adultsCount {
             positionsCount += 1

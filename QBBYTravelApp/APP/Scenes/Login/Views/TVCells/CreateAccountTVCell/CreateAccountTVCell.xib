@@ -135,11 +135,11 @@
                                         <rect key="frame" x="0.0" y="0.0" width="90" height="40"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="downarrow" translatesAutoresizingMaskIntoConstraints="NO" id="vmD-Lh-r1X">
-                                                <rect key="frame" x="63" y="25" width="12" height="5"/>
+                                                <rect key="frame" x="61" y="18" width="24" height="24"/>
                                                 <color key="tintColor" name="AppBackgroundColor"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="12" id="hxd-w7-6zJ"/>
-                                                    <constraint firstAttribute="height" constant="5" id="q8n-dv-s4q"/>
+                                                    <constraint firstAttribute="width" constant="24" id="hxd-w7-6zJ"/>
+                                                    <constraint firstAttribute="height" constant="24" id="q8n-dv-s4q"/>
                                                 </constraints>
                                             </imageView>
                                             <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SWD-qx-Qem" customClass="MDCOutlinedTextField">
@@ -158,14 +158,14 @@
                                             <constraint firstItem="gVk-VF-Yxd" firstAttribute="top" secondItem="pxb-RN-IHK" secondAttribute="top" id="27R-j9-acn"/>
                                             <constraint firstItem="SWD-qx-Qem" firstAttribute="top" secondItem="pxb-RN-IHK" secondAttribute="top" id="5DB-HP-A2F"/>
                                             <constraint firstAttribute="trailing" secondItem="gVk-VF-Yxd" secondAttribute="trailing" id="87C-16-qyW"/>
+                                            <constraint firstItem="vmD-Lh-r1X" firstAttribute="top" secondItem="pxb-RN-IHK" secondAttribute="top" constant="18" id="A6h-0q-d7N"/>
                                             <constraint firstItem="SWD-qx-Qem" firstAttribute="leading" secondItem="pxb-RN-IHK" secondAttribute="leading" id="BuK-nd-WhZ"/>
                                             <constraint firstItem="gVk-VF-Yxd" firstAttribute="leading" secondItem="pxb-RN-IHK" secondAttribute="leading" id="M4O-fM-VCc"/>
                                             <constraint firstAttribute="bottom" secondItem="SWD-qx-Qem" secondAttribute="bottom" id="RtC-6v-V4r"/>
                                             <constraint firstAttribute="trailing" secondItem="SWD-qx-Qem" secondAttribute="trailing" id="VXv-Fs-TrV"/>
-                                            <constraint firstItem="vmD-Lh-r1X" firstAttribute="top" secondItem="pxb-RN-IHK" secondAttribute="top" constant="25" id="Zw2-CP-C2f"/>
                                             <constraint firstAttribute="bottom" secondItem="gVk-VF-Yxd" secondAttribute="bottom" id="fFH-zU-JgK"/>
                                             <constraint firstAttribute="width" constant="90" id="lCQ-vL-gRf"/>
-                                            <constraint firstAttribute="trailing" secondItem="vmD-Lh-r1X" secondAttribute="trailing" constant="15" id="nf8-dQ-PRV"/>
+                                            <constraint firstAttribute="trailing" secondItem="vmD-Lh-r1X" secondAttribute="trailing" constant="5" id="nf8-dQ-PRV"/>
                                         </constraints>
                                     </view>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wQ4-Vc-059" customClass="MDCOutlinedTextField">
@@ -345,7 +345,7 @@ deals, offers and promotions</string>
                                 <rect key="frame" x="168" y="633" width="123" height="22"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Back to !" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Enm-I8-hkY">
-                                        <rect key="frame" x="0.0" y="0.0" width="64.666666666666671" height="22"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="64" height="22"/>
                                         <fontDescription key="fontDescription" name="OpenSans-Medium" family="Open Sans" pointSize="16"/>
                                         <color key="textColor" red="0.38823529411764707" green="0.38823529411764707" blue="0.38823529411764707" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -447,7 +447,7 @@ deals, offers and promotions</string>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="downarrow" width="8.6666669845581055" height="4.3333334922790527"/>
+        <image name="downarrow" width="24" height="24"/>
         <image name="hidepass" width="512" height="512"/>
         <image name="uncheck" width="18" height="18"/>
         <namedColor name="AppBackgroundColor">

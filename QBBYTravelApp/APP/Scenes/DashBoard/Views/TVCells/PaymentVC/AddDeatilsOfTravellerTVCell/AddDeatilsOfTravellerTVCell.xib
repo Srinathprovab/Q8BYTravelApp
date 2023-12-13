@@ -215,11 +215,11 @@
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="downarrow" translatesAutoresizingMaskIntoConstraints="NO" id="K2w-31-5I4">
-                                                        <rect key="frame" x="174.66666666666666" y="17.666666666666657" width="10" height="5"/>
+                                                        <rect key="frame" x="160.66666666666666" y="8" width="24" height="24"/>
                                                         <color key="tintColor" name="AppImageDefaultColor"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="10" id="RGA-mB-Lfv"/>
-                                                            <constraint firstAttribute="height" constant="5" id="UNn-F9-TBf"/>
+                                                            <constraint firstAttribute="width" constant="24" id="RGA-mB-Lfv"/>
+                                                            <constraint firstAttribute="height" constant="24" id="UNn-F9-TBf"/>
                                                         </constraints>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UTl-op-bRM">
@@ -297,11 +297,11 @@
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="downarrow" translatesAutoresizingMaskIntoConstraints="NO" id="Aj1-g5-191">
-                                                        <rect key="frame" x="174.66666666666666" y="17.666666666666686" width="10" height="5"/>
+                                                        <rect key="frame" x="160.66666666666666" y="8" width="24" height="24"/>
                                                         <color key="tintColor" name="AppImageDefaultColor"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="height" constant="5" id="fra-7z-Kss"/>
-                                                            <constraint firstAttribute="width" constant="10" id="xie-x8-Zgx"/>
+                                                            <constraint firstAttribute="height" constant="24" id="fra-7z-Kss"/>
+                                                            <constraint firstAttribute="width" constant="24" id="xie-x8-Zgx"/>
                                                         </constraints>
                                                     </imageView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ilH-hv-yNJ">

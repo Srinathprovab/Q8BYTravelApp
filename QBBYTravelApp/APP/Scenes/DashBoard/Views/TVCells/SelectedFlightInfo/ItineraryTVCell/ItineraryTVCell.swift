@@ -47,22 +47,6 @@ class ItineraryTVCell: TableViewCell {
         logoImg.contentMode = .scaleToFill
         setuplabels(lbl: inNolbl, text: "", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12), align: .left)
         setuplabels(lbl: airlinecodelbl, text: "", textcolor: .AppLabelColor, font: .OpenSansBold(size: 14), align: .left)
-        setuplabels(lbl: fromCityTimelbl, text: "", textcolor: .AppLabelColor, font: .OswaldSemiBold(size: 22), align: .left)
-        setuplabels(lbl: toCityTimelbl, text: "", textcolor: .AppLabelColor, font: .OswaldSemiBold(size: 22), align: .right)
-        setuplabels(lbl: fromCityDatelbl, text: "", textcolor: HexColor("#999898"), font: .oswaldRegular(size: 12), align: .left)
-        setuplabels(lbl: toCityDatelbl, text: "", textcolor: HexColor("#999898"), font: .oswaldRegular(size: 12), align: .right)
-        setuplabels(lbl: fromCityNamelbl, text: "", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 14), align: .left)
-        setuplabels(lbl: toCityNamelbl, text: "", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 14), align: .right)
-        setuplabels(lbl: hourslbl, text: "", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 12), align: .center)
-        setuplabels(lbl: fromairportname, text: "", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 14), align: .left)
-        setuplabels(lbl: toairportname, text: "", textcolor: .AppLabelColor, font: .OpenSansMedium(size: 14), align: .right)
-        setuplabels(lbl: layoverCitylbl, text: "", textcolor: .AppLabelColor, font: .OpenSansRegular(size: 12), align: .center)
-        
-        
-        fromairportname.numberOfLines = 0
-        toairportname.numberOfLines = 0
-        
-      
         
     }
     

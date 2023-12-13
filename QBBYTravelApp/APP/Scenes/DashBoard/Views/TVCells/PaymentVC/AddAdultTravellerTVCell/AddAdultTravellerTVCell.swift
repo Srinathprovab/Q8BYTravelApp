@@ -123,7 +123,7 @@ class AddAdultTravellerTVCell: TableViewCell, AddAdultsOrGuestTVCellDelegate {
             }else if journeyType == "circle"{
                 adultsCount = Int(defaults.string(forKey: UserDefaultsKeys.adultCount) ?? "1") ?? 0
             }else {
-                adultsCount = Int(defaults.string(forKey: UserDefaultsKeys.madultCount) ?? "1") ?? 0
+                adultsCount = Int(defaults.string(forKey: UserDefaultsKeys.adultCount) ?? "1") ?? 0
             }
         }
         
