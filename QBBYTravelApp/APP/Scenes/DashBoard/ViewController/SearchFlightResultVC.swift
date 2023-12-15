@@ -499,6 +499,9 @@ extension SearchFlightResultVC:AppliedFilters {
                 // Check if the flight list has at least one flight with the specified number of stops
                 let noOfStopsMatch = noofstopsFA.isEmpty || flightList.contains(where: { $0.flight_details?.summary?.contains(where: { noofstopsFA.contains("\($0.no_of_stops ?? 0)") }) ?? false })
                 
+                
+                
+                
                 // Check if the flight list has at least one flight with the specified airline
                 let airlinesMatch = airlinesFA.isEmpty || flightList.contains(where: { $0.flight_details?.summary?.contains(where: { airlinesFA.contains($0.operator_name ?? "") }) ?? false })
                 
