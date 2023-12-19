@@ -272,6 +272,7 @@
 		656B63982A0CD0ED00E2DB96 /* MyBookingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656B63972A0CD0ED00E2DB96 /* MyBookingViewModel.swift */; };
 		656B639C2A0CD18100E2DB96 /* MyBookingsTVCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656B639A2A0CD18100E2DB96 /* MyBookingsTVCells.swift */; };
 		656B639D2A0CD18100E2DB96 /* MyBookingsTVCells.xib in Resources */ = {isa = PBXBuildFile; fileRef = 656B639B2A0CD18100E2DB96 /* MyBookingsTVCells.xib */; };
+		656EFBA02B316E1E000499DF /* countrylist.json in Resources */ = {isa = PBXBuildFile; fileRef = 656EFB9F2B316E1E000499DF /* countrylist.json */; };
 		6586E0C92A4DB51C00CA94B1 /* ContactInformationTVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6586E0C72A4DB51C00CA94B1 /* ContactInformationTVCell.swift */; };
 		6586E0CA2A4DB51C00CA94B1 /* ContactInformationTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6586E0C82A4DB51C00CA94B1 /* ContactInformationTVCell.xib */; };
 		65875A6229DD62460065F708 /* AboutusModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65875A6129DD62460065F708 /* AboutusModel.swift */; };
@@ -710,6 +711,7 @@
 		656B63972A0CD0ED00E2DB96 /* MyBookingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBookingViewModel.swift; sourceTree = "<group>"; };
 		656B639A2A0CD18100E2DB96 /* MyBookingsTVCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyBookingsTVCells.swift; sourceTree = "<group>"; };
 		656B639B2A0CD18100E2DB96 /* MyBookingsTVCells.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyBookingsTVCells.xib; sourceTree = "<group>"; };
+		656EFB9F2B316E1E000499DF /* countrylist.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = countrylist.json; sourceTree = "<group>"; };
 		6586E0C72A4DB51C00CA94B1 /* ContactInformationTVCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactInformationTVCell.swift; sourceTree = "<group>"; };
 		6586E0C82A4DB51C00CA94B1 /* ContactInformationTVCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContactInformationTVCell.xib; sourceTree = "<group>"; };
 		65875A6129DD62460065F708 /* AboutusModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutusModel.swift; sourceTree = "<group>"; };
@@ -1920,6 +1922,7 @@
 		654C88DA29630A7F006BAF76 /* Config */ = {
 			isa = PBXGroup;
 			children = (
+				656EFB9E2B316E03000499DF /* JSONFiles */,
 				654C88DB29630A7F006BAF76 /* Constants */,
 				654C88DE29630A7F006BAF76 /* CommonMethods */,
 				654C88E229630A7F006BAF76 /* Extensions */,
@@ -2154,6 +2157,14 @@
 				656B639B2A0CD18100E2DB96 /* MyBookingsTVCells.xib */,
 			);
 			path = MyBookingsTVCells;
+			sourceTree = "<group>";
+		};
+		656EFB9E2B316E03000499DF /* JSONFiles */ = {
+			isa = PBXGroup;
+			children = (
+				656EFB9F2B316E1E000499DF /* countrylist.json */,
+			);
+			path = JSONFiles;
 			sourceTree = "<group>";
 		};
 		6586E0C62A4DB51C00CA94B1 /* ContactInformationTVCell */ = {
@@ -2886,6 +2897,7 @@
 				653773AD2963F94C00219A77 /* AboutusTVCell.xib in Resources */,
 				6561B2F229F9230A00B02039 /* AcceptTermsAndConditionTVCell.xib in Resources */,
 				65D9CAE329E68AF0004EA80D /* BaggageInfoTVCell.xib in Resources */,
+				656EFBA02B316E1E000499DF /* countrylist.json in Resources */,
 				65DB0B202A413B5700866714 /* LogowithMenuTVCell.xib in Resources */,
 				65B2CA972AE6971500AD2B27 /* AddFareRulesTVCell.xib in Resources */,
 				65135DEE2B0DC54C0005F6EF /* BookHotelTVCell.xib in Resources */,

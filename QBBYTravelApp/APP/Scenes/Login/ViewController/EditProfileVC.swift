@@ -58,7 +58,7 @@ class EditProfileVC: BaseTableVC, ProfileUpdateViewModelDelegate {
     
     func callApi() {
         payload.removeAll()
-        payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid)
+        payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
         vm?.CALL_SHOW_PROFILE_API(dictParam: payload)
     }
     

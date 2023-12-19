@@ -44,7 +44,7 @@ class SideMenuVC: BaseTableVC, ProfileUpdateViewModelDelegate {
     func callProfileDetailsAPI() {
         
         payload.removeAll()
-        payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid)
+        payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
         vm1?.CALL_SHOW_PROFILE_API(dictParam: payload)
     }
     
@@ -117,6 +117,7 @@ class SideMenuVC: BaseTableVC, ProfileUpdateViewModelDelegate {
         
         if defaults.bool(forKey: UserDefaultsKeys.loggedInStatus) == true {
             tablerow.append(TableRow(height:30,cellType:.EmptyTVCell))
+            tablerow.append(TableRow(title:"Delete Account",key: "menu", image: "deleteacc",cellType:.checkOptionsTVCell))
             tablerow.append(TableRow(title:"Logout",key: "menu", image: "logout",cellType:.checkOptionsTVCell))
             tablerow.append(TableRow(height:30,cellType:.EmptyTVCell))
         }
@@ -160,6 +161,12 @@ class SideMenuVC: BaseTableVC, ProfileUpdateViewModelDelegate {
         case "Hotels":
           //  gotoBookHotelsVC()
             break
+            
+            
+        case "Delete Account":
+          print("Delete Account")
+            break
+            
             
         case "Logout":
             payload.removeAll()

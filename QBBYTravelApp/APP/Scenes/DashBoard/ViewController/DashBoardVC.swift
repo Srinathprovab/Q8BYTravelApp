@@ -8,6 +8,10 @@
 import UIKit
 
 class DashBoardVC: BaseTableVC, HomePageViewModelDelegate, GetCountryListViewModelDelegate {
+    func countryList(response: GetCountryListModel) {
+        
+    }
+    
     
     var tablerow = [TableRow]()
     static var newInstance: DashBoardVC? {
@@ -65,19 +69,19 @@ class DashBoardVC: BaseTableVC, HomePageViewModelDelegate, GetCountryListViewMod
             appendLoginTvcells()
         }
         
-        DispatchQueue.main.async {[self] in
-            callcountryLiatAPI()
-        }
+//        DispatchQueue.main.async {[self] in
+//            callcountryLiatAPI()
+//        }
     }
     
-    func callcountryLiatAPI() {
-        vm1?.CALL_GET_COUNTRY_LIST_API(dictParam: [:])
-    }
-    
-    
-    func countryList(response: GetCountryListModel) {
-        countrylist = response.data?.country_list ?? []
-    }
+//    func callcountryLiatAPI() {
+//        vm1?.CALL_GET_COUNTRY_LIST_API(dictParam: [:])
+//    }
+//
+//
+//    func countryList(response: GetCountryListModel) {
+//        countrylist = response.data?.country_list ?? []
+//    }
     
     
     
@@ -424,6 +428,7 @@ extension DashBoardVC {
     
     func addObserver() {
         
+       
         
         if !UserDefaults.standard.bool(forKey: "ExecuteOnce") {
             

@@ -27,7 +27,7 @@ class HomePageViewModel {
         let parms = NSDictionary(dictionary:dictParam)
         print("Parameters = \(parms)")
         
-        self.view?.showLoader()
+     //   self.view?.showLoader()
         
         ServiceManager.postOrPutApiCall(endPoint: ApiEndpoints.gethomePage,parameters: parms, resultType: HomePageModel.self, p:dictParam) { sucess, result, errorMessage in
             

@@ -105,9 +105,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        
+        
         if !UserDefaults.standard.bool(forKey: "ExecuteOnceLoginVC") {
             ExecuteOnceBool = false
-            
+            getCountryList()
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                 self.gotoLoginVC()
             })
@@ -115,7 +117,7 @@ class ViewController: UIViewController {
             UserDefaults.standard.set(true, forKey: "ExecuteOnceLoginVC")
         }
         
-        
+        getCountryList()
         if ExecuteOnceBool == true {
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
                 self.gotodashBoardScreen()
@@ -222,3 +224,45 @@ class TimerManager {
     }
 }
 
+
+
+
+extension ViewController {
+    
+    
+    func getCountryList() {
+        
+        // Get the path to the clist.json file in the Xcode project
+        if let jsonFilePath = Bundle.main.path(forResource: "countrylist", ofType: "json") {
+            do {
+                // Read the data from the file
+                let jsonData = try Data(contentsOf: URL(fileURLWithPath: jsonFilePath))
+                
+                // Decode the JSON data into a dictionary
+                let jsonDictionary = try JSONDecoder().decode([String: [Country_list]].self, from: jsonData)
+                
+                // Access the array of countries using the "country_list" key
+                if let countries = jsonDictionary["country_list"] {
+                    countrylist = countries
+                    
+                } else {
+                    print("Unable to find 'country_list' key in the JSON dictionary.")
+                }
+                
+                
+            } catch let error {
+                print("Error decoding JSON: \(error)")
+            }
+        } else {
+            print("Unable to find clist.json in the Xcode project.")
+        }
+        
+        
+    }
+    
+    
+
+   
+
+    
+}

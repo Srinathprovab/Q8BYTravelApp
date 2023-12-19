@@ -10,9 +10,11 @@ import Alamofire
 
 class MyAccountVC: BaseTableVC, ProfileUpdateViewModelDelegate {
     
-    @IBOutlet weak var nav: NavBar!
     @IBOutlet weak var profilePicView: UIView!
     @IBOutlet weak var profilePic: UIImageView!
+    @IBOutlet weak var editView: UIView!
+    @IBOutlet weak var changeProfilePiclbl: UILabel!
+    
     
     var tablerow = [TableRow]()
     static var newInstance: EditProfileVC? {
@@ -56,7 +58,8 @@ class MyAccountVC: BaseTableVC, ProfileUpdateViewModelDelegate {
         if logstatus == true {
             TableViewHelper.EmptyMessage(message: "", tableview: commonTableView, vc: self)
             profilePicView.isHidden = false
-            nav.editView.isHidden = false
+            editView.isHidden = false
+           
             if pickerbool == true {
                 
             }else {
@@ -65,7 +68,7 @@ class MyAccountVC: BaseTableVC, ProfileUpdateViewModelDelegate {
         }else {
             setupTableViewWenNoLogin()
             profilePicView.isHidden = true
-            nav.editView.isHidden = true
+            editView.isHidden = true
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(loginDone), name: NSNotification.Name("logindon"), object: nil)
@@ -86,7 +89,7 @@ class MyAccountVC: BaseTableVC, ProfileUpdateViewModelDelegate {
     
     func callApi() {
         payload.removeAll()
-        payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid)
+        payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
         vm?.CALL_SHOW_PROFILE_API(dictParam: payload)
     }
     
@@ -124,8 +127,6 @@ class MyAccountVC: BaseTableVC, ProfileUpdateViewModelDelegate {
     
     func setupTV() {
         
-        nav.titlelbl.text = "User Profile"
-        nav.backBtn.addTarget(self, action: #selector(didTapOnBackBtn(_:)), for: .touchUpInside)
         profilePicView.layer.cornerRadius = 50
         profilePicView.clipsToBounds = true
         profilePicView.layer.borderWidth = 0.5
@@ -133,8 +134,8 @@ class MyAccountVC: BaseTableVC, ProfileUpdateViewModelDelegate {
         profilePic.layer.cornerRadius = 45
         profilePic.clipsToBounds = true
         
-        nav.backBtn.isHidden = true
-        nav.editBtn.addTarget(self, action: #selector(didTapOnEditBtnAction(_:)), for: .touchUpInside)
+        
+        //  nav.editBtn.addTarget(self, action: #selector(didTapOnEditBtnAction(_:)), for: .touchUpInside)
         commonTableView.registerTVCells(["EmptyTVCell",
                                          "LogoImgTVCell",
                                          "LabelTVCell",
@@ -261,7 +262,7 @@ class MyAccountVC: BaseTableVC, ProfileUpdateViewModelDelegate {
         }else {
             
             payload.removeAll()
-            payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid)
+            payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
             payload["first_name"] = first_name
             payload["last_name"] = last_name
             payload["date_of_birth"] = date_of_birth
@@ -334,72 +335,110 @@ class MyAccountVC: BaseTableVC, ProfileUpdateViewModelDelegate {
     }
     
     
-    @IBAction func didTapOnChangePicBtn(_ sender: Any) {
-        let alert = UIAlertController(title: "Choose To Open", message: "", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Open Gallery", style: .default){ (action) in
-            self.openGallery()
-        })
-        alert.addAction(UIAlertAction(title: "Open Camera", style: .default){ (action) in
-            self.openCemera()
-        })
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel){ (action) in
-        })
-        
-        self.present(alert, animated: true, completion: nil)
+    
+    @IBAction func didTaponEditProfileBtnAction(_ sender: Any) {
+        guard let vc = EditProfileVC.newInstance.self else {return}
+        vc.modalPresentationStyle = .overCurrentContext
+        self.present(vc, animated: false)
     }
-    
-    
     
 }
 
 
 
-extension MyAccountVC:UIImagePickerControllerDelegate & UINavigationControllerDelegate {
-    
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        
-        if let tempImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            self.profilePic.image = tempImage
-        }
-        
-        self.pickerbool = true
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
-    
-    func openGallery() {
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary){
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.allowsEditing = true
-            imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
-            self.present(imagePicker, animated: true, completion: nil)
-        } else {
-            let alert  = UIAlertController(title: "Warning", message: "You don't have permission to access gallery.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
-    
-    
-    func openCemera() {
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera){
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.allowsEditing = true
-            imagePicker.sourceType = UIImagePickerController.SourceType.camera
-            self.present(imagePicker, animated: true, completion: nil)
-        } else {
-            let alert  = UIAlertController(title: "Warning", message: "You don't have camera.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
-    }
-    
-    
-    
-    
-}
+//extension MyAccountVC:UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+//
+//
+//    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+//
+//
+//        if let tempImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+//            self.profilePic.image = tempImage
+//        }
+//
+//        self.pickerbool = true
+//        picker.dismiss(animated: true, completion: nil)
+//    }
+//
+//
+//    func openGallery() {
+//        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary){
+//            let imagePicker = UIImagePickerController()
+//            imagePicker.delegate = self
+//            imagePicker.allowsEditing = true
+//            imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
+//            self.present(imagePicker, animated: true, completion: nil)
+//        } else {
+//            let alert  = UIAlertController(title: "Warning", message: "You don't have permission to access gallery.", preferredStyle: .alert)
+//            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//            self.present(alert, animated: true, completion: nil)
+//        }
+//    }
+//
+//
+//    func openCemera() {
+//        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera){
+//            let imagePicker = UIImagePickerController()
+//            imagePicker.delegate = self
+//            imagePicker.allowsEditing = true
+//            imagePicker.sourceType = UIImagePickerController.SourceType.camera
+//            self.present(imagePicker, animated: true, completion: nil)
+//        } else {
+//            let alert  = UIAlertController(title: "Warning", message: "You don't have camera.", preferredStyle: .alert)
+//            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//            self.present(alert, animated: true, completion: nil)
+//        }
+//    }
+//
+//
+//}
+
+
+
+
+//extension MyAccountVC {
+//
+//
+//    func setAttributedString(str1:String) {
+//
+//        let atter1 = [NSAttributedString.Key.foregroundColor:UIColor.AppLabelColor,
+//                      NSAttributedString.Key.font:UIFont.LatoRegular(size: 15),
+//                      .underlineColor:UIColor.AppBtnColor,
+//                      .underlineStyle: NSUnderlineStyle.single.rawValue] as [NSAttributedString.Key : Any]
+//
+//        let atterStr1 = NSMutableAttributedString(string: str1, attributes: atter1)
+//
+//        let combination = NSMutableAttributedString()
+//        combination.append(atterStr1)
+//        changeProfilePiclbl.attributedText = combination
+//
+//
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTapped))
+//        changeProfilePiclbl.addGestureRecognizer(tapGesture)
+//        changeProfilePiclbl.isUserInteractionEnabled = true
+//    }
+//
+//    @objc func labelTapped(gesture:UITapGestureRecognizer) {
+//        if gesture.didTapAttributedString("Change Profile Pic", in: changeProfilePiclbl) {
+//            chooseToOpen()
+//        }
+//
+//
+//        func chooseToOpen() {
+//            let alert = UIAlertController(title: "Choose To Open", message: "", preferredStyle: .alert)
+//            alert.addAction(UIAlertAction(title: "Open Gallery", style: .default){ (action) in
+//                self.openGallery()
+//            })
+//            alert.addAction(UIAlertAction(title: "Open Camera", style: .default){ (action) in
+//                self.openCemera()
+//            })
+//
+//            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel){ (action) in
+//            })
+//
+//            self.present(alert, animated: true, completion: nil)
+//        }
+//
+//    }
+//
+//}

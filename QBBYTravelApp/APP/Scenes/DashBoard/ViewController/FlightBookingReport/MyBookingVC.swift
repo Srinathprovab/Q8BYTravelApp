@@ -9,7 +9,6 @@ import UIKit
 
 class MyBookingVC: BaseTableVC {
     
-    @IBOutlet weak var nav: NavBar!
     @IBOutlet weak var btnsView: UIView!
     @IBOutlet weak var upcomingBtnView: UIView!
     @IBOutlet weak var upcomingul: UIView!
@@ -56,9 +55,7 @@ class MyBookingVC: BaseTableVC {
     
     func setupUI() {
         self.view.backgroundColor = .WhiteColor
-        nav.backgroundColor = .AppBackgroundColor
-        nav.titlelbl.text = "My Bookings"
-        nav.backBtn.isHidden = true
+       
         
         upcomingBtn.setTitle("", for: .normal)
         upcomingBtn.tag = 1
@@ -148,18 +145,21 @@ class MyBookingVC: BaseTableVC {
     
     
     func callUpcommingBookingsAPI() {
-        payload["user_id"] = "2076"
+        loderBool = true
+        payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
         vm?.CALL_UPCOMMING_BOOKINGS_API(dictParam: payload)
     }
     
     
     func callCompletedBookingsAPI() {
-        payload["user_id"] = "2076"
+        loderBool = true
+        payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
         vm?.CALL_COMPLETED_BOOKINGS_API(dictParam: payload)
     }
     
     func callCancelledBookingsAPI() {
-        payload["user_id"] = "2076"
+        loderBool = true
+        payload["user_id"] = defaults.string(forKey: UserDefaultsKeys.userid) ?? "0"
         vm?.CALL_CANCELLED_BOOKINGS_API(dictParam: payload)
     }
     
@@ -168,14 +168,14 @@ class MyBookingVC: BaseTableVC {
 
 extension MyBookingVC:MyBookingViewModelDelegate {
     func upcommingbookingsdetails(response: MyBookingModel) {
-        print(" ===== upcommingbookingsdetails ====")
+        loderBool = false
         DispatchQueue.main.async {
             self.setupTVCells(flightdata: response.flight_data ?? [], key1: "up")
         }
     }
     
     func completedbookingsdetails(response: MyBookingModel) {
-        print(" ===== completedbookingsdetails ====")
+        loderBool = false
         DispatchQueue.main.async {
             self.setupTVCells(flightdata: response.flight_data ?? [], key1: "completed")
             
@@ -183,7 +183,7 @@ extension MyBookingVC:MyBookingViewModelDelegate {
     }
     
     func cancelledbookingsdetails(response: MyBookingModel) {
-        print(" ===== cancelledbookingsdetails ====")
+        loderBool = false
         DispatchQueue.main.async {
             self.setupTVCells(flightdata: response.flight_data ?? [], key1: "cancel")
         }
