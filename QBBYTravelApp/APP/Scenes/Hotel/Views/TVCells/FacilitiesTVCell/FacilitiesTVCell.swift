@@ -54,7 +54,7 @@ class FacilitiesTVCell: TableViewCell {
         facilitiesCV.layer.cornerRadius = 4
         facilitiesCV.clipsToBounds = true
         facilitiesCV.showsHorizontalScrollIndicator = false
-        
+        facilitiesCV.bounces = false
         
     }
     

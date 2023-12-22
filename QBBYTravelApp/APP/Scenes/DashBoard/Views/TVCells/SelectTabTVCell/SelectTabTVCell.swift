@@ -57,6 +57,7 @@ class SelectTabTVCell: TableViewCell {
         tabscv.clipsToBounds = true
         tabscv.showsVerticalScrollIndicator = false
         tabscv.isScrollEnabled = false
+        tabscv.bounces = false
         
     }
     

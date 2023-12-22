@@ -84,6 +84,7 @@ class HolidaySearchResultTVCell: TableViewCell {
         specialCV.backgroundColor = .clear
         specialCV.showsVerticalScrollIndicator = false
         specialCV.isScrollEnabled = false
+        specialCV.bounces = false
     }
     
     

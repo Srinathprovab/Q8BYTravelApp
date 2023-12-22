@@ -60,7 +60,7 @@ class HotelDealsTVCell: TableViewCell {
         dealsCV.layer.cornerRadius = 4
         dealsCV.clipsToBounds = true
         dealsCV.showsHorizontalScrollIndicator = false
-        
+        dealsCV.bounces = false
     }
     
     

@@ -46,6 +46,7 @@ class FlightRelatedSearchTVCell: TableViewCell {
         flightSearchcv.layer.cornerRadius = 4
         flightSearchcv.clipsToBounds = true
         flightSearchcv.showsVerticalScrollIndicator = false
+        flightSearchcv.bounces = false
         
     }
     

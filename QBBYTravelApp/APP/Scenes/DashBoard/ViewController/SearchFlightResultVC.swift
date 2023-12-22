@@ -178,6 +178,7 @@ extension SearchFlightResultVC:UICollectionViewDelegate,UICollectionViewDataSour
         noofstopscv.backgroundColor = .clear
         noofstopscv.showsVerticalScrollIndicator = false
         noofstopscv.isScrollEnabled = false
+        noofstopscv.bounces = false
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

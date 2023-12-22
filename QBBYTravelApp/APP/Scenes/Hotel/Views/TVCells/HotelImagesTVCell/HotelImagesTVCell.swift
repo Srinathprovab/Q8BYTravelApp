@@ -62,7 +62,7 @@ class HotelImagesTVCell: TableViewCell {
         hotelImagesCV.layer.cornerRadius = 4
         hotelImagesCV.clipsToBounds = true
         hotelImagesCV.showsHorizontalScrollIndicator = false
-        
+        hotelImagesCV.bounces = false
         
     }
     

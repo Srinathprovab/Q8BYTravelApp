@@ -62,7 +62,7 @@ class StarRatingTVCell: TableViewCell {
         starratingCV.layer.cornerRadius = 4
         starratingCV.clipsToBounds = true
         starratingCV.showsHorizontalScrollIndicator = false
-        
+        starratingCV.bounces = false
         
     }
 }
